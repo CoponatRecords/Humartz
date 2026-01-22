@@ -116,6 +116,8 @@ export const Header = ({ dictionary }: HeaderProps) => {
           </NavigationMenu>
         </div>
         <div className="flex items-center gap-2 lg:justify-center">
+                    <p className="whitespace-nowrap font-semibold">Humartz</p>
+
 <svg
   className="-translate-y-[0.5px] h-[18px] w-[18px] fill-current"
   fill="none"
@@ -129,7 +131,6 @@ export const Header = ({ dictionary }: HeaderProps) => {
     fill="currentColor"
   />
 </svg>
-          <p className="whitespace-nowrap font-semibold">Humartz</p>
         </div>
         <div className="flex w-full justify-end gap-4">
           <Button asChild className="hidden md:inline" variant="ghost">

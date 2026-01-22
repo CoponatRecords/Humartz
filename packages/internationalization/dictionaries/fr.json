@@ -1,187 +1,190 @@
 {
   "web": {
     "global": {
-      "primaryCta": "Réservez un appel",
-      "secondaryCta": "Inscrivez-vous"
+      "primaryCta": "Get Certified",
+      "secondaryCta": "Verify a Track"
     },
     "header": {
-      "home": "Accueil",
+      "home": "Home",
       "product": {
-        "title": "Produit",
-        "description": "Gérer une petite entreprise aujourd'hui est déjà difficile.",
-        "pricing": "Tarification"
+        "title": "Certificate",
+        "description": "Prove your music is 100% human-made.",
+        "pricing": "Pricing"
       },
       "blog": "Blog",
       "docs": "Docs",
       "contact": "Contact",
-      "signIn": "Connectez-vous",
-      "signUp": "Commencez"
+      "signIn": "Sign in",
+      "signUp": "Start Verification"
     },
     "home": {
       "meta": {
-        "title": "Transformez vos opérations commerciales dès aujourd'hui",
-        "description": "Dans le monde rapide d'aujourd'hui, votre entreprise mérite mieux que des systèmes de trading obsolètes. Notre plateforme innovante rationalise les opérations, réduit la complexité et aide les petites entreprises à prospérer dans l'économie moderne."
+        "title": "Humartz",
+                "subtitle": "The Standard for Human-Made Art",
+
+        "description": "We verify, certify, and cryptographically anchor your art to the blockchain to prove it is human-made. Secure your art's legacy forever. "
       },
       "hero": {
-        "announcement": "Lisez notre dernier article"
+        "announcement": "Now anchoring on Solana Mainnet"
       },
-      "cases": {
-        "title": "Histoires de succès inspirantes à travers le monde"
-      },
+        "cases": {
+          "title": "Trusted by Independent Artists & Labels"
+        },
       "features": {
-        "title": "Outils puissants pour les entreprises modernes",
-        "description": "Découvrez comment nos fonctionnalités de pointe peuvent révolutionner vos opérations quotidiennes.",
+        "title": "Authenticity in the Age of AI",
+        "description": "A robust verification protocol combining expert human review with immutable blockchain technology.",
         "items": [
           {
-            "title": "Opérations rationalisées",
-            "description": "Notre plateforme rationalise les opérations, réduit la complexité et aide les petites entreprises à prospérer dans l'économie moderne."
+            "title": "Expert Human Review",
+            "description": "AI detectors aren't enough. Our experts manually review your stems and project files to ensure authentic human creation."
           },
           {
-            "title": "Analytique en temps réel",
-            "description": "Obtenez des informations instantanées sur la performance de votre entreprise grâce à des outils d'analyse et de reporting complets."
+            "title": "Cryptographic Proof",
+            "description": "Your certificate is hashed into a Merkle Tree and anchored to the Solana blockchain, creating an unalterable timestamp."
+          },
+          
+          {
+            "title": "IP Protection",
+            "description": "We never publish your raw files. Only the cryptographic hash is public, keeping your stems private and secure."
           },
           {
-            "title": "Flux de travail automatisés",
-            "description": "Gagnez du temps et réduisez les erreurs grâce à une automatisation intelligente qui gère les tâches répétitives pour vous."
-          },
-          {
-            "title": "Transactions sécurisées",
-            "description": "Soyez tranquille en sachant que vos opérations commerciales sont protégées par une sécurité et un cryptage de niveau entreprise."
+            "title": "Public Verification URL",
+            "description": "Receive a unique 'humartz.com/cert' link for every track. Share it with sync-clients, publishers, or on your website."
           }
         ]
       },
       "stats": {
-        "title": "Résultats réels, impact réel",
-        "description": "Rejoignez des milliers d'entreprises qui ont transformé leurs opérations avec notre plateforme. Nos solutions ont aidé les entreprises à réduire les frais administratifs de 60 % et à augmenter l'efficacité commerciale de 45 % en moyenne.",
+        "title": "Preserving Human Creativity",
+        "description": "Join the movement of artists protecting their craft against AI generation. We are setting the standard for authenticity.",
         "items": [
           {
-            "title": "Utilisateurs actifs mensuels",
-            "metric": "100000",
-            "delta": "10",
-            "type": "unité"
+            "title": "Tracks Certified",
+            "metric": "500",
+            "delta": "15",
+            "type": "unit"
           },
           {
-            "title": "Utilisateurs actifs quotidiens",
-            "metric": "10000",
-            "delta": "-5",
-            "type": "unité"
+            "title": "Artists Protected",
+            "metric": "120",
+            "delta": "8",
+            "type": "unit"
           },
           {
-            "title": "Revenus récurrents mensuels",
-            "metric": "100000",
-            "delta": "20",
-            "type": "devise"
+            "title": "Blockchain Anchors",
+            "metric": "5000",
+            "delta": "100",
+            "type": "unit"
           },
           {
-            "title": "Coût par acquisition",
-            "metric": "100",
-            "delta": "-10",
-            "type": "devise"
+            "title": "Verification Rate",
+            "metric": "98",
+            "delta": "2",
+            "type": "percentage"
           }
         ]
       },
       "testimonials": {
-        "title": "Écoutez notre communauté prospère",
+        "title": "What Artists Are Saying",
         "items": [
           {
-            "title": "Meilleure décision",
-            "description": "Notre objectif était de rationaliser le commerce des PME, le rendant plus facile et plus rapide que jamais et nous l'avons fait ensemble.",
+            "title": "Peace of mind",
+            "description": "Finally, a way to prove my beats are actually mine. The certificate looks professional and the blockchain proof is undeniable.",
             "author": {
-              "name": "Hayden Bleasel",
-              "image": "https://github.com/haydenbleasel.png"
-            }
-          },
-          {
-            "title": "Révolutionnaire",
-            "description": "Cette plateforme a révolutionné la façon dont nous gérons nos opérations quotidiennes. Les gains d'efficacité ont été remarquables.",
-            "author": {
-              "name": "Lee Robinson",
-              "image": "https://github.com/leerob.png"
-            }
-          },
-          {
-            "title": "Au-delà des attentes",
-            "description": "L'implémentation a été fluide et les résultats ont été immédiats. Notre équipe s'est adaptée rapidement et la productivité a grimpé en flèche.",
-            "author": {
-              "name": "shadcn",
+              "name": "Sarah J.",
               "image": "https://github.com/shadcn.png"
             }
           },
           {
-            "title": "Soutien exceptionnel",
-            "description": "Non seulement la plateforme est puissante, mais l'équipe de support client a été exceptionnelle pour nous aider à maximiser son potentiel.",
+            "title": "Essential for labels",
+            "description": "As a small label, verifying demos is a nightmare. Humartz gives us a standard to trust the artists we sign.",
             "author": {
-              "name": "Pontus Abrahamsson",
+              "name": "Marcus R.",
+              "image": "https://github.com/leerob.png"
+            }
+          },
+          {
+            "title": "Future proof",
+            "description": "With AI music flooding Spotify, having a Humartz seal distinguishes my catalog as premium, human art.",
+            "author": {
+              "name": "David K.",
+              "image": "https://github.com/haydenbleasel.png"
+            }
+          },
+          {
+            "title": "Easy process",
+            "description": "I just uploaded my stems, and 24 hours later I had my certificate anchored on Solana. Super smooth.",
+            "author": {
+              "name": "Elena V.",
               "image": "https://github.com/pontusab.png"
             }
           }
         ]
       },
       "faq": {
-        "title": "Questions fréquentes, réponses d'experts",
-        "description": "Obtenez des réponses rapides à vos questions les plus pressantes concernant notre plateforme. Nous avons compilé tout ce que vous devez savoir sur la transformation de vos opérations commerciales et le démarrage avec des solutions de trading modernes.",
-        "cta": "Des questions ? Contactez-nous",
+        "title": "Verification Protocol FAQ",
+        "description": "Understand how we protect your music and why our hybrid manual-blockchain approach is the gold standard.",
+        "cta": "Need more details? Contact Support",
         "items": [
           {
-            "question": "Qu'est-ce que la plateforme ?",
-            "answer": "La plateforme est une plateforme de trading qui vous permet de trader en toute confiance."
+            "question": "How do you verify the music?",
+            "answer": "We use a 'Human-in-the-Loop' approach. You upload project stems or session files. Our audio engineers review them for signs of generative AI. Once approved, the data is hashed."
           },
           {
-            "question": "Quelle est la sécurité de la plateforme ?",
-            "answer": "Notre plateforme utilise des mesures de sécurité de niveau entreprise, y compris le cryptage de bout en bout et l'authentification multi-facteurs, pour garantir que vos activités de trading restent complètement sécurisées."
+            "question": "What is the Solana Anchor?",
+            "answer": "We take the digital fingerprint (hash) of your certificate and write it to the Solana blockchain. This proves that your certificate existed at a specific time and hasn't been altered."
           },
           {
-            "question": "Quelles fonctionnalités de trading sont disponibles ?",
-            "answer": "La plateforme propose des outils de trading complets, y compris des données de marché en temps réel, des graphiques avancés, des stratégies de trading automatisées et des analyses détaillées pour soutenir une prise de décision éclairée."
+            "question": "Are my files safe?",
+            "answer": "Yes. We use enterprise-grade encrypted storage. We NEVER publish your raw stems or project files. Only the cryptographic hash is made public."
           },
           {
-            "question": "Comment fonctionne la tarification ?",
-            "answer": "Nous proposons des niveaux de tarification flexibles conçus pour évoluer avec les besoins de votre entreprise, des plans de démarrage pour les traders individuels aux solutions d'entreprise pour les grandes organisations."
+            "question": "How long does verification take?",
+            "answer": "Since we use manual review to ensure 100% accuracy, verification typically takes 24-48 hours."
           },
           {
-            "question": "Quel type de support fournissez-vous ?",
-            "answer": "Notre équipe de support dédiée est disponible 24/7 par plusieurs canaux, y compris le chat en direct, l'e-mail et le téléphone. Nous fournissons également une documentation et des ressources de formation étendues."
+            "question": "Is this an NFT?",
+            "answer": "No. You are not minting a token to trade. You are receiving a permanent, blockchain-backed certificate of authenticity for your records and reputation."
           }
         ]
       },
       "cta": {
-        "title": "Commencez votre transformation commerciale",
-        "description": "Rejoignez des milliers d'entreprises avant-gardistes qui ont déjà modernisé leurs opérations. Notre plateforme offre les outils, le soutien et l'efficacité dont vous avez besoin pour réussir sur le marché concurrentiel d'aujourd'hui. Commencez en quelques minutes."
+        "title": "Secure Your Discography Today",
+        "description": "Don't let AI dilute the value of your hard work. Get your tracks verified and give your listeners the proof they deserve."
       }
     },
     "blog": {
       "meta": {
-        "title": "Blog",
-        "description": "Pensées, idées et opinions."
+        "title": "Humartz Blog",
+        "description": "Updates on AI music detection, copyright protection, and artist stories."
       }
     },
     "contact": {
       "meta": {
-        "title": "Parlons de votre entreprise",
-        "description": "Planifiez une consultation avec notre équipe pour discuter de la manière dont nous pouvons aider à rationaliser vos opérations et à stimuler la croissance de votre entreprise."
+        "title": "Contact Humartz",
+        "description": "Reach out for enterprise API access, label partnerships, or support with your verification."
       },
       "hero": {
         "benefits": [
           {
-            "title": "Consultation personnalisée",
-            "description": "Obtenez des solutions sur mesure et des conseils d'experts spécifiques aux besoins de votre entreprise."
+            "title": "Artist Support",
+            "description": "Help with uploading stems or understanding the certification process."
           },
           {
-            "title": "Intégration transparente",
-            "description": "Nous nous intégrons parfaitement à vos systèmes existants pour garantir une transition fluide et une perturbation minimale."
+            "title": "Label Partnerships",
+            "description": "Bulk verification solutions for record labels and publishers."
           },
           {
-            "title": "Conseils d'experts",
-            "description": "Notre équipe d'experts vous guidera tout au long du processus, en veillant à ce que vous tiriez le meilleur parti de notre plateforme."
+            "title": "API Access",
+            "description": "Integrate Humartz verification status into your own platform or player."
           }
         ],
         "form": {
-          "title": "Réservez une réunion",
+          "title": "Get in touch",
           "date": "Date",
-          "firstName": "Prénom",
-          "lastName": "Nom de famille",
-          "resume": "Téléchargez votre CV",
-          "cta": "Réservez la réunion"
+          "firstName": "First name",
+          "lastName": "Last name",
+          "resume": "Upload press kit (optional)",
+          "cta": "Send Message"
         }
       }
     }
