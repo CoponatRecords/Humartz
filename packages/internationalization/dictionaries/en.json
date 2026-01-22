@@ -19,7 +19,9 @@
     },
     "home": {
       "meta": {
-        "title": "Humartz - The Standard for Human-Made Art",
+        "title": "Humartz",
+                "subtitle": "The Standard for Human-Made Art",
+
         "description": "We verify, certify, and cryptographically anchor your art to the blockchain to prove it is human-made. Secure your art's legacy forever. "
       },
       "hero": {
