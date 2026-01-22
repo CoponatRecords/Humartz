@@ -279,3 +279,5 @@ packages/database/generated
 .sourcenode_modules
 .env
 .next
+
+/generated/prisma
