@@ -17,6 +17,9 @@
     "strict": true,
     "target": "ES2022",
     "strictNullChecks": true,
+        "paths": {
+      "@backend/*": ["apps/web/backend/*"]
+    }
 
   }
 }
