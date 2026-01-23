@@ -730,8 +730,8 @@ importers:
         specifier: 1.0.0-beta.15
         version: 1.0.0-beta.15(next@16.0.10(@opentelemetry/api@1.9.0)(react-dom@19.2.1(react@19.2.1))(react@19.2.1))
       '@nosecone/next':
-        specifier: 1.0.0-beta.15
-        version: 1.0.0-beta.15(next@16.0.10(@opentelemetry/api@1.9.0)(react-dom@19.2.1(react@19.2.1))(react@19.2.1))
+        specifier: 1.0.0
+        version: 1.0.0(next@16.0.10(@opentelemetry/api@1.9.0)(react-dom@19.2.1(react@19.2.1))(react@19.2.1))
       '@t3-oss/env-nextjs':
         specifier: ^0.13.8
         version: 0.13.10(typescript@5.9.3)(valibot@1.2.0(typescript@5.9.3))(zod@4.3.6)
@@ -1789,8 +1789,8 @@ packages:
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
 
-  '@nosecone/next@1.0.0-beta.15':
-    resolution: {integrity: sha512-uX3pnSeengqiPnKa06mq2X/e4AKnu0WeLd1mGrjVGYU0eB1inRgvmn3Vsxk1cauEQ5NLw+RhK6MPJYaO1l6cdA==}
+  '@nosecone/next@1.0.0':
+    resolution: {integrity: sha512-QE4JAUVvEF3PE8e1XiFQsfGjiTJsEL96sCHZQG9itAVL1GAAaEmR0jGImvboNATg8IjbaiSQ8s8rAKJM6wbymQ==}
     engines: {node: '>=20'}
     peerDependencies:
       next: '>=14'
@@ -7119,8 +7119,8 @@ packages:
     resolution: {integrity: sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==}
     engines: {node: '>=0.10.0'}
 
-  nosecone@1.0.0-beta.15:
-    resolution: {integrity: sha512-e3D16yrYQKu+qtILUNEoopdhloAjBcjpREwi2XSyi9tt6Tupk+rPEh/omydf9OJqkBZaM05hyFcBpBJbYvndIg==}
+  nosecone@1.0.0:
+    resolution: {integrity: sha512-Q4RqKqhNd7Cssf/WDgkLEK7AGTq7wEpWuQqc6FFtmDGgzUhN/pmECt9BKOJy0YqKNlry6voyk8+xL5igW/Rguw==}
     engines: {node: '>=20'}
 
   npm-run-path@4.0.1:
@@ -10136,10 +10136,10 @@ snapshots:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.20.1
 
-  '@nosecone/next@1.0.0-beta.15(next@16.0.10(@opentelemetry/api@1.9.0)(react-dom@19.2.1(react@19.2.1))(react@19.2.1))':
+  '@nosecone/next@1.0.0(next@16.0.10(@opentelemetry/api@1.9.0)(react-dom@19.2.1(react@19.2.1))(react@19.2.1))':
     dependencies:
       next: 16.0.10(@babel/core@7.28.6)(@opentelemetry/api@1.9.0)(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
-      nosecone: 1.0.0-beta.15
+      nosecone: 1.0.0
 
   '@octokit/auth-token@2.5.0':
     dependencies:
@@ -16241,7 +16241,7 @@ snapshots:
 
   normalize-path@3.0.0: {}
 
-  nosecone@1.0.0-beta.15: {}
+  nosecone@1.0.0: {}
 
   npm-run-path@4.0.1:
     dependencies:
