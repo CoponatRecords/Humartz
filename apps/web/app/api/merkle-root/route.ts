@@ -1,4 +1,4 @@
-import { prisma } from '../../hello-prisma/prisma';
+import { prisma } from '../../../backend/hello-prisma/prisma';
 
 export async function GET() {
   try {
