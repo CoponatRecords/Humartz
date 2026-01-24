@@ -1,0 +1,191 @@
+{
+  "web": {
+    "global": {
+      "primaryCta": "Get Certified",
+      "secondaryCta": "Verify a Track"
+    },
+    "header": {
+      "home": "Home",
+      "product": {
+        "title": "Certificate",
+        "description": "Prove your music is 100% human-made.",
+        "pricing": "Pricing"
+      },
+      "whitepaper": "Whitepaper",
+      "contact": "Contact",
+      "signIn": "Sign in",
+      "signUp": "Start Verification"
+    },
+    "home": {
+      "meta": {
+        "title": "Humartz",
+                "subtitle": "The Standard for Human-Made Art",
+
+        "description": "We verify, certify, and cryptographically anchor your art to the blockchain to prove it is human-made. Secure your art's legacy forever. "
+      },
+      "hero": {
+        "announcement": "Now anchoring on Solana Mainnet"
+      },
+        "cases": {
+          "title": "Trusted by Independent Artists & Labels"
+        },
+      "features": {
+        "title": "Authenticity in the Age of AI",
+        "description": "A robust verification protocol combining expert human review with immutable blockchain technology.",
+        "items": [
+          {
+            "title": "Expert Human Review",
+            "description": "AI detectors aren't enough. Our experts manually review your stems and project files to ensure authentic human creation."
+          },
+          {
+            "title": "Cryptographic Proof",
+            "description": "Your certificate is hashed into a Merkle Tree and anchored to the Solana blockchain, creating an unalterable timestamp."
+          },
+          
+          {
+            "title": "IP Protection",
+            "description": "We never publish your raw files. Only the cryptographic hash is public, keeping your stems private and secure."
+          },
+          {
+            "title": "Public Verification URL",
+            "description": "Receive a unique 'humartz.com/cert' link for every track. Share it with sync-clients, publishers, or on your website."
+          }
+        ]
+      },
+      "stats": {
+        "title": "Preserving Human Creativity",
+        "description": "Join the movement of artists protecting their craft against AI generation. We are setting the standard for authenticity.",
+        "items": [
+          {
+            "title": "Tracks Certified",
+            "metric": "100000",
+            "delta": "15",
+            "type": "unit"
+          },
+          {
+            "title": "Artists Protected",
+            "metric": "120",
+            "delta": "8",
+            "type": "unit"
+          },
+          {
+            "title": "Blockchain Anchors",
+            "metric": "10",
+            "delta": "100",
+            "type": "unit"
+          },
+          {
+            "title": "Verification Rate",
+            "metric": "98",
+            "delta": "2",
+            "type": "percentage"
+          }
+        ]
+      },
+      "testimonials": {
+        "title": "What Artists Are Saying",
+        "items": [
+          {
+            "title": "Peace of mind",
+            "description": "Finally, a way to prove my beats are actually mine. The certificate looks professional and the blockchain proof is undeniable.",
+            "author": {
+              "name": "Sarah J.",
+              "image": "https://github.com/shadcn.png"
+            }
+          },
+          {
+            "title": "Essential for labels",
+            "description": "As a small label, verifying demos is a nightmare. Humartz gives us a standard to trust the artists we sign.",
+            "author": {
+              "name": "Marcus R.",
+              "image": "https://github.com/leerob.png"
+            }
+          },
+          {
+            "title": "Future proof",
+            "description": "With AI music flooding Spotify, having a Humartz seal distinguishes my catalog as premium, human art.",
+            "author": {
+              "name": "David K.",
+              "image": "https://github.com/haydenbleasel.png"
+            }
+          },
+          {
+            "title": "Easy process",
+            "description": "I just uploaded my stems, and 24 hours later I had my certificate anchored on Solana. Super smooth.",
+            "author": {
+              "name": "Elena V.",
+              "image": "https://github.com/pontusab.png"
+            }
+          }
+        ]
+      },
+      "faq": {
+        "title": "Verification Protocol FAQ",
+        "description": "Understand how we protect your music and why our hybrid manual-blockchain approach is the gold standard.",
+        "cta": "Need more details? Contact Support",
+        "items": [
+          {
+            "question": "How do you verify the music?",
+            "answer": "We use a 'Human-in-the-Loop' approach. You upload project stems or session files. Our audio engineers review them for signs of generative AI. Once approved, the data is hashed."
+          },
+          {
+            "question": "What is the Solana Anchor?",
+            "answer": "We take a digital fingerprint (Keccak256 merkle root hash) of your certificate and write it to the Solana blockchain. This proves that your certificate existed at a specific time and hasn't been altered."
+          },
+          {
+            "question": "Are my files safe?",
+            "answer": "Yes. We use enterprise-grade encrypted storage. We NEVER publish your raw stems or project files. Only the cryptographic hash is made public."
+          },
+          {
+            "question": "How long does verification take?",
+            "answer": "Since we use manual review to ensure 100% accuracy, verification typically takes 24-48 hours."
+          },
+          {
+            "question": "Is this an NFT?",
+            "answer": "No. You are not minting a token to trade. You are receiving a permanent, blockchain-backed certificate of authenticity for your records and reputation."
+          }
+        ]
+      },
+      "cta": {
+        "title": "Secure Your Discography Today",
+        "description": "Don't let AI dilute the value of your hard work. Get your tracks verified and give your listeners the proof they deserve."
+      }
+    },
+    "blog": {
+      "meta": {
+        "title": "Humartz Blog",
+        "description": "Updates on AI music detection, copyright protection, and artist stories."
+      }
+    },
+    "contact": {
+      "meta": {
+        "title": "Contact Humartz",
+        "description": "Reach out for enterprise API access, label partnerships, or support with your verification."
+      },
+      "hero": {
+        "benefits": [
+          {
+            "title": "Artist Support",
+            "description": "Help with uploading stems or understanding the certification process."
+          },
+          {
+            "title": "Label Partnerships",
+            "description": "Bulk verification solutions for record labels and publishers."
+          },
+          {
+            "title": "API Access",
+            "description": "Integrate Humartz verification status into your own platform or player."
+          }
+        ],
+        "form": {
+          "title": "Get in touch",
+          "date": "Date",
+          "firstName": "First name",
+          "lastName": "Last name",
+          "resume": "Upload press kit (optional)",
+          "cta": "Send Message"
+        }
+      }
+    }
+  }
+}
