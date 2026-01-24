@@ -8,7 +8,7 @@ export type SearchResults = {
     id: number; 
     merkleLeaf: string | null;
     title: string; 
-    slug: string; 
+    slug: string| null; 
     artistName: string; 
     verificationStatus: string | null 
   }[];
@@ -80,7 +80,7 @@ export async function searchGlobal(query: string): Promise<SearchResults> {
       id: t.id,
       title: t.title,
       slug: t.slug,
-      merkleLeaf: t.merkleLeaf, 
+      merkleLeaf: t.merkleLeaf,
       artistName: t.artists[0]?.artist.name || "Unknown Artist",
       verificationStatus: t.isVerified, 
     }));

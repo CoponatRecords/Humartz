@@ -73,13 +73,13 @@ const WhitePaperPage = async ({ params }: PageProps) => {
             <section className="mb-16">
               <h2 className="text-2xl font-semibold tracking-tight mb-4">1. Abstract</h2>
               <p className="text-muted-foreground leading-7">
-                Humartz is a cryptographic certification protocol for human-created content.
+                Humartz is an open-source certification protocol for human-created content.
               </p>
               <p className="text-muted-foreground leading-7 mt-4">
                 As generative systems make content creation effectively infinite, the economic value of creative work shifts from production to provenance. The central question is no longer how content is made, but whether its human origin can be independently verified.
               </p>
               <p className="text-muted-foreground leading-7 mt-4">
-                Humartz addresses this by providing a decentralized, tamper-resistant certification process that binds verified human identity, creation telemetry, and cryptographic proofs into a publicly verifiable record. Rather than storing or distributing creative works, the protocol anchors proofs of human authorship on-chain, enabling platforms, licensors, and third parties to verify origin without accessing the underlying content.
+                Humartz addresses this by providing a tamper-resistant certification process that binds verified human identity, creation telemetry, and cryptographic proofs into a publicly verifiable record. Rather than storing or distributing creative works, the protocol anchors proofs of human authorship on-chain, enabling platforms, licensors, and third parties to verify origin without accessing the underlying content.
               </p>
             </section>
 
@@ -100,7 +100,7 @@ const WhitePaperPage = async ({ params }: PageProps) => {
                     <ShieldCheck className="w-4 h-4 text-red-500" /> Trust Gap
                   </h3>
                   <p className="text-sm text-muted-foreground">
-                    Current "Verified" badges are database flags only. Platforms can inadvertently label AI-generated content as human, creating uncertainty about provenance.
+                    Platforms can inadvertently label AI-generated content as human, creating uncertainty about provenance.
                   </p>
                 </div>
               </div>
@@ -115,7 +115,7 @@ const WhitePaperPage = async ({ params }: PageProps) => {
 
               <div className="bg-zinc-950 text-zinc-50 rounded-xl p-6 font-mono text-sm overflow-x-auto my-8">
                 <div className="text-zinc-500 mb-2">// The "Humanity" Leaf Structure</div>
-                <div>Hash = Keccak256(ContentID + TimeStamp + Metadata + "ORIGIN: HUMAN")</div>
+                <div>Hash = Keccak256(ContentID + Proof Folder Hash)</div>
               </div>
 
               <p className="text-muted-foreground leading-7">
@@ -123,15 +123,20 @@ const WhitePaperPage = async ({ params }: PageProps) => {
               </p>
 
               <p className="text-muted-foreground leading-7 mt-4">
-                Humartz does not evaluate artistic quality, originality, or ownership. The protocol solely certifies that a specific piece of content was created through a verifiable human-led process at a given point in time. Rights, licensing, and distribution remain entirely outside the scope of the system.
+                Humartz does not evaluate artistic quality, originality, or ownership. The protocol certifies that a specific piece of content was created through a verifiable human-led process at a given point in time.
               </p>
+
+              <p className="text-muted-foreground leading-7 mt-4">
+              Rights, licensing, and distribution remain entirely outside the scope of the system.
+              </p>
+
             </section>
 
             {/* 4. The Certification Workflow */}
             <section className="mb-16">
               <h2 className="text-2xl font-semibold tracking-tight mb-8">4. The Certification Workflow</h2>
               <p className="text-muted-foreground leading-7 mb-8">
-                To distinguish a prompted generation from a composed work, Humartz captures the <strong>telemetry of creation</strong>. The certification process verifies not just the final audio file, but the identity of the creator and the effort exerted during the session.
+                To distinguish a prompted generation from a composed work, Humartz captures the <strong>telemetry of creation</strong>. The certification process verifies final files as well as the effort exerted during the creative process.
               </p>
 
               <div className="relative border-l-2 border-muted pl-8 ml-4 space-y-12">
@@ -141,9 +146,9 @@ const WhitePaperPage = async ({ params }: PageProps) => {
                   <div className="absolute -left-[41px] top-1 h-6 w-6 rounded-full border bg-background flex items-center justify-center">
                     <Fingerprint className="h-3 w-3 text-primary" />
                   </div>
-                  <h3 className="text-lg font-medium mb-2">1. Identity Binding</h3>
+                  <h3 className="text-lg font-medium mb-2">1. Human Attestation</h3>
                   <p className="text-sm text-muted-foreground">
-                    Before uploading, the artist must authenticate using a localized "Proof of Personhood" (e.g., WorldID, Government ID via KYC, or a Web of Trust endorsement). This binds a specific wallet address to a verified human entity.
+                    The creator anchors the session using a localized "Proof of Personhood" (e.g., WorldID, Government ID via KYC, or a Web of Trust endorsement). This binds a specific wallet address to a verified human entity.
                   </p>
                 </div>
 
@@ -152,31 +157,41 @@ const WhitePaperPage = async ({ params }: PageProps) => {
                   <div className="absolute -left-[41px] top-1 h-6 w-6 rounded-full border bg-background flex items-center justify-center">
                     <Activity className="h-3 w-3 text-blue-500" />
                   </div>
-                  <h3 className="text-lg font-medium mb-2">2. Session Telemetry (Heuristic Check)</h3>
+                  <h3 className="text-lg font-medium mb-2">2. The Proof Folder </h3>
                   <p className="text-sm text-muted-foreground">
-                    Unlike automated generation, human creation is iterative and time-bound. Humartz evaluates session-level telemetry derived from digital audio workstation (DAW) project files to assess temporal effort and human intervention.
+                    Unlike automated generation, human creation is iterative and time-bound.
+                  </p>
+                                    <p className="text-sm text-muted-foreground">
+                    Humartz evaluates session-level telemetry derived from project files to assess temporal effort and human intervention.
                   </p>
                   <p className="text-sm text-muted-foreground">
-                    Signals may include creation timestamps, edit history, track modifications, and plugin usage patterns. These signals are evaluated heuristically and do not require disclosure of the underlying creative content.
+                    Signals may include creation timestamps, edit history and track modifications. These signals are evaluated heuristically and do not require disclosure of the underlying creative content.
                   </p>
                   <p className="text-sm text-muted-foreground">
-                    If metadata checks are inconclusive, or if session files cannot be shared due to technical constraints or contractual obligations (such as agreements prohibiting stem disclosure), a remote video verification may be scheduled to confirm the authenticity of the session without transferring files.
+                    If metadata checks are inconclusive, or if session files cannot be shared due to technical or contractual constraints, a remote video verification may be scheduled to confirm the authenticity of the session without transferring files.
                   </p>
                 </div>
+ {/* Step 3 — NEW */}
+                {/* Step 4 */}
+<div className="relative">
+  <div className="absolute -left-[41px] top-1 h-6 w-6 rounded-full border bg-background flex items-center justify-center">
+    <FileAudio className="h-3 w-3 text-green-500" />
+  </div>
+  <h3 className="text-lg font-medium mb-2">3. Hashing & Registry Commitment</h3>
+  <p className="text-sm text-muted-foreground">
+    The Proof Folder is hashed locally as a single unit. This hash acts as a
+    cryptographic fingerprint of the entire certification process.
+  </p>
+  <p className="text-sm text-muted-foreground mt-2">
+    The resulting hash is submitted to the Humartz Registry, which records
+    the certification event in an append-only, tamper-resistant log.
+  </p>
+  <p className="text-sm text-muted-foreground">
+    Humartz does not store creative content, session files, or raw telemetry.
+    Only derived metadata and cryptographic commitments are retained.
+  </p>
+</div>
 
-                {/* Step 3 */}
-                <div className="relative">
-                  <div className="absolute -left-[41px] top-1 h-6 w-6 rounded-full border bg-background flex items-center justify-center">
-                    <FileAudio className="h-3 w-3 text-green-500" />
-                  </div>
-                  <h3 className="text-lg font-medium mb-2">3. The Cryptographic Seal</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Once identity and session telemetry are validated, the content is hashed. This hash is signed with the protocol’s private key and queued for the next Merkle root update, permanently anchoring the certification on-chain.
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    Humartz does not store creative content or session files. The owner is responsible for retaining the original session data, which may be required to reproduce or verify the certification in the event of a dispute. The on-chain record serves as a permanent, tamper-resistant proof that such a session existed and was validated at the time of certification.
-                  </p>
-                </div>
 
               </div>
             </section>
@@ -190,7 +205,7 @@ const WhitePaperPage = async ({ params }: PageProps) => {
                   <div>
                     <strong className="block text-foreground">The Registry (Hybrid)</strong>
                     <span className="text-muted-foreground">
-                      A curated database of verification metadata that has passed "Proof of Human" checks. Humartz cannot access, reconstruct, or redistribute creative works.
+                      A curated database of verification metadata that has passed "Proof of Human" checks. Humartz doesn't store, reconstruct, or redistribute creative works.
                     </span>
                   </div>
                 </li>
@@ -254,7 +269,7 @@ const WhitePaperPage = async ({ params }: PageProps) => {
             <div className="mt-20 p-8 bg-muted/30 rounded-2xl text-center">
               <h3 className="text-lg font-semibold mb-2">Join the Protocol</h3>
               <p className="text-muted-foreground text-sm mb-6 max-w-md mx-auto">
-                Humartz is not anti-AI; it is pro-Human. We provide the infrastructure to value human intent.
+                At Humartz we provide the infrastructure to value human intent.
               </p>
               <div className="flex justify-center gap-4">
                 <Link href="/contact" className="px-6 py-2 bg-primary text-primary-foreground rounded-md text-sm font-medium hover:bg-primary/90 transition">
