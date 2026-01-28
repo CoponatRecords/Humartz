@@ -83,16 +83,14 @@ const WhitePaperPage = async ({ params }: PageProps) => {
               </p>
             </section>
 
-            {/* 2. The Problem */}
             <section className="mb-16">
-              <h2 className="text-2xl font-semibold tracking-tight mb-4">2. The Problem: Provenance at Scale</h2>
               <div className="grid gap-6 md:grid-cols-2 mt-6">
                 <div className="rounded-lg border p-6 bg-muted/20">
                   <h3 className="font-medium mb-2 flex items-center gap-2">
                     <Database className="w-4 h-4 text-orange-500" /> Scale Challenges
                   </h3>
                   <p className="text-sm text-muted-foreground">
-                    Automated systems can generate content at a scale that overwhelms traditional discovery, attribution, and licensing mechanisms.
+                    Automated AI systems can generate content at a scale that overwhelms traditional discovery, attribution, and licensing mechanisms.
                   </p>
                 </div>
                 <div className="rounded-lg border p-6 bg-muted/20">
@@ -100,41 +98,33 @@ const WhitePaperPage = async ({ params }: PageProps) => {
                     <ShieldCheck className="w-4 h-4 text-red-500" /> Trust Gap
                   </h3>
                   <p className="text-sm text-muted-foreground">
-                    Platforms can inadvertently label AI-generated content as human, creating uncertainty about provenance.
+                    Platforms and users cannot reliably identify AI-generated content, creating uncertainty about provenance.
                   </p>
                 </div>
               </div>
             </section>
 
-            {/* 3. The Solution */}
+            {/* 2. The Solution */}
             <section className="mb-16">
-              <h2 className="text-2xl font-semibold tracking-tight mb-4">3. The Solution: Cryptographic Provenance</h2>
+              <h2 className="text-2xl font-semibold tracking-tight mb-4">2. The Solution: Cryptographically Frozen Archive</h2>
               <p className="text-muted-foreground leading-7 mb-6">
-                Humartz moves verification from a private database entry to a <strong>public cryptographic proof</strong>. We do not just flag content; we anchor its human status to a public root hash.
+                Humartz provides <strong>public cryptographic proof</strong> of your creation's provenance, by anchoring its human status to the blockchain.
               </p>
 
               <div className="bg-zinc-950 text-zinc-50 rounded-xl p-6 font-mono text-sm overflow-x-auto my-8">
-                <div className="text-zinc-500 mb-2">// The "Humanity" Leaf Structure</div>
+                <div className="text-zinc-500 mb-2">// The Humanity Hash</div>
                 <div>Hash = Keccak256(ContentID + Proof Folder Hash)</div>
               </div>
 
-              <p className="text-muted-foreground leading-7">
-                If anyone attempts to change the status of an AI-generated work to "Human," the cryptographic proof will fail client-side.
-              </p>
-
               <p className="text-muted-foreground leading-7 mt-4">
-                Humartz does not evaluate artistic quality, originality, or ownership. The protocol certifies that a specific piece of content was created through a verifiable human-led process at a given point in time.
-              </p>
-
-              <p className="text-muted-foreground leading-7 mt-4">
-              Rights, licensing, and distribution remain entirely outside the scope of the system.
+                Humartz does not evaluate artistic quality or originality. The protocol certifies that a specific piece of content was created through a verifiable human-led process at a given point in time.
               </p>
 
             </section>
 
-            {/* 4. The Certification Workflow */}
+            {/* 3. The Certification Workflow */}
             <section className="mb-16">
-              <h2 className="text-2xl font-semibold tracking-tight mb-8">4. The Certification Workflow</h2>
+              <h2 className="text-2xl font-semibold tracking-tight mb-8">3. The Certification Workflow</h2>
               <p className="text-muted-foreground leading-7 mb-8">
                 To distinguish a prompted generation from a composed work, Humartz captures the <strong>telemetry of creation</strong>. The certification process verifies final files as well as the effort exerted during the creative process.
               </p>
@@ -146,9 +136,9 @@ const WhitePaperPage = async ({ params }: PageProps) => {
                   <div className="absolute -left-[41px] top-1 h-6 w-6 rounded-full border bg-background flex items-center justify-center">
                     <Fingerprint className="h-3 w-3 text-primary" />
                   </div>
-                  <h3 className="text-lg font-medium mb-2">1. Human Attestation</h3>
+                  <h3 className="text-lg font-medium mb-2">1. Identity Verification</h3>
                   <p className="text-sm text-muted-foreground">
-                    The creator anchors the session using a localized "Proof of Personhood" (e.g., WorldID, Government ID via KYC, or a Web of Trust endorsement). This binds a specific wallet address to a verified human entity.
+                    The creator provides the auditor with a proof of identity. This binds a specific wallet address to a verified human entity.
                   </p>
                 </div>
 
@@ -165,26 +155,25 @@ const WhitePaperPage = async ({ params }: PageProps) => {
                     Humartz evaluates session-level telemetry derived from project files to assess temporal effort and human intervention.
                   </p>
                   <p className="text-sm text-muted-foreground">
-                    Signals may include creation timestamps, edit history and track modifications. These signals are evaluated heuristically and do not require disclosure of the underlying creative content.
+                    Signals may include creation timestamps, edit history and track modifications.
                   </p>
                   <p className="text-sm text-muted-foreground">
                     If metadata checks are inconclusive, or if session files cannot be shared due to technical or contractual constraints, a remote video verification may be scheduled to confirm the authenticity of the session without transferring files.
                   </p>
                 </div>
- {/* Step 3 — NEW */}
-                {/* Step 4 */}
+                {/* Step 3 */}
 <div className="relative">
   <div className="absolute -left-[41px] top-1 h-6 w-6 rounded-full border bg-background flex items-center justify-center">
     <FileAudio className="h-3 w-3 text-green-500" />
   </div>
-  <h3 className="text-lg font-medium mb-2">3. Hashing & Registry Commitment</h3>
+  <h3 className="text-lg font-medium mb-2">3. Hashing & Blockchain Commitment</h3>
   <p className="text-sm text-muted-foreground">
     The Proof Folder is hashed locally as a single unit. This hash acts as a
     cryptographic fingerprint of the entire certification process.
   </p>
   <p className="text-sm text-muted-foreground mt-2">
-    The resulting hash is submitted to the Humartz Registry, which records
-    the certification event in an append-only, tamper-resistant log.
+    The resulting hash is submitted to the Solana blockchain, which records
+    the certification event in a time-stamped tamper-resistant log.
   </p>
   <p className="text-sm text-muted-foreground">
     Humartz does not store creative content, session files, or raw telemetry.
@@ -196,56 +185,28 @@ const WhitePaperPage = async ({ params }: PageProps) => {
               </div>
             </section>
 
-            {/* 5. Technical Architecture */}
-            <section className="mb-16">
-              <h2 className="text-2xl font-semibold tracking-tight mb-4">5. Technical Architecture</h2>
-              <ul className="list-none space-y-4 pl-0">
-                <li className="flex gap-4 items-start">
-                  <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-1 text-xs font-bold text-primary">1</div>
-                  <div>
-                    <strong className="block text-foreground">The Registry (Hybrid)</strong>
-                    <span className="text-muted-foreground">
-                      A curated database of verification metadata that has passed "Proof of Human" checks. Humartz doesn't store, reconstruct, or redistribute creative works.
-                    </span>
-                  </div>
-                </li>
-                <li className="flex gap-4 items-start">
-                  <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-1 text-xs font-bold text-primary">2</div>
-                  <div>
-                    <strong className="block text-foreground">The Anchor (Merkle Root)</strong>
-                    <span className="text-muted-foreground">The state of the Registry is compressed into a single 32-byte Merkle Root published to the blockchain.</span>
-                  </div>
-                </li>
-                <li className="flex gap-4 items-start">
-                  <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-1 text-xs font-bold text-primary">3</div>
-                  <div>
-                    <strong className="block text-foreground">The Verifier (Client-Side)</strong>
-                    <span className="text-muted-foreground">A Javascript module runs in the user's browser, fetching proofs and verifying them against the Public Anchor.</span>
-                  </div>
-                </li>
-              </ul>
-            </section>
+          
 
-            {/* 6. Economic Model */}
+            {/* 5. Economic Model */}
             <section className="mb-16">
-              <h2 className="text-2xl font-semibold tracking-tight mb-4">6. Economic Model</h2>
+              <h2 className="text-2xl font-semibold tracking-tight mb-4">5. Economic Model</h2>
               <p className="text-muted-foreground leading-7">
-                Humartz operates as a certification protocol. Fees are assessed per certification event, reflecting the computational, verification, and anchoring costs associated with establishing cryptographic provenance.
+                Humartz operates as a certification protocol. Fees are assessed per certification, reflecting the computational, verification, and anchoring costs associated with establishing human provenance.
               </p>
               <p className="text-muted-foreground leading-7 mt-4">
-                Higher-assurance verification paths, including manual or synchronous review, may incur additional fees. No recurring royalties, ownership claims, or content custody obligations are imposed by the protocol.
+                No recurring royalties, ownership claims, or content custody obligations are imposed by the protocol.
               </p>
             </section>
 
-            {/* 7. Roadmap */}
-            <section className="mb-16">
-              <h2 className="text-2xl font-semibold tracking-tight mb-4">7. Roadmap</h2>
+            {/* 6. Roadmap */}
+            {/* <section className="mb-16">
+              <h2 className="text-2xl font-semibold tracking-tight mb-4">6. Roadmap</h2>
               <div className="space-y-4">
                 <div className="flex items-center gap-4 p-4 border rounded-lg bg-primary/5 border-primary/20">
                   <CheckCircle className="w-5 h-5 text-primary shrink-0" />
                   <div>
                     <div className="font-semibold text-sm uppercase tracking-wide text-primary">Phase 1: MVP (Current)</div>
-                    <div className="text-sm text-muted-foreground">Centralized Curation + Merkle Proofs</div>
+                    <div className="text-sm text-muted-foreground">Centralized Curation + Proof Folder Hash</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-4 p-4 border rounded-lg opacity-60">
@@ -263,7 +224,7 @@ const WhitePaperPage = async ({ params }: PageProps) => {
                   </div>
                 </div>
               </div>
-            </section>
+            </section> */}
 
             {/* Footer Note */}
             <div className="mt-20 p-8 bg-muted/30 rounded-2xl text-center">
