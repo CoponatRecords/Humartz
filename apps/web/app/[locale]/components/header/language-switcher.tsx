@@ -13,11 +13,11 @@ import { useParams, usePathname, useRouter } from "next/navigation";
 
 const languages = [
   { label: "🇬🇧 English", value: "en" },
-  { label: "🇪🇸 Español", value: "es" },
-  { label: "🇩🇪 Deutsch", value: "de" },
-  { label: "🇨🇳 中文", value: "zh" },
+  // { label: "🇪🇸 Español", value: "es" },
+  // { label: "🇩🇪 Deutsch", value: "de" },
+  // { label: "🇨🇳 中文", value: "zh" },
   { label: "🇫🇷 Français", value: "fr" },
-  { label: "🇵🇹 Português", value: "pt" },
+  // { label: "🇵🇹 Português", value: "pt" },
 ];
 
 export const LanguageSwitcher = () => {
