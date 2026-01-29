@@ -153,6 +153,9 @@ importers:
       chalk:
         specifier: ^5.6.2
         version: 5.6.2
+      crc-32:
+        specifier: ^1.2.2
+        version: 1.2.2
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
@@ -5373,6 +5376,11 @@ packages:
   cosmiconfig@7.0.0:
     resolution: {integrity: sha512-pondGvTuVYDk++upghXJabWzL6Kxu6f26ljFw64Swq9v6sQPUL3EUlVDV56diOjpCayKihL6hVe8exIACU4XcA==}
     engines: {node: '>=10'}
+
+  crc-32@1.2.2:
+    resolution: {integrity: sha512-ROmzCKrTnOwybPcJApAA6WBWij23HVfGVNKqqrZpuyZOHqK2CwHSvpGuyt/UNNvaIjEd8X5IFGp4Mh+Ie1IHJQ==}
+    engines: {node: '>=0.8'}
+    hasBin: true
 
   create-require@1.1.1:
     resolution: {integrity: sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==}
@@ -15263,6 +15271,8 @@ snapshots:
       parse-json: 5.2.0
       path-type: 4.0.0
       yaml: 1.10.2
+
+  crc-32@1.2.2: {}
 
   create-require@1.1.1: {}
 
