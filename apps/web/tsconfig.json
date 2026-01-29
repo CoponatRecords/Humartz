@@ -12,8 +12,8 @@
       "@backend/*": ["./backend/*"],
       "@generated/*": ["./generated/*"],
       "@prisma/*": ["./prisma/*"],
-            "@web/*": ["../web/*"],
-                        "@api/*": ["../web/app/[locale]/api/*"],
+      "@web/*": ["../web/*"],
+      "@api/*": ["../web/app/[locale]/api/*"],
 
 
     }

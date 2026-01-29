@@ -25,14 +25,6 @@ const sitemap = async (): Promise<MetadataRoute.Sitemap> => [
     url: new URL(page, url).href,
     lastModified: new Date(),
   })),
-  ...blogs.map((blog) => ({
-    url: new URL(`blog/${blog}`, url).href,
-    lastModified: new Date(),
-  })),
-  ...legals.map((legal) => ({
-    url: new URL(`legal/${legal}`, url).href,
-    lastModified: new Date(),
-  })),
 ];
 
 export default sitemap;
