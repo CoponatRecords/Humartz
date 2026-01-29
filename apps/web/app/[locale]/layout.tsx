@@ -9,7 +9,6 @@ import { getDictionary } from "@repo/internationalization";
 import type { ReactNode } from "react";
 import { Footer } from "./components/footer";
 import { Header } from "./components/header";
-import { ChakraProvider } from "@chakra-ui/react";
 
 type RootLayoutProperties = {
   readonly children: ReactNode;
