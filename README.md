@@ -1,141 +1,118 @@
-# ▲ / next-forge
+Humartz Music
 
-**Production-grade Turborepo template for Next.js apps.**
+🎵 Humartz Music is a modern music platform built with Next.js and a Turborepo monorepo, designed to showcase music content, streams, and interactive features.
 
-<div>
-  <img src="https://img.shields.io/npm/dy/next-forge" alt="" />
-  <img src="https://img.shields.io/npm/v/next-forge" alt="" />
-  <img src="https://img.shields.io/github/license/vercel/next-forge" alt="" />
-</div>
+🚀 Live demo: humartz-music-web.vercel.app
 
-## Overview
+Table of Contents
 
-[next-forge](https://github.com/vercel/next-forge) is a production-grade [Turborepo](https://turborepo.com) template for [Next.js](https://nextjs.org/) apps. It's designed to be a comprehensive starting point for building SaaS applications, providing a solid, opinionated foundation with minimal configuration required.
+About
 
-Built on a decade of experience building web applications, next-forge balances speed and quality to help you ship thoroughly-built products faster.
+Features
 
-### Philosophy
+Tech Stack
 
-next-forge is built around five core principles:
+Getting Started
 
-- **Fast** — Quick to build, run, deploy, and iterate on
-- **Cheap** — Free to start with services that scale with you
-- **Opinionated** — Integrated tooling designed to work together
-- **Modern** — Latest stable features with healthy community support
-- **Safe** — End-to-end type safety and robust security posture
+Development
 
-## Demo
+Deployment
 
-Experience next-forge in action:
+Contributing
 
-- [Web](https://demo.next-forge.com) — Marketing website
-- [App](https://app.demo.next-forge.com) — Main application
-- [Storybook](https://storybook.demo.next-forge.com) — Component library
-- [API](https://api.demo.next-forge.com/health) — API health check
+License
 
-## Features
+About
 
-next-forge comes with batteries included:
+Humartz Music is a scalable, production-grade Next.js application structured as a Turborepo. It’s optimized for modern music web experiences, providing a solid foundation for interactive music apps with minimal setup.
 
-### Apps
+Features
 
-- **Web** — Marketing site built with Tailwind CSS and TWBlocks
-- **App** — Main application with authentication and database integration
-- **API** — RESTful API with health checks and monitoring
-- **Docs** — Documentation site powered by Mintlify
-- **Email** — Email templates with React Email
-- **Storybook** — Component development environment
+Scalable monorepo structure
 
-### Packages
+Next.js frontend application
 
-- **Authentication** — Powered by [Clerk](https://clerk.com)
-- **Database** — Type-safe ORM with migrations
-- **Design System** — Comprehensive component library with dark mode
-- **Payments** — Subscription management via [Stripe](https://stripe.com)
-- **Email** — Transactional emails via [Resend](https://resend.com)
-- **Analytics** — Web ([Google Analytics](https://developers.google.com/analytics)) and product ([Posthog](https://posthog.com))
-- **Observability** — Error tracking ([Sentry](https://sentry.io)), logging, and uptime monitoring ([BetterStack](https://betterstack.com))
-- **Security** — Application security ([Arcjet](https://arcjet.com)), rate limiting, and secure headers
-- **CMS** — Type-safe content management for blogs and documentation
-- **SEO** — Metadata management, sitemaps, and JSON-LD
-- **AI** — AI integration utilities
-- **Webhooks** — Inbound and outbound webhook handling
-- **Collaboration** — Real-time features with avatars and live cursors
-- **Feature Flags** — Feature flag management
-- **Cron** — Scheduled job management
-- **Storage** — File upload and management
-- **Internationalization** — Multi-language support
-- **Notifications** — In-app notification system
+Tailwind CSS support (via TWBlocks)
 
-## Getting Started
+TypeScript for type safety
 
-### Prerequisites
+Shared packages/utilities across apps
 
-- Node.js 20+
-- [pnpm](https://pnpm.io) (or npm/yarn/bun)
-- [Stripe CLI](https://docs.stripe.com/stripe-cli) for local webhook testing
+Optimized for Vercel deployment
 
-### Installation
+Tech Stack
 
-Create a new next-forge project:
+Next.js — React framework for SSR/SSG hybrid apps
 
-```sh
-npx next-forge@latest init
-```
+TypeScript — Type-safe JavaScript
 
-### Setup
+Turborepo — Monorepo tooling for multiple apps/packages
 
-1. Configure your environment variables
-2. Set up required service accounts (Clerk, Stripe, Resend, etc.)
-3. Run the development server
+pnpm — Fast, efficient package manager
 
-For detailed setup instructions, read the [documentation](https://www.next-forge.com/docs).
+Vercel — Hosting and deployments
 
-## Structure
+Getting Started
+Prerequisites
+node >= 18
+pnpm >= 8
 
-next-forge uses a monorepo structure managed by Turborepo:
 
-```
-next-forge/
-├── apps/           # Deployable applications
-│   ├── web/        # Marketing website (port 3001)
-│   ├── app/        # Main application (port 3000)
-│   ├── api/        # API server
-│   ├── docs/       # Documentation
-│   ├── email/      # Email templates
-│   └── storybook/  # Component library
-└── packages/       # Shared packages
-    ├── design-system/
-    ├── database/
-    ├── auth/
-    └── ...
-```
+Clone the repo:
 
-Each app is self-contained and independently deployable. Packages are shared across apps for consistency and maintainability.
+git clone https://github.com/CoponatRecords/humartz-music.git
+cd humartz-music
 
-## Documentation
 
-Full documentation is available at [next-forge.com/docs](https://www.next-forge.com/docs), including:
+Install dependencies:
 
-- Detailed setup guides
-- Package documentation
-- Migration guides for swapping providers
-- Deployment instructions
-- Examples and recipes
+pnpm install
 
-## Contributing
+Development
 
-We welcome contributions! See the [contributing guide](https://github.com/vercel/next-forge/blob/main/.github/CONTRIBUTING.md) for details.
+Start the development environment with hot-reloading:
 
-## Contributors
+pnpm dev
 
-<a href="https://github.com/vercel/next-forge/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=vercel/next-forge" />
-</a>
 
-Made with [contrib.rocks](https://contrib.rocks).
+Build for production:
 
-## License
+pnpm build
 
-MIT
-# humartz-music
+
+Run production locally:
+
+pnpm start
+
+Deployment
+
+Designed for Vercel deployment:
+
+Connect the repo in Vercel dashboard.
+
+Add any required environment variables.
+
+Deploy — Vercel automatically detects Turborepo structure.
+
+You can also use the CLI:
+
+vercel --prod
+
+Contributing
+
+Contributions are welcome:
+
+Fork the repository
+
+Create a feature branch: git checkout -b feature/your-feature
+
+Commit your changes
+
+Open a Pull Request
+
+Include tests & documentation when appropriate.
+
+License
+
+This project is licensed under the MIT License — see LICENSE
+.
