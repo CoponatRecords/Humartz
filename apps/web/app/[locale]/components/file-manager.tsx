@@ -46,7 +46,7 @@ export const FileManagerClient = ({ dictionary, locale }: FileManagerClientProps
       .trim()
       .toLowerCase()
       .replace(/\s+/g, "_")
-      .replace(/[^a-z0-9._-]/g, "")
+      .replace(/[^a-z0-9.@_-]/g, "")
       .replace(/_+/g, "_");
 
   async function uploadToR2(file: File, key: string) {
@@ -57,7 +57,6 @@ export const FileManagerClient = ({ dictionary, locale }: FileManagerClientProps
         fileName: key, 
         fileType: file.type,
         fileSize: file.size
-        // Removed captchaToken
       }),
     });
     
@@ -113,23 +112,26 @@ export const FileManagerClient = ({ dictionary, locale }: FileManagerClientProps
     setError(null);
 
     try {
-      const safeName = sanitize(name);
-      const safeEmail = sanitize(email);
-      const safeTrack = sanitize(trackName);
-      const folderPrefix = `${safeEmail}_${safeName}_${safeTrack}/`;
+      // 1. Prepare files and calculate Hash first
       const allFiles = [masterFile, ...projectFiles];
-
       const hash = await hashFolder(allFiles);
       setFolderHash(hash);
 
+      // 2. Define prefix including the hash
+      const safeName = sanitize(name);
+      const safeEmail = sanitize(email);
+      const safeTrack = sanitize(trackName);
+      
+      const folderPrefix = `Email_${safeEmail}_Name_${safeName}_TrackName_${safeTrack}_hash_${hash}/`;
+
       let uploaded = 0;
 
-      // Upload master file
+      // 3. Upload master file
       await uploadToR2(masterFile, folderPrefix + "master_" + masterFile.name);
       uploaded++;
       setUploadProgress(Math.round((uploaded / allFiles.length) * 100));
 
-      // Upload project folder
+      // 4. Upload project folder
       for (const file of projectFiles) {
         const relativePath = file.webkitRelativePath || file.name;
         const key = folderPrefix + "project/" + relativePath;
@@ -138,6 +140,7 @@ export const FileManagerClient = ({ dictionary, locale }: FileManagerClientProps
         setUploadProgress(Math.round((uploaded / allFiles.length) * 100));
       }
 
+      // 5. Update Database
       await fetch("/api/db/add-upload", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -247,7 +250,6 @@ export const FileManagerClient = ({ dictionary, locale }: FileManagerClientProps
                       <Label>Project folder (Max 5GB)</Label>
                       <Input
                         type="file"
-                        // @ts-ignore
                         webkitdirectory=""
                         multiple
                         onChange={(e) => handleProjectFilesChange(e.target.files)}
@@ -270,7 +272,15 @@ export const FileManagerClient = ({ dictionary, locale }: FileManagerClientProps
                   {error && <p className="text-sm text-destructive pt-1">{error}</p>}
 
                   <Button type="submit" disabled={!allFieldsFilled || isUploading} className="w-full gap-2 mt-1">
-                    {isUploading ? <>Uploading <Loader2 className="h-4 w-4 animate-spin ml-2" /></> : <>Upload <Upload className="h-4 w-4 ml-2" /></>}
+                    {isUploading ? (
+                      <>
+                        Uploading {uploadProgress}% <Loader2 className="h-4 w-4 animate-spin ml-2" />
+                      </>
+                    ) : (
+                      <>
+                        Upload <Upload className="h-4 w-4 ml-2" />
+                      </>
+                    )}
                   </Button>
 
                   <p className="text-muted-foreground text-sm text-center mt-4">
