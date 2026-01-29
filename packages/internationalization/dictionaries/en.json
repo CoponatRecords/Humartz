@@ -24,7 +24,7 @@
         "description": "We verify, certify, and cryptographically anchor your art to the blockchain to prove it is human-made. Secure your art's legacy forever. "
       },
       "hero": {
-        "announcement": "Now anchoring on Solana Mainnet"
+        "announcement": "Now anchoring on Arbitrum Mainnet"
       },
         "cases": {
           "title": "Trusted by Independent Artists & Labels"
@@ -39,7 +39,7 @@
           },
           {
             "title": "Cryptographic Proof",
-            "description": "Your certificate is hashed into a Merkle Tree and anchored to the Solana blockchain, creating an unalterable timestamp."
+            "description": "Your certificate is hashed into a Merkle Tree and anchored to the Arbitrum blockchain, creating an unalterable timestamp."
           },
           
           {
@@ -100,7 +100,7 @@
           },
           {
             "title": "Easy process",
-            "description": "I just uploaded my stems, and 24 hours later I had my certificate anchored on Solana. Super smooth.",
+            "description": "I just uploaded my stems, and 24 hours later I had my certificate anchored on Arbitrum. Super smooth.",
             "author": {
               "name": "Elena V.",
               "image": "https://github.com/pontusab.png"
@@ -118,8 +118,8 @@
             "answer": "We use a 'Human-in-the-Loop' approach. You upload project stems or session files. Our audio engineers review them for signs of generative AI. Once approved, the data is hashed."
           },
           {
-            "question": "What is the Solana Anchor?",
-            "answer": "We take a digital fingerprint (Keccak256 merkle root hash) of your certificate and write it to the Solana blockchain. This proves that your certificate existed at a specific time and hasn't been altered."
+            "question": "What is the Arbitrum Anchor?",
+            "answer": "We take a digital fingerprint (Keccak256 merkle root hash) of your certificate and write it to the Arbitrum blockchain. This proves that your certificate existed at a specific time and hasn't been altered."
           },
           {
             "question": "Are my files safe?",
@@ -249,8 +249,26 @@
     "errorDelete": "Error deleting file",
     "cancel": "Cancel"
   }
-    }
 
+  
+    }
+    ,
+  "arbitrum": {
+    "meta": {
+      "title": "Submit to Arbitrum",
+      "description": "Submit data to the Arbitrum blockchain."
+    },
+    "heading": "Submit to Arbitrum",
+    "inputPlaceholder": "Enter the Data you want to write",
+    "submitButton": "Submit",
+    "noWallet": "No wallet found. Install Metamask.",
+    "wrongNetwork": "Please switch to Arbitrum network",
+    "waiting": "Transaction sent, waiting for confirmation... ⏳",
+    "success": "Data stored on Arbitrum ✅",
+    "failed": "Transaction failed ❌"
+  }
    
   }
+
+
 }

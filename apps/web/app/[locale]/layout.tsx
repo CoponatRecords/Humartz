@@ -9,6 +9,7 @@ import { getDictionary } from "@repo/internationalization";
 import type { ReactNode } from "react";
 import { Footer } from "./components/footer";
 import { Header } from "./components/header";
+import { ChakraProvider } from "@chakra-ui/react";
 
 type RootLayoutProperties = {
   readonly children: ReactNode;
@@ -28,6 +29,7 @@ const RootLayout = async ({ children, params }: RootLayoutProperties) => {
       suppressHydrationWarning
     >
       <body>
+          
         <AnalyticsProvider>
           <DesignSystemProvider>
               <div className="abstract-background min-h-screen flex flex-col">
@@ -42,6 +44,8 @@ const RootLayout = async ({ children, params }: RootLayoutProperties) => {
         </AnalyticsProvider>
       </body>
     </html>
+
+
   );
 };
 

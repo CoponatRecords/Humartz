@@ -1,0 +1,35 @@
+{
+  "_format": "hh3-sol-build-info-1",
+  "id": "solc-0_8_17-ab19c89255f3a8809847203594357ccce566b979",
+  "solcVersion": "0.8.17",
+  "solcLongVersion": "0.8.17+commit.8df45f5f",
+  "userSourceNameMap": {
+    "contracts/SimpleStorage.sol": "project/contracts/SimpleStorage.sol"
+  },
+  "input": {
+    "language": "Solidity",
+    "settings": {
+      "evmVersion": "london",
+      "outputSelection": {
+        "*": {
+          "": [
+            "ast"
+          ],
+          "*": [
+            "abi",
+            "evm.bytecode",
+            "evm.deployedBytecode",
+            "evm.methodIdentifiers",
+            "metadata"
+          ]
+        }
+      },
+      "remappings": []
+    },
+    "sources": {
+      "project/contracts/SimpleStorage.sol": {
+        "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\ncontract SimpleStorage {\n    string public greeting;\n\n    function setGreeting(string memory _greeting) public {\n        greeting = _greeting;\n    }\n\n    function getGreeting() public view returns (string memory) {\n        return greeting;\n    }\n}\n"
+      }
+    }
+  }
+}
