@@ -7,7 +7,7 @@ import type { Dictionary } from "@repo/internationalization";
 import { CheckCircle2, Loader2, Upload, FolderKanban } from "lucide-react";
 import Link from "next/link";
 import { useState, FormEvent } from "react";
-import { hashFolder } from "../utils/hashFolder";
+import { hashFolder } from "../hashFolder";
 import { GoogleReCaptchaProvider, useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 type FileManagerClientProps = {
@@ -42,6 +42,9 @@ const FileManagerContent = ({ dictionary, locale }: FileManagerClientProps) => {
   const [error, setError] = useState<string | null>(null);
   const [folderHash, setFolderHash] = useState<string | null>(null);
 
+  // Calculate total size safely
+  const totalSize = [masterFile, ...projectFiles].reduce((acc, f) => acc + (f?.size || 0), 0);
+
   // ── Helpers ──
   const sanitize = (str: string) =>
     str
@@ -75,15 +78,14 @@ const FileManagerContent = ({ dictionary, locale }: FileManagerClientProps) => {
     if (!res.ok) throw new Error("Upload failed");
   }
 
-  // ── Handle project folder selection with size check ──
   const handleProjectFilesChange = (files: FileList | null) => {
     if (!files) return;
 
     const fileArray = Array.from(files);
-    const totalSize = fileArray.reduce((acc, f) => acc + f.size, 0);
+    const size = fileArray.reduce((acc, f) => acc + (f?.size || 0), 0);
 
-    if (totalSize > MAX_TOTAL_SIZE) {
-      setError(`Project folder is too large! Max 5GB. Selected: ${formatBytes(totalSize)}`);
+    if (size > MAX_TOTAL_SIZE) {
+      setError(`Project folder is too large! Max 5GB. Selected: ${formatBytes(size)}`);
       setProjectFiles([]);
       return;
     }
@@ -105,7 +107,6 @@ const FileManagerContent = ({ dictionary, locale }: FileManagerClientProps) => {
       return;
     }
 
-    const totalSize = [masterFile, ...projectFiles].reduce((acc, f) => acc + f.size, 0);
     if (totalSize > MAX_TOTAL_SIZE) {
       setError(`Project is too large. Max limit is 5GB. Current size: ${formatBytes(totalSize)}`);
       return;
@@ -148,6 +149,18 @@ const FileManagerContent = ({ dictionary, locale }: FileManagerClientProps) => {
         setUploadProgress(Math.round((uploaded / allFiles.length) * 100));
       }
 
+      // Send data to your database
+      await fetch("/api/db/add-upload", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          artistName: name,
+          trackName: trackName,
+          folderHash: hash,
+          email,
+        }),
+      });
+
       setIsSuccess(true);
       setProjectFiles([]);
       setMasterFile(null);
@@ -162,7 +175,6 @@ const FileManagerContent = ({ dictionary, locale }: FileManagerClientProps) => {
     }
   };
 
-  const totalSize = [masterFile, ...projectFiles].reduce((acc, f) => acc + f?.size || 0, 0);
   const allFieldsFilled = !!name && !!email && !!trackName && !!masterFile && projectFiles.length > 0;
 
   return (
@@ -172,25 +184,41 @@ const FileManagerContent = ({ dictionary, locale }: FileManagerClientProps) => {
           {/* Left column */}
           <div className="flex flex-col gap-8">
             <div className="flex flex-col gap-4">
-              <h4 className="max-w-xl text-left font-regular text-3xl tracking-tighter md:text-5xl">{t.title || "File Manager"}</h4>
-              <p className="max-w-sm text-left text-lg text-muted-foreground leading-relaxed tracking-tight">{dictionary.web.upload.files.description}</p>
+              <h4 className="max-w-xl text-left font-regular text-3xl tracking-tighter md:text-5xl">
+                {t.title || "File Manager"}
+              </h4>
+              <p className="max-w-sm text-left text-lg text-muted-foreground leading-relaxed tracking-tight">
+                {dictionary.web.upload.files.description}
+              </p>
             </div>
 
             <div className="flex flex-col gap-6 mt-4">
               <div className="flex items-start gap-4">
                 <FolderKanban className="mt-1 h-6 w-6 text-primary shrink-0" />
                 <div>
-                  <p className="font-medium text-lg">{dictionary.web.upload.files.description_title_2 || "Organized & traceable uploads"}</p>
-                  <p className="text-sm text-muted-foreground mt-1">{dictionary.web.upload.files.description_subtitle_21}</p>
-                  <p className="text-sm text-muted-foreground mt-1">{dictionary.web.upload.files.description_subtitle_22}</p>
-                  <p className="text-sm text-muted-foreground mt-1">{dictionary.web.upload.files.description_subtitle_23}</p>
+                  <p className="font-medium text-lg">
+                    {dictionary.web.upload.files.description_title_2 || "Organized & traceable uploads"}
+                  </p>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {dictionary.web.upload.files.description_subtitle_21}
+                  </p>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {dictionary.web.upload.files.description_subtitle_22}
+                  </p>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {dictionary.web.upload.files.description_subtitle_23}
+                  </p>
                 </div>
               </div>
               <div className="flex items-start gap-4">
                 <Upload className="mt-1 h-6 w-6 text-primary flex-shrink-0" />
                 <div>
-                  <p className="font-medium text-lg">{dictionary.web.upload.files.description_title_1 || "Easy folder & multi-file upload"}</p>
-                  <p className="text-sm text-muted-foreground mt-1">{dictionary.web.upload.files.description_subtitle_1}</p>
+                  <p className="font-medium text-lg">
+                    {dictionary.web.upload.files.description_title_1 || "Easy folder & multi-file upload"}
+                  </p>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {dictionary.web.upload.files.description_subtitle_1}
+                  </p>
                 </div>
               </div>
             </div>
@@ -206,9 +234,15 @@ const FileManagerContent = ({ dictionary, locale }: FileManagerClientProps) => {
                   </div>
                   <div>
                     <h3 className="text-2xl font-medium">Upload Complete!</h3>
-                    {folderHash && <p className="text-sm text-muted-foreground mt-2">Folder Hash: <code>{folderHash}</code></p>}
+                    {folderHash && (
+                      <p className="text-sm text-muted-foreground mt-2">
+                        Folder Hash: <code>{folderHash}</code>
+                      </p>
+                    )}
                   </div>
-                  <Button variant="outline" onClick={() => setIsSuccess(false)}>Upload more files</Button>
+                  <Button variant="outline" onClick={() => setIsSuccess(false)}>
+                    Upload more files
+                  </Button>
                 </div>
               ) : (
                 <form onSubmit={handleUpload} className="flex flex-col gap-6">
@@ -257,7 +291,10 @@ const FileManagerContent = ({ dictionary, locale }: FileManagerClientProps) => {
                   </Button>
 
                   <p className="text-muted-foreground text-sm text-center mt-4">
-                    Prefer not to share your session files ? <Link href="/contact" className="text-primary underline hover:text-primary/80">Schedule a manual review.</Link>
+                    Prefer not to share your session files?{" "}
+                    <Link href="/contact" className="text-primary underline hover:text-primary/80">
+                      Schedule a manual review.
+                    </Link>
                   </p>
                 </form>
               )}

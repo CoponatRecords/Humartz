@@ -1,67 +1,64 @@
-import { NextResponse } from 'next/server'
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
+// app/api/upload/route.ts
+import { NextRequest, NextResponse } from "next/server";
+import { getSignedUrlForUpload } from "../../upload/r2";
+import { prisma } from "@prisma/prisma"; // adjust to your path
 
-// Enforce 5GB limit: 5 * 1024 * 1024 * 1024 bytes
-const MAX_FILE_SIZE = 5368709120;
-
-const r2 = new S3Client({
-  region: 'auto', // Cloudflare R2 usually uses 'auto'
-  endpoint: `https://${process.env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
-  credentials: {
-    accessKeyId: process.env.R2_ACCESS_KEY_ID || '',
-    secretAccessKey: process.env.R2_SECRET_ACCESS_KEY || '',
-  },
-})
-
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
-    const { filename, contentType, fileSize, captchaToken } = await request.json()
+    const { 
+      fileName, 
+      fileType, 
+      captchaToken, 
+      artistId, 
+      trackTitle, 
+      folderHash 
+    } = await request.json();
 
-    // 1. Validate File Size
-    if (!fileSize || fileSize > MAX_FILE_SIZE) {
-      return NextResponse.json(
-        { error: 'File size exceeds the 5GB limit or is missing.' },
-        { status: 400 }
-      )
+    // 1️⃣ Validate required fields
+    if (!captchaToken) {
+      return NextResponse.json({ error: "CAPTCHA token is missing" }, { status: 400 });
+    }
+    if (!fileName || !fileType) {
+      return NextResponse.json({ error: "File name or type missing" }, { status: 400 });
+    }
+    if (!artistId || !trackTitle || !folderHash) {
+      return NextResponse.json({ error: "Artist ID, track title, or folder hash missing" }, { status: 400 });
     }
 
-    // 2. Verify reCAPTCHA v3 with Google
+    // 2️⃣ Verify reCAPTCHA
+    const secretKey = process.env.RECAPTCHA_SECRET_KEY;
     const verifyRes = await fetch("https://www.google.com/recaptcha/api/siteverify", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams({
-        secret: process.env.RECAPTCHA_SECRET_KEY || '',
-        response: captchaToken,
-      }).toString(),
+      body: new URLSearchParams({ secret: secretKey || "", response: captchaToken }).toString(),
     });
-
     const captchaData = await verifyRes.json();
-
-    // 3. Handle bot detection (Score < 0.5 is usually a bot)
     if (!captchaData.success || captchaData.score < 0.5) {
-      return NextResponse.json(
-        { error: 'Security verification failed. Please try again.' },
-        { status: 403 }
-      );
+      return NextResponse.json({ error: "Security check failed" }, { status: 400 });
     }
 
-    // 4. Generate the Signed URL
-    const command = new PutObjectCommand({
-      Bucket: process.env.R2_BUCKET_NAME,
-      Key: filename,
-      ContentType: contentType,
-      // Optional: Add metadata to track the size in R2
-      Metadata: {
-        "original-size": fileSize.toString()
-      }
-    })
+    // 3️⃣ Generate signed URL for R2
+    const signedUrl = await getSignedUrlForUpload(fileName, fileType);
 
-    const signedUrl = await getSignedUrl(r2, command, { expiresIn: 60 })
+    // 4️⃣ Save Track and link to artist
+    const track = await prisma.track.create({
+      data: {
+        title: trackTitle,
+        merkleLeaf: folderHash,
+        authorId: artistId, // assuming the artist is also a "User"
+        artists: {
+          create: {
+            artistId,
+            role: "MAIN",
+          },
+        },
+      },
+      include: { artists: true },
+    });
 
-    return NextResponse.json({ url: signedUrl })
-  } catch (err) {
-    console.error("R2 Signed URL Error:", err)
-    return NextResponse.json({ error: 'Failed to generate signed URL' }, { status: 500 })
+    return NextResponse.json({ signedUrl, trackId: track.id });
+  } catch (error: any) {
+    console.error("Upload API Error:", error);
+    return NextResponse.json({ error: error.message || "Error processing upload request" }, { status: 500 });
   }
 }
