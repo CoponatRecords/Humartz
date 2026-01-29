@@ -207,7 +207,50 @@
           "album": "Album title",
           "cta": "Send Message"
         }
-      }
+      },
+       "files": {     
+    "description" : "Upload your proof folder directly to our servers for review. ",
+    "title": "Humartz File Manager",
+
+    "benefits": [
+          {
+            "title": "Artist Support",
+            "description": "This is the fastest and most reliable way to send us your session files (stems, project files, bounces, exports…) for manual human review and blockchain anchoring."
+          },
+          {
+            "title": "Label Partnerships",
+            "description": "Bulk verification solutions for record labels and publishers."
+          },
+          {
+            "title": "API Access",
+            "description": "Integrate Humartz verification status into your own platform or player."
+          }
+        ],
+  "description_title_1":"2 - Upload the folder",
+   "description_title_2":"1 - Create a single folder with: ",
+     "description_title_3":"2 - Wait for review",
+
+    "description_subtitle_1":"And wait for the review ! We will get back to you shortly.",
+      "description_subtitle_21":"• Your proof of identity",
+
+    "description_subtitle_22":"• All original stems, MIDI files, audio recordings and project files generated during the creation process",
+    "description_subtitle_23":"• No need to zip archives – simply select the entire folder",
+
+    "uploadTitle": "Upload Your Files For Review",
+    "chooseFile": "Select the proof folder on your computer",
+    "uploadButton": "Upload",
+    "uploading": "Uploading...",
+    "noFiles": "No files found.",
+    "download": "Download",
+    "delete": "Delete",
+    "successUpload": "File uploaded successfully!",
+    "errorUpload": "Error uploading file",
+    "successDelete": "File deleted successfully!",
+    "errorDelete": "Error deleting file",
+    "cancel": "Cancel"
+  }
     }
+
+   
   }
 }

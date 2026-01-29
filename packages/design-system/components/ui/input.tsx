@@ -2,7 +2,13 @@ import * as React from "react"
 
 import { cn } from "@repo/design-system/lib/utils"
 
-function Input({ className, type, ...props }: React.ComponentProps<"input">) {
+// Extend the props to include non-standard folder-upload attributes
+interface InputProps extends React.ComponentProps<"input"> {
+  webkitdirectory?: boolean | string;
+  directory?: boolean | string;
+}
+
+function Input({ className, type, ...props }: InputProps) {
   return (
     <input
       type={type}

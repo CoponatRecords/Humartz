@@ -21,7 +21,7 @@ export async function POST(request: Request) {
       ContentType: contentType,
     })
 
-    const signedUrl = await getSignedUrl(r2, command, { expiresIn: 600 }) // 10min
+    const signedUrl = await getSignedUrl(r2, command, { expiresIn: 60 }) // 1min
 
     return NextResponse.json({ url: signedUrl })
   } catch (err) {
