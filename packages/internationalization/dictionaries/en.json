@@ -39,7 +39,7 @@
           },
           {
             "title": "Cryptographic Proof",
-            "description": "Your certificate is hashed into a Merkle Tree and anchored to the Arbitrum blockchain, creating an unalterable timestamp."
+            "description": "Your certificate is hashed and anchored to the Arbitrum blockchain, creating an unalterable timestamp."
           },
           
           {
