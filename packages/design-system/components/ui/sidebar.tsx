@@ -5,7 +5,7 @@ import { Slot as SlotPrimitive } from "radix-ui"
 import { cva, type VariantProps } from "class-variance-authority"
 import { PanelLeftIcon } from "lucide-react"
 
-import { useIsMobile } from "@repo/design-system/hooks/use-mobile"
+import { useIsMobile } from "@repo/design-system"
 import { cn , Button, Input, Separator } from "@repo/design-system"
 
 import {
@@ -14,14 +14,14 @@ import {
   SheetDescription,
   SheetHeader,
   SheetTitle,
-} from "@repo/design-system/components/ui/sheet"
-import { Skeleton } from "@repo/design-system/components/ui/skeleton"
+} from "@repo/design-system"
+import { Skeleton } from "@repo/design-system"
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@repo/design-system/components/ui/tooltip"
+} from "@repo/design-system"
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7

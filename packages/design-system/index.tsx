@@ -60,8 +60,9 @@ export * from "./components/ui/input-group";
 export * from "./components/ui/dialog";
 export * from "./components/ui/carousel";
 export * from "./postcss.config.mjs";
+export * from "./components/ui/skeleton";
 
 // ✅ Export your utils and fonts
 export * from "./lib/utils";
 export * from "./lib/fonts";
-
+export * from "./hooks/use-mobile";
