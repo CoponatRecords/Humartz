@@ -25,10 +25,10 @@ export const Hero = async ({ dictionary }: HeroProps) => (
   </span>
 
   {/* The Responsive Square Dot */}
-  <span 
-    className="inline-block w-[0.115em] h-[0.115em] ml-[0.05em] bg-primary rounded-[10%] animate-[pulse_3s_ease-in-out_infinite] align-baseline" 
+  {/* <span 
+    className="inline-block w-[0.115em] h-[0.115em] ml-[0.05em] bg-primary rounded-[10%] animate-[pulse_3s_ease-in-out_50] align-baseline" 
     aria-hidden="true" 
-  />
+  /> */}
 
   {/* The SVG - Fixed to scale perfectly with text size */}
   <span className="inline-block ml-[0.1em]">

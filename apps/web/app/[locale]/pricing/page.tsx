@@ -122,7 +122,7 @@ const Pricing = () => {
             </div>
 
             {/* TIER 2: PRODUCER */}
-            <div className="flex flex-col gap-2 px-6 py-4 bg-muted/20 rounded-t-xl lg:rounded-t-none lg:rounded-tl-xl border-t-2 border-primary lg:border-t-0">
+            <div className="flex flex-col gap-2 px-6 py-4 bg-muted/20 rounded-t-xl lg:rounded-t-none lg:rounded-tl-xl border-t-2 border-primary/30 ">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <ShieldCheck className="h-5 w-5 text-primary" />
@@ -132,7 +132,7 @@ const Pricing = () => {
                   Best Value
                 </span>
               </div>
-              <p className="text-muted-foreground text-sm min-h-[60px]">
+              <p className="text-muted-foreground text-sm min-h-15">
                 For beatmakers and career musicians. Sell "Certified Human" beats at a premium. Up to 15GB file uploads.
               </p>
               <p className="mt-4 flex flex-col gap-2 text-xl lg:flex-row lg:items-center">
