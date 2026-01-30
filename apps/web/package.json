@@ -7,7 +7,8 @@
     "start": "next start",
     "analyze": "ANALYZE=true npm run build",
     "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false",
+  "postinstall": "prisma generate"
   },
   "dependencies": {
     "@arcjet/next": "1.0.0-beta.15",
