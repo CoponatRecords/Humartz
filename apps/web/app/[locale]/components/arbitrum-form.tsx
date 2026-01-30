@@ -8,236 +8,218 @@ import type { Dictionary } from "@repo/internationalization";
 import { Wallet, Loader2, CheckCircle2, AlertCircle, MoveRight, ExternalLink } from "lucide-react";
 import { BrowserProvider, Contract, Interface } from "ethers";
 
-// Contract Constants
 const CONTRACT_ADDRESS = "0x9953BcE1F56b4bC1051321B394d2B6055c506619";
 const CONTRACT_ABI = [
   "function setGreeting(string _greeting)",
   "function getGreeting() view returns (string)"
 ];
 
+const ARBITRUM_CHAIN_ID = "0xa4b1"; // 42161 in hex
+
 type ArbitrumFormProps = { dictionary: Dictionary };
 
 export const ArbitrumForm = ({ dictionary }: ArbitrumFormProps) => {
-  // WRITE STATE
   const [greeting, setGreeting] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [txHash, setTxHash] = useState<string | null>(null);
 
-  // READ STATE
   const [readHash, setReadHash] = useState("");
   const [readResult, setReadResult] = useState<string | null>(null);
   const [readTxLink, setReadTxLink] = useState<string | null>(null);
   const [isReading, setIsReading] = useState(false);
   const [readError, setReadError] = useState<string | null>(null);
 
-  // WRITE FUNCTION
   const submitGreeting = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage(null);
     setIsLoading(true);
-    setTxHash(null);
 
-    if (!window.ethereum) {
-      setErrorMessage("No wallet found. Please install MetaMask.");
+    // 1. MOBILE DEEP LINKING LOGIC
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobile && !window.ethereum) {
+      const dappUrl = window.location.href.split("//")[1];
+      window.location.href = `https://metamask.app.link/dapp/${dappUrl}`;
       setIsLoading(false);
       return;
     }
 
-    if (!window.ethereum.isMetaMask) {
-      setErrorMessage("Please use MetaMask (desktop or mobile) to continue.");
+    // 2. DESKTOP/INTERNAL BROWSER CHECK
+    if (!window.ethereum) {
+      setErrorMessage("No wallet found. Please use the MetaMask app browser.");
       setIsLoading(false);
       return;
     }
 
     try {
-      // Request accounts (mobile-friendly)
-      await window.ethereum.request({ method: "eth_requestAccounts" });
-
       const provider = new BrowserProvider(window.ethereum);
-      const network = await provider.getNetwork();
-
-      if (network.chainId !== 42161n) {
-        setErrorMessage("Please switch your wallet to the Arbitrum network.");
-        setIsLoading(false);
-        return;
+      
+      // 3. AUTO-NETWORK SWITCH
+      try {
+        await window.ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: ARBITRUM_CHAIN_ID }],
+        });
+      } catch (switchError: any) {
+        // This error code indicates that the chain has not been added to MetaMask.
+        if (switchError.code === 4902) {
+          await window.ethereum.request({
+            method: 'wallet_addEthereumChain',
+            params: [{
+              chainId: ARBITRUM_CHAIN_ID,
+              chainName: 'Arbitrum One',
+              rpcUrls: ['https://arb1.alphaknight.com/rpc'],
+              nativeCurrency: { name: 'ETH', symbol: 'ETH', decimals: 18 },
+              blockExplorerUrls: ['https://arbiscan.io']
+            }],
+          });
+        } else {
+          throw switchError;
+        }
       }
 
+      await window.ethereum.request({ method: "eth_requestAccounts" });
       const signer = await provider.getSigner();
       const contract = new Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
 
       const tx = await contract.setGreeting(greeting);
       setTxHash(tx.hash);
-
-      // Optional: await tx.wait() but don't block UI on mobile too long
       await tx.wait();
 
       setIsSuccess(true);
     } catch (err: any) {
       console.error(err);
-      setErrorMessage(err?.reason || err?.message || "Transaction failed. Please try again.");
+      setErrorMessage(err?.reason || err?.message || "Transaction failed.");
     } finally {
       setIsLoading(false);
     }
   };
 
-  // READ FUNCTION BY TX HASH
   const readGreetingByTxHash = async (e: React.FormEvent) => {
     e.preventDefault();
     setReadError(null);
-    setReadResult(null);
-    setReadTxLink(null);
     setIsReading(true);
 
-    if (!window.ethereum) {
-      setReadError("No wallet found. Please install MetaMask.");
-      setIsReading(false);
-      return;
-    }
-
     try {
-      const provider = new BrowserProvider(window.ethereum);
+      // Use a public RPC provider if window.ethereum isn't present for reading
+      const provider = window.ethereum 
+        ? new BrowserProvider(window.ethereum) 
+        : new BrowserProvider(new (window as any).ethers.JsonRpcProvider("https://arb1.arbitrum.io/rpc"));
+      
       const tx = await provider.getTransaction(readHash);
       if (!tx) throw new Error("Transaction not found");
 
-      let decoded: string;
-      try {
-        const iface = new Interface(CONTRACT_ABI);
-        const parsed = iface.decodeFunctionData("setGreeting", tx.data);
-        decoded = parsed._greeting;
-      } catch {
-        decoded = tx.data;
-      }
-
-      setReadResult(decoded);
+      const iface = new Interface(CONTRACT_ABI);
+      const parsed = iface.decodeFunctionData("setGreeting", tx.data);
+      
+      setReadResult(parsed[0]);
       setReadTxLink(`https://arbiscan.io/tx/${readHash}`);
     } catch (err: any) {
-      console.error(err);
-      setReadError(err.message || "Failed to read transaction");
+      setReadError("Failed to find or decode transaction.");
     } finally {
       setIsReading(false);
     }
   };
 
   return (
-    <div className="w-full py-20 lg:py-40">
-      <div className="container mx-auto max-w-6xl grid gap-10 lg:grid-cols-2">
-
-        {/* LEFT SIDE: Contract Info & Results */}
-        <div className="flex flex-col gap-6  p-6">
-          <div className="flex flex-col gap-4 ">
-            <h4 className="text-3xl md:text-5xl font-regular tracking-tighter">On-Chain Interaction</h4>
-            <p className="text-lg text-muted-foreground leading-relaxed max-w-sm">
-              Securely write and read data on the Arbitrum L2 blockchain. Ensure your wallet is connected to the correct RPC.
+    <div className="w-full py-12 lg:py-24">
+      <div className="container mx-auto max-w-6xl px-4 grid gap-10 lg:grid-cols-2">
+        <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-4">
+            <h4 className="text-3xl md:text-5xl font-bold tracking-tighter">Blockchain Proof</h4>
+            <p className="text-lg text-muted-foreground leading-relaxed">
+              Submit your proof folder hash to the Arbitrum blockchain to establish a permanent, immutable timestamp.
             </p>
           </div>
 
-          <div className="flex flex-row items-start gap-6 text-left">
-            <ExternalLink className="mt-2 h-4 w-4 text-primary" />
-            <div className="flex flex-col gap-1">
-              <p>Contract Address</p>
-              <a href={`https://arbiscan.io/address/${CONTRACT_ADDRESS}`} target="_blank" rel="noopener noreferrer"
-                className="text-sm text-muted-foreground hover:text-primary break-all underline">
-                {CONTRACT_ADDRESS}
-              </a>
-            </div>
-          </div>
-
-          {txHash && (
-            <div className="flex flex-row items-start gap-6 mt-4 text-left">
-              <ExternalLink className="mt-2 h-4 w-4 text-green-600" />
-              <div className="flex flex-col gap-1">
-                <p>Transaction Hash</p>
-                <a href={`https://arbiscan.io/tx/${txHash}`} target="_blank" rel="noopener noreferrer"
-                  className="text-sm text-green-500 hover:text-green-400 break-all underline">{txHash}</a>
+          <div className="space-y-4">
+            <div className="flex items-start gap-4 p-4 rounded-lg border bg-muted/30">
+              <ExternalLink className="h-5 w-5 text-primary shrink-0" />
+              <div className="overflow-hidden">
+                <p className="text-sm font-medium">Contract Address</p>
+                <a href={`https://arbiscan.io/address/${CONTRACT_ADDRESS}`} target="_blank" rel="noreferrer" className="text-xs text-muted-foreground hover:underline break-all">
+                  {CONTRACT_ADDRESS}
+                </a>
               </div>
             </div>
-          )}
 
-          {readResult && readTxLink && (
-            <div className="mt-6 p-4 rounded-md bg-green-50 text-green-700">
-              <a href={readTxLink} target="_blank" rel="noopener noreferrer"
-                 className="font-medium hover:underline mt-2 block">
-                Transaction Data
-              </a>
-              <p className="break-words">{readResult}</p>
-            </div>
-          )}
+            {txHash && (
+              <div className="flex items-start gap-4 p-4 rounded-lg border border-green-200 bg-green-50/50">
+                <CheckCircle2 className="h-5 w-5 text-green-600 shrink-0" />
+                <div className="overflow-hidden">
+                  <p className="text-sm font-medium text-green-800">Transaction Confirmed</p>
+                  <a href={`https://arbiscan.io/tx/${txHash}`} target="_blank" rel="noreferrer" className="text-xs text-green-700 hover:underline break-all">
+                    View on Arbiscan
+                  </a>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* RIGHT SIDE: Forms */}
-        <div className="flex flex-col items-center justify-center gap-8">
-
-          {/* WRITE FORM */}
-          <div className="flex w-full max-w-sm flex-col gap-4 rounded-md border p-8 bg-background shadow-sm">
+        <div className="flex flex-col gap-6">
+          <div className="p-6 border rounded-xl bg-card shadow-sm">
             {isSuccess ? (
-              <div className="flex flex-col items-center justify-center text-center py-10 gap-4">
-                <div className="h-12 w-12 rounded-full bg-green-100 flex items-center justify-center">
-                  <CheckCircle2 className="h-6 w-6 text-green-600" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-medium">Success!</h3>
-                  <p className="text-muted-foreground mt-2 text-sm">
-                    Your data has been recorded on the Arbitrum blockchain.
-                  </p>
-                </div>
-                <Button variant="outline" className="mt-4" onClick={() => { setIsSuccess(false); setGreeting(""); setTxHash(null); }}>
-                  Write another message
+              <div className="text-center py-6 space-y-4">
+                <CheckCircle2 className="h-12 w-12 text-green-500 mx-auto" />
+                <h3 className="text-xl font-bold">Hash Anchored!</h3>
+                <Button variant="outline" onClick={() => { setIsSuccess(false); setGreeting(""); }}>
+                  New Submission
                 </Button>
               </div>
             ) : (
-              <form onSubmit={submitGreeting} className="flex flex-col gap-4">
-                <div className="flex items-center gap-2 mb-2">
+              <form onSubmit={submitGreeting} className="space-y-4">
+                <div className="flex items-center gap-2 border-b pb-2 mb-4">
                   <Wallet className="h-5 w-5 text-primary" />
-                  <p className="font-semibold text-lg">Archive on the blockchain</p>
+                  <span className="font-bold uppercase text-xs tracking-widest text-muted-foreground">Submit Proof</span>
                 </div>
-                <div className="grid w-full items-center gap-1.5">
-                  <Label htmlFor="greeting">Submit Data</Label>
-                  <Input id="greeting" type="text" placeholder="Write your Proof Folder Hash on the Blockchain !"
-                    value={greeting} onChange={(e) => setGreeting(e.target.value)} required />
+                <div className="space-y-2">
+                  <Label htmlFor="greeting">Folder Hash (IPFS/SHA)</Label>
+                  <Input 
+                    id="greeting" 
+                    placeholder="Enter hash to verify..." 
+                    value={greeting} 
+                    onChange={(e) => setGreeting(e.target.value)} 
+                    required 
+                  />
                 </div>
-
                 {errorMessage && (
-                  <div className="flex items-center gap-2 p-3 rounded-md bg-destructive/10 text-destructive text-xs">
+                  <div className="flex items-center gap-2 p-3 text-xs bg-destructive/10 text-destructive rounded-lg">
                     <AlertCircle className="h-4 w-4 shrink-0" />
-                    <p>{errorMessage}</p>
+                    {errorMessage}
                   </div>
                 )}
-
-                <Button className="w-full gap-4 mt-2" type="submit" disabled={isLoading || !greeting}>
-                  {isLoading ? <>Processing... <Loader2 className="h-4 w-4 animate-spin" /></> : <>Sign & Send <MoveRight className="h-4 w-4" /></>}
+                <Button className="w-full py-6 text-md" type="submit" disabled={isLoading}>
+                  {isLoading ? <Loader2 className="animate-spin" /> : "Sign & Anchor Proof"}
                 </Button>
               </form>
             )}
           </div>
 
-          {/* READ FORM */}
-          <div className="flex w-full max-w-sm flex-col gap-4 rounded-md border p-8 bg-background shadow-sm">
-            <form onSubmit={readGreetingByTxHash} className="flex flex-col gap-4">
-              <div className="flex items-center gap-2 mb-2">
-                <Wallet className="h-5 w-5 text-primary" />
-                <p className="font-semibold text-lg">Read by Transaction Hash</p>
+          <div className="p-6 border rounded-xl bg-card shadow-sm">
+            <form onSubmit={readGreetingByTxHash} className="space-y-4">
+              <div className="flex items-center gap-2 border-b pb-2 mb-4">
+                <ExternalLink className="h-5 w-5 text-primary" />
+                <span className="font-bold uppercase text-xs tracking-widest text-muted-foreground">Verify Transaction</span>
               </div>
-              <div className="grid w-full items-center gap-1.5">
-                <Label htmlFor="readHash">Transaction Hash</Label>
-                <Input id="readHash" type="text" placeholder="Enter the transaction hash"
-                  value={readHash} onChange={(e) => setReadHash(e.target.value)} required />
-              </div>
-
-              {readError && (
-                <div className="flex items-center gap-2 p-3 rounded-md bg-destructive/10 text-destructive text-xs">
-                  <AlertCircle className="h-4 w-4 shrink-0" />
-                  <p>{readError}</p>
+              <Input 
+                placeholder="Paste transaction hash..." 
+                value={readHash} 
+                onChange={(e) => setReadHash(e.target.value)} 
+                required 
+              />
+              <Button variant="secondary" className="w-full" type="submit" disabled={isReading}>
+                {isReading ? <Loader2 className="animate-spin" /> : "Read Data"}
+              </Button>
+              {readResult && (
+                <div className="p-3 bg-muted rounded-lg text-sm break-all">
+                  <span className="font-bold block mb-1">Decoded Data:</span>
+                  {readResult}
                 </div>
               )}
-
-              <Button className="w-full gap-4 mt-2" type="submit" disabled={isReading || !readHash}>
-                {isReading ? <>Fetching... <Loader2 className="h-4 w-4 animate-spin" /></> : <>Read Contract <MoveRight className="h-4 w-4" /></>}
-              </Button>
             </form>
           </div>
-
         </div>
       </div>
     </div>
