@@ -172,13 +172,12 @@ export const ArbitrumForm = ({ dictionary }: ArbitrumFormProps) => {
               <form onSubmit={submitGreeting} className="space-y-4">
                 <div className="flex items-center gap-2 border-b pb-2 mb-4">
                   <Wallet className="h-5 w-5 text-primary" />
-                  <span className="font-bold uppercase text-xs tracking-widest text-muted-foreground">Submit Proof</span>
+                  <span className="font-bold uppercase text-xs tracking-widest text-muted-foreground">Submit Proof Folder Hash</span>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="greeting">Folder Hash (IPFS/SHA)</Label>
                   <Input 
                     id="greeting" 
-                    placeholder="Enter hash to verify..." 
+                    placeholder="Data to write on the blockchain..." 
                     value={greeting} 
                     onChange={(e) => setGreeting(e.target.value)} 
                     required 
@@ -204,7 +203,7 @@ export const ArbitrumForm = ({ dictionary }: ArbitrumFormProps) => {
                 <span className="font-bold uppercase text-xs tracking-widest text-muted-foreground">Verify Transaction</span>
               </div>
               <Input 
-                placeholder="Paste transaction hash..." 
+                placeholder="Transaction hash..." 
                 value={readHash} 
                 onChange={(e) => setReadHash(e.target.value)} 
                 required 
