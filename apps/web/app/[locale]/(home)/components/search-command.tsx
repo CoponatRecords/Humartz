@@ -112,7 +112,7 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
               <input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search tracks, hashes..."
+                placeholder="Art name, artist, hash..."
                 className="flex h-10 w-full rounded-md bg-transparent text-sm outline-none placeholder:text-muted-foreground"
                 autoFocus={!selectedItem}
               />

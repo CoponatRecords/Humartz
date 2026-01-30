@@ -35,7 +35,7 @@
         "items": [
           {
             "title": "Expert Human Review",
-            "description": "AI detectors aren't enough. Our experts manually review your stems and project files to ensure authentic human creation."
+            "description": "AI detectors aren't enough. Our experts manually review your project files to ensure authentic human creation."
           },
           {
             "title": "Cryptographic Proof",
@@ -44,11 +44,11 @@
           
           {
             "title": "IP Protection",
-            "description": "We never publish your raw files. Only the cryptographic hash is public, keeping your files private and secure."
+            "description": "We never publish your files. Only the cryptographic hash is public, keeping your creative work private and secure."
           },
           {
             "title": "Public Verification URL",
-            "description": "Receive a unique 'humartz.com/certify/hash' link for every track. Share it with sync-clients, publishers, or on your website."
+            "description": "Receive a unique 'humartz.com/certify/hash' link for every project. Share it with clients, publishers, or on your website."
           }
         ]
       },
@@ -240,13 +240,13 @@
   "description_title_1": "Prepare a Single Folder Containing:",
   "description_title_2": "Step 1 – Upload Your Folder",
   "description_title_3": "Step 2 – Upload The File We Are Certifying",
-  "trackName": "Track Name",
+  "trackName": "Art Name",
 
   "description_title_4": "And wait for our review ! We will get back to you shortly with the certification results.",
 
   "description_subtitle_1": "Once uploaded, our team will review your submission and get back to you shortly.",
   "description_subtitle_21": "• A valid proof of identity (ID, passport, or driver’s license)",
-  "description_subtitle_22": "• All original material including stems, MIDI files, audio recordings, and project files created during production",
+  "description_subtitle_22": "• All original material such as stems, MIDI files, .psd files, audio and vidéo recordings, or any relevant project files created during production",
   "description_subtitle_23": "• Any additional files that demonstrate the human creation process (notes, drafts, screenshots, etc.)",
   "uploadTitle": "Upload Your Folder for Review",
   "chooseFile": "Select the folder that contains all required files, up to 5GB.",
