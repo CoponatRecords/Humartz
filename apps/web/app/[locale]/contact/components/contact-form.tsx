@@ -58,7 +58,7 @@ export const ContactForm = ({ dictionary }: ContactFormProps) => {
         <div className="grid gap-10 lg:grid-cols-2">
           {/* LEFT SIDE: Text & Benefits */}
           <div className="flex flex-col gap-6">
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 m-6">
               <div className="flex flex-col gap-2">
                 <h4 className="max-w-xl text-left font-regular text-3xl tracking-tighter md:text-5xl">
                   {dictionary.web.contact.meta.title}
