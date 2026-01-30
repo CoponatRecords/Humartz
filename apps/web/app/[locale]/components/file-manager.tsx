@@ -157,9 +157,8 @@ export const FileManagerClient = ({ dictionary, locale }: FileManagerClientProps
               <div className="grid gap-6 border-t pt-8">
                 {t.benefitsUpload?.map((benefit: any, index: number) => (
                   <div key={index} className="flex items-start gap-4">
-                    {index === 0 && <HumartzLogo className="h-6 w-6 text-primary shrink-0" />}
-                    {index === 1 && <ShieldCheck className="h-6 w-6 text-primary shrink-0" />}
-                    {index === 2 && <Fingerprint className="h-6 w-6 text-primary shrink-0" />}
+                    {index === 0 && <ShieldCheck className="h-6 w-6 text-primary shrink-0" />}
+                    {index === 1 && <Fingerprint className="h-6 w-6 text-primary shrink-0" />}
                     <div>
                       <p className="font-semibold text-lg">{benefit.title}</p>
                       <p className="text-sm text-muted-foreground">{benefit.description}</p>
