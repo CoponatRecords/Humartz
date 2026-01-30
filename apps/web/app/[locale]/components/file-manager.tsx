@@ -274,7 +274,7 @@ export const FileManagerClient = ({ dictionary, locale }: FileManagerClientProps
                     </div>
 
                     <div className="grid gap-2">
-                      <Label>Project folder (Max 5GB)</Label>
+                      <Label>Project Folder (Max 5GB)</Label>
                       <Input
                         type="file"
                         webkitdirectory=""
@@ -290,7 +290,7 @@ export const FileManagerClient = ({ dictionary, locale }: FileManagerClientProps
                     </div>
 
                     <div className="grid gap-2">
-                      <Label>Master audio file</Label>
+                      <Label>Master Audio File</Label>
                       <Input type="file" accept="audio/*" onChange={(e) => setMasterFile(e.target.files ? e.target.files[0] : null)} disabled={isUploading} />
                       {masterFile && <p className="text-sm text-muted-foreground">{masterFile.name}</p>}
                     </div>
@@ -311,11 +311,15 @@ export const FileManagerClient = ({ dictionary, locale }: FileManagerClientProps
                   </Button>
 
                   <p className="text-muted-foreground text-sm text-center mt-4">
-                    Prefer not to share your session files?{" "}
-                    <Link href="/contact" className="text-primary underline hover:text-primary/80">
-                      Schedule a manual review.
-                    </Link>
+                    Prefer not to share your session files or have a proof folder over 5GB ?{" "}
+
                   </p>
+                  <p className="text-muted-foreground text-sm text-center">
+
+                                      <Link href="/contact" className="text-primary underline hover:text-primary/80">
+                      Schedule a manual review.
+                    </Link>                  </p>
+
                 </form>
               )}
             </div>
