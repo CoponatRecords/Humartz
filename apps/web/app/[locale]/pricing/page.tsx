@@ -115,7 +115,7 @@ const Pricing = () => {
                 <span className="text-muted-foreground text-sm"> / track</span>
               </p>
               <Button asChild className="mt-8 gap-4" variant="outline">
-                <Link href="/verify">
+                <Link href="/upload">
                   Verify Track <MoveRight className="h-4 w-4" />
                 </Link>
               </Button>

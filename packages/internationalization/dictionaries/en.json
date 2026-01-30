@@ -267,7 +267,11 @@
     "waiting": "Transaction sent, waiting for confirmation... ⏳",
     "success": "Data stored on Arbitrum ✅",
     "failed": "Transaction failed ❌"
-  }
+  },
+  "payment": {
+      "title": "Complete your Payment",
+      "description": "Final step to process your files."
+    }
    
   }
 

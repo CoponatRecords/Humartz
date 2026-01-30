@@ -4,9 +4,10 @@ import { Button } from "@repo/design-system/components/ui/button";
 import { Input } from "@repo/design-system/components/ui/input";
 import { Label } from "@repo/design-system/components/ui/label";
 import type { Dictionary } from "@repo/internationalization";
-import { CheckCircle2, Loader2, Upload, FolderKanban, Loader, Headphones, Clock } from "lucide-react";
+import { CheckCircle2, Loader2, Upload, FolderKanban, Headphones, Clock } from "lucide-react";
 import Link from "next/link";
 import { useState, FormEvent } from "react";
+import { useRouter } from "next/navigation";
 import { hashFolder } from "../hashFolder";
 
 type FileManagerClientProps = {
@@ -14,7 +15,6 @@ type FileManagerClientProps = {
   locale: string;
 };
 
-// 5GB Limit
 const MAX_TOTAL_SIZE = 5 * 1024 * 1024 * 1024;
 
 const formatBytes = (bytes: number) => {
@@ -26,6 +26,7 @@ const formatBytes = (bytes: number) => {
 };
 
 export const FileManagerClient = ({ dictionary, locale }: FileManagerClientProps) => {
+  const router = useRouter();
   const t = dictionary.web?.upload?.files ?? {};
 
   const [projectFiles, setProjectFiles] = useState<File[]>([]);
@@ -35,35 +36,21 @@ export const FileManagerClient = ({ dictionary, locale }: FileManagerClientProps
   const [trackName, setTrackName] = useState("");
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
-  const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [folderHash, setFolderHash] = useState<string | null>(null);
 
   const totalSize = [masterFile, ...projectFiles].reduce((acc, f) => acc + (f?.size || 0), 0);
 
   const sanitize = (str: string) =>
-    str
-      .trim()
-      .toLowerCase()
-      .replace(/\s+/g, "_")
-      .replace(/[^a-z0-9.@_-]/g, "")
-      .replace(/_+/g, "_");
+    str.trim().toLowerCase().replace(/\s+/g, "_").replace(/[^a-z0-9.@_-]/g, "").replace(/_+/g, "_");
 
   async function uploadToR2(file: File, key: string) {
     const presign = await fetch("/api/upload", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ 
-        fileName: key, 
-        fileType: file.type,
-        fileSize: file.size
-      }),
+      body: JSON.stringify({ fileName: key, fileType: file.type, fileSize: file.size }),
     });
     
-    if (!presign.ok) {
-      const errorData = await presign.json();
-      throw new Error(errorData.error || "Upload initialization failed");
-    }
+    if (!presign.ok) throw new Error("Upload initialization failed");
     
     const { signedUrl } = await presign.json();
     const res = await fetch(signedUrl, {
@@ -75,20 +62,6 @@ export const FileManagerClient = ({ dictionary, locale }: FileManagerClientProps
     if (!res.ok) throw new Error("Upload failed");
   }
 
-  const handleProjectFilesChange = (files: FileList | null) => {
-    if (!files) return;
-    const fileArray = Array.from(files);
-    const size = fileArray.reduce((acc, f) => acc + (f?.size || 0), 0);
-
-    if (size > MAX_TOTAL_SIZE) {
-      setError(`Project folder is too large! Max 5GB. Selected: ${formatBytes(size)}`);
-      setProjectFiles([]);
-      return;
-    }
-    setError(null);
-    setProjectFiles(fileArray);
-  };
-
   const handleUpload = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -97,72 +70,37 @@ export const FileManagerClient = ({ dictionary, locale }: FileManagerClientProps
       return;
     }
 
-    if (totalSize > MAX_TOTAL_SIZE) {
-      setError(`Project is too large. Max limit is 5GB. Current size: ${formatBytes(totalSize)}`);
-      return;
-    }
-
-    if (!name.trim() || !email.trim() || !trackName.trim()) {
-      setError("Please fill in name, email and track name");
-      return;
-    }
-
     setIsUploading(true);
-    setUploadProgress(0);
     setError(null);
 
     try {
-      // 1. Prepare files and calculate Hash first
       const allFiles = [masterFile, ...projectFiles];
       const hash = await hashFolder(allFiles);
-      setFolderHash(hash);
-
-      // 2. Define prefix including the hash
-      const safeName = sanitize(name);
-      const safeEmail = sanitize(email);
-      const safeTrack = sanitize(trackName);
-      
-      const folderPrefix = `Email_${safeEmail}_Name_${safeName}_TrackName_${safeTrack}_hash_${hash}/`;
+      const folderPrefix = `Email_${sanitize(email)}_Name_${sanitize(name)}_TrackName_${sanitize(trackName)}_hash_${hash}/`;
 
       let uploaded = 0;
-
-      // 3. Upload master file
       await uploadToR2(masterFile, folderPrefix + "master_" + masterFile.name);
       uploaded++;
-      setUploadProgress(Math.round((uploaded / allFiles.length) * 100));
 
-      // 4. Upload project folder
       for (const file of projectFiles) {
         const relativePath = file.webkitRelativePath || file.name;
-        const key = folderPrefix + "project/" + relativePath;
-        await uploadToR2(file, key);
+        await uploadToR2(file, folderPrefix + "project/" + relativePath);
         uploaded++;
         setUploadProgress(Math.round((uploaded / allFiles.length) * 100));
       }
 
-      // 5. Update Database
       await fetch("/api/db/add-upload", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          artistName: name,
-          trackName: trackName,
-          folderHash: hash,
-          email,
-        }),
+        body: JSON.stringify({ artistName: name, trackName: trackName, folderHash: hash, email }),
       });
 
-      setIsSuccess(true);
-      setProjectFiles([]);
-      setMasterFile(null);
-      setName("");
-      setEmail("");
-      setTrackName("");
+      // Navigate to your new payment page
+      router.push(`/${locale}/payment`);
+      
     } catch (err: any) {
       setError(err.message || "Upload failed");
-    } finally {
       setIsUploading(false);
-      setUploadProgress(0);
     }
   };
 
@@ -172,7 +110,8 @@ export const FileManagerClient = ({ dictionary, locale }: FileManagerClientProps
     <div className="w-full py-20 lg:py-40">
       <div className="container mx-auto max-w-6xl">
         <div className="grid gap-10 lg:grid-cols-2">
-          {/* Left column */}
+          
+          {/* Left column: Restored Icons & Info */}
           <div className="flex flex-col gap-8">
             <div className="flex flex-col gap-4">
               <h4 className="max-w-xl text-left font-regular text-3xl tracking-tighter md:text-5xl">
@@ -190,17 +129,12 @@ export const FileManagerClient = ({ dictionary, locale }: FileManagerClientProps
                   <p className="font-medium text-lg">
                     {dictionary.web?.upload?.files?.description_title_1 || "Organized & traceable uploads"}
                   </p>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    {dictionary.web?.upload?.files?.description_subtitle_21}
-                  </p>
-                                    <p className="text-sm text-muted-foreground mt-1">
-                    {dictionary.web?.upload?.files?.description_subtitle_22}
-                  </p>
-                                    <p className="text-sm text-muted-foreground mt-1">
-                    {dictionary.web?.upload?.files?.description_subtitle_23}
-                  </p>
+                  <p className="text-sm text-muted-foreground mt-1">{dictionary.web?.upload?.files?.description_subtitle_21}</p>
+                  <p className="text-sm text-muted-foreground mt-1">{dictionary.web?.upload?.files?.description_subtitle_22}</p>
+                  <p className="text-sm text-muted-foreground mt-1">{dictionary.web?.upload?.files?.description_subtitle_23}</p>
                 </div>
               </div>
+              
               <div className="flex items-start gap-4">
                 <Upload className="mt-1 h-6 w-6 text-primary flex-shrink-0" />
                 <div>
@@ -208,120 +142,95 @@ export const FileManagerClient = ({ dictionary, locale }: FileManagerClientProps
                     {dictionary.web?.upload?.files?.description_title_2 || "Easy folder & multi-file upload"}
                   </p>
                 </div>
-</div>           <div className="flex items-start gap-4">
+              </div>
 
+              <div className="flex items-start gap-4">
                 <Headphones className="mt-1 h-6 w-6 text-primary flex-shrink-0" />
                 <div>
-                
-
-                                    <p className="font-medium text-lg">
-                    {dictionary.web?.upload?.files?.description_title_3 || "Easy folder & multi-file upload"}
+                  <p className="font-medium text-lg">
+                    {dictionary.web?.upload?.files?.description_title_3 || "High-fidelity processing"}
                   </p>
-
                 </div>
               </div>
-              <div className="flex items-start gap-4">
 
+              <div className="flex items-start gap-4">
                 <Clock className="mt-1 h-6 w-6 text-primary flex-shrink-0" />
                 <div>
-                
-
-                                    <p className="text-sm text-muted-foreground mt-1">
-                    {dictionary.web?.upload?.files?.description_title_4 || "Easy folder & multi-file upload"}
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {dictionary.web?.upload?.files?.description_title_4 || "Fast turnaround times"}
                   </p>
-
                 </div>
               </div>
-             
             </div>
           </div>
 
-          {/* Right column */}
+          {/* Right column: The Form */}
           <div className="flex items-start justify-center p-6">
-            <div className="w-full max-md flex flex-col gap-6 rounded-lg border p-8 bg-background shadow-sm">
-              {isSuccess ? (
-                <div className="flex flex-col items-center justify-center text-center py-12 gap-6">
-                  <div className="h-16 w-16 rounded-full bg-green-100 flex items-center justify-center">
-                    <CheckCircle2 className="h-10 w-10 text-green-600" />
+            <div className="w-full max-w-md flex flex-col gap-6 rounded-lg border p-8 bg-background shadow-sm">
+              <form onSubmit={handleUpload} className="flex flex-col gap-6">
+                <p className="font-semibold text-xl">{t.uploadTitle || "Upload your files"}</p>
+                <div className="grid gap-4">
+                  <div className="grid gap-2">
+                    <Label>Your Name</Label>
+                    <Input value={name} onChange={(e) => setName(e.target.value)} disabled={isUploading} required />
                   </div>
-                  <div>
-                    <h3 className="text-2xl font-medium">Upload Complete!</h3>
-                    {folderHash && (
-                      <p className="text-sm text-muted-foreground mt-2">
-                        Folder Hash: <code>{folderHash}</code>
-                      </p>
+                  <div className="grid gap-2">
+                    <Label>Email</Label>
+                    <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} disabled={isUploading} required />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label>Track / Project Name</Label>
+                    <Input value={trackName} onChange={(e) => setTrackName(e.target.value)} disabled={isUploading} required />
+                  </div>
+
+                  <div className="grid gap-2">
+                    <Label>Project Folder (Max 5GB)</Label>
+                    <Input
+                      type="file"
+                      // @ts-ignore
+                      webkitdirectory=""
+                      multiple
+                      onChange={(e) => e.target.files && setProjectFiles(Array.from(e.target.files))}
+                      disabled={isUploading}
+                    />
+                    {projectFiles.length > 0 && (
+                      <p className="text-sm text-muted-foreground">{projectFiles.length} files - {formatBytes(totalSize)}</p>
                     )}
                   </div>
-                  <Button variant="outline" onClick={() => setIsSuccess(false)}>
-                    Upload more files
-                  </Button>
+
+                  <div className="grid gap-2">
+                    <Label>Master Audio File</Label>
+                    <Input type="file" accept="audio/*" onChange={(e) => setMasterFile(e.target.files ? e.target.files[0] : null)} disabled={isUploading} />
+                  </div>
                 </div>
-              ) : (
-                <form onSubmit={handleUpload} className="flex flex-col gap-6">
-                  <p className="font-semibold text-xl">{t.uploadTitle || "Upload your files"}</p>
-                  <div className="grid gap-4">
-                    <div className="grid gap-2">
-                      <Label>Your Name</Label>
-                      <Input value={name} onChange={(e) => setName(e.target.value)} disabled={isUploading} required />
-                    </div>
-                    <div className="grid gap-2">
-                      <Label>Email</Label>
-                      <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} disabled={isUploading} required />
-                    </div>
-                    <div className="grid gap-2">
-                      <Label>Track / Project Name</Label>
-                      <Input value={trackName} onChange={(e) => setTrackName(e.target.value)} disabled={isUploading} required />
-                    </div>
 
-                    <div className="grid gap-2">
-                      <Label>Project Folder (Max 5GB)</Label>
-                      <Input
-                        type="file"
-                        webkitdirectory=""
-                        multiple
-                        onChange={(e) => handleProjectFilesChange(e.target.files)}
-                        disabled={isUploading}
-                      />
-                      {projectFiles.length > 0 && (
-                        <p className={`text-sm mt-1 ${totalSize > MAX_TOTAL_SIZE ? "text-destructive" : "text-muted-foreground"}`}>
-                          {projectFiles.length} files selected - Total size: {formatBytes(totalSize)}
-                        </p>
-                      )}
-                    </div>
+                {error && <p className="text-sm text-destructive">{error}</p>}
 
-                    <div className="grid gap-2">
-                      <Label>Master Audio File</Label>
-                      <Input type="file" accept="audio/*" onChange={(e) => setMasterFile(e.target.files ? e.target.files[0] : null)} disabled={isUploading} />
-                      {masterFile && <p className="text-sm text-muted-foreground">{masterFile.name}</p>}
-                    </div>
-                  </div>
+                <Button type="submit" disabled={!allFieldsFilled || isUploading} className="w-full gap-2 mt-1">
+                  {isUploading ? (
+                    <>Uploading {uploadProgress}% <Loader2 className="h-4 w-4 animate-spin ml-2" /></>
+                  ) : (
+                    <>Proceed to Payment <Upload className="h-4 w-4 ml-2" /></>
+                  )}
+                </Button>
 
-                  {error && <p className="text-sm text-destructive pt-1">{error}</p>}
-
-                  <Button type="submit" disabled={!allFieldsFilled || isUploading} className="w-full gap-2 mt-1">
-                    {isUploading ? (
-                      <>
-                        Uploading {uploadProgress}% <Loader2 className="h-4 w-4 animate-spin ml-2" />
-                      </>
-                    ) : (
-                      <>
-                        Upload <Upload className="h-4 w-4 ml-2" />
-                      </>
-                    )}
-                  </Button>
-
-                  <p className="text-muted-foreground text-sm text-center mt-4">
-                    Prefer not to share your session files or have a proof folder over 5GB ?{" "}
-
-                  </p>
-                  <p className="text-muted-foreground text-sm text-center">
-
-                                      <Link href="/contact" className="text-primary underline hover:text-primary/80">
-                      Schedule a manual review.
-                    </Link>                  </p>
-
-                </form>
-              )}
+<div className="flex flex-col items-center justify-center mt-4 gap-1">
+  <p className="text-muted-foreground text-sm text-center">
+    Prefer a manual review where your files are never uploaded, or have a   <Link 
+    href="/signup" 
+    className="text-primary text-sm text-center  hover:text-primary/80"
+  >
+   Producer Subscription
+  </Link> ?
+  </p>
+  <Link 
+    href="/contact" 
+    className="text-primary text-sm text-center underline hover:text-primary/80"
+  >
+    Contact us.
+  </Link>
+</div>
+              </form>
             </div>
           </div>
         </div>
