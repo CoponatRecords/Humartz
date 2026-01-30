@@ -228,14 +228,12 @@
         ],
 
             "benefitsUpload": [
-          {
-            "description": "This is the fastest and most reliable way to send us your session files (stems, project files, bounces, exports…) for manual human review and blockchain anchoring."
-          },
+
           {
             "description": "If you don't want to upload your files to a third party, you can contact us to schedule a remote video-review session with one of our experts."
           },
           {
-            "description": "Use our contact form for bulk verification solutions if you have a Producer Membership, are a record labels or a publisher."
+            "description": "You have a Producer Membership, are a record labels or a publisher ? Contact us for bulk verification solutions and dedicated upload options."
           }
         ],
         
@@ -251,7 +249,7 @@
   "description_subtitle_22": "• All original material including stems, MIDI files, audio recordings, and project files created during production",
   "description_subtitle_23": "• Any additional files that demonstrate the human creation process (notes, drafts, screenshots, etc.)",
   "uploadTitle": "Upload Your Folder for Review",
-  "chooseFile": "Select the folder from your computer that contains all required files, up to 5GB.",
+  "chooseFile": "Select the folder that contains all required files, up to 5GB.",
   "uploadButton": "Start Upload",
   "uploading": "Uploading files…",
   "noFiles": "No files selected.",
