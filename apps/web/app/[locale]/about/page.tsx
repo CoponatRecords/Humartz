@@ -94,12 +94,7 @@ const AboutPage = () => {
             <button className="bg-primary text-primary-foreground px-10 py-4 rounded-full font-bold hover:scale-105 transition-transform">
               Contact Us
             </button>
-            <Link 
-              href="/whitepaper" 
-              className="bg-muted text-foreground px-10 py-4 rounded-full font-bold hover:bg-muted/80 transition-colors flex items-center"
-            >
-              Technical Whitepaper
-            </Link>
+
           </div>
         </div>
       </section>
