@@ -1,7 +1,7 @@
 "use client";
 
-import { 
-  ModeToggle, 
+import {
+  ModeToggle,
   Button,
   NavigationMenu,
   NavigationMenuContent,
@@ -9,59 +9,69 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  Sheet, 
-  SheetContent, 
-  SheetTrigger 
-} from "@repo/design-system"; 
-
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+} from "@repo/design-system";
 import type { Dictionary } from "@repo/internationalization";
 import { Menu, MoveRight } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation"; 
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { LanguageSwitcher } from "./language-switcher";
+import { SearchTrigger, SearchProvider } from "../../(home)/components/search-command";
 
-type SubNavItem = { title: string; href: string; hideOnMobile?: boolean; };
-type NavItem = { title: string; href?: string; description?: string; items?: SubNavItem[]; };
-type HeaderProps = { dictionary: Dictionary; };
+type SubNavItem = { title: string; href: string; hideOnMobile?: boolean };
+type NavItem = { 
+  title: string; 
+  href?: string; 
+  description?: string; 
+  items?: SubNavItem[] 
+};
+
+type HeaderProps = { 
+  dictionary: Dictionary 
+};
 
 export const Header = ({ dictionary }: HeaderProps) => {
-  const pathname = usePathname();
+  const pathname = pathnameHook();
   const [isOpen, setOpen] = useState(false);
 
   const isHome = pathname === "/";
-  const dynamicLink = isHome 
-    ? { title: dictionary.web.header.about, href: "/about" } 
+  const dynamicLink = isHome
+    ? { title: dictionary.web.header.about, href: "/about" }
     : { title: dictionary.web.header.home, href: "/" };
 
   const navigationItems: NavItem[] = [
-    {
-      title: dictionary.web.header.whitepaper,
-      href: "/whitepaper",
-    },
+    { title: dictionary.web.header.whitepaper, href: "/whitepaper" },
     {
       title: dictionary.web.header.product.title,
       description: dictionary.web.header.product.description,
-      items: [
-        {
-          title: dictionary.web.header.product.pricing,
-          href: "/pricing",
-        }
-      ],
+      items: [{ title: dictionary.web.header.product.pricing, href: "/pricing" }],
     },
   ];
 
   return (
-    <header className="sticky top-0 left-0 z-40 w-full border-b bg-background">
-      <div className="container relative mx-auto flex min-h-20 flex-row items-center justify-between lg:grid lg:grid-cols-3">
+    <header className="sticky top-0 z-40 w-full border-b bg-background">
+      <div className="mx-auto flex w-full max-w-screen-2xl items-center justify-between py-2 px-4 lg:grid lg:grid-cols-[auto_1fr_auto]">
         
-        {/* --- DESKTOP LEFT NAV --- */}
-        <div className="hidden lg:flex items-center justify-start gap-4">
+        {/* LOGO SECTION */}
+        <div className="flex items-left ml-3 sm:ml-1">
+          <Link href="/" className="flex items-center gap-2">
+            <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24">
+              <path d="M12 2C7.5 2 4 5.5 4 10V16C4 16.55 4.45 17 5 17C5.55 17 6 16.55 6 16V10C6 6.5 8.5 4 12 4C15.5 4 18 6.5 18 10V18C18 18.55 18.45 19 19 19C19.55 19 20 18.55 20 18V10C20 5.5 16.5 2 12 2ZM12 6C9.5 6 7.5 8 7.5 10.5V17C7.5 17.55 7.95 18 8.5 18C9.05 18 9.5 17.55 9.5 17V10.5C9.5 9 10.5 8 12 8C13.5 8 14.5 9 14.5 10.5V16C14.5 16.55 14.95 17 15.5 17C16.05 17 16.5 16.55 16.5 16V10.5C16.5 8 14.5 6 12 6ZM12 10C11.5 10 11 10.5 11 11V16C11 16.55 11.45 17 12 17C12.55 17 13 16.55 13 16V11C13 10.5 12.5 10 12 10Z" fill="currentColor" />
+            </svg>
+            <span className="hidden sm:inline text-lg font-bold">Humartz</span>
+          </Link>
+        </div>
+
+        {/* DESKTOP NAVIGATION */}
+        <div className="hidden lg:flex justify-left ml-3 overflow-hidden">
           <NavigationMenu>
-            <NavigationMenuList className="gap-4">
+            <NavigationMenuList className="gap-2">
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
-                  <Button asChild variant="ghost">
+                  <Button asChild variant="ghost" className="text-muted-foreground">
                     <Link href={dynamicLink.href}>{dynamicLink.title}</Link>
                   </Button>
                 </NavigationMenuLink>
@@ -71,32 +81,30 @@ export const Header = ({ dictionary }: HeaderProps) => {
                 <NavigationMenuItem key={item.title}>
                   {item.href ? (
                     <NavigationMenuLink asChild>
-                      <Button asChild variant="ghost">
+                      <Button asChild variant="ghost" className="text-muted-foreground">
                         <Link href={item.href}>{item.title}</Link>
                       </Button>
                     </NavigationMenuLink>
                   ) : (
                     <>
-                      <NavigationMenuTrigger className="text-sm font-medium">
-                        {item.title}
-                      </NavigationMenuTrigger>
-                      <NavigationMenuContent className="w-112.5! p-4">
+                      <NavigationMenuTrigger>{item.title}</NavigationMenuTrigger>
+                      <NavigationMenuContent className="w-[450px] p-4">
                         <div className="grid grid-cols-2 gap-4">
                           <div className="flex flex-col justify-between">
                             <div>
                               <p className="text-base font-medium">{item.title}</p>
-                              <p className="text-muted-foreground text-sm">{item.description}</p>
+                              <p className="text-sm text-muted-foreground">{item.description}</p>
                             </div>
-                            <Button asChild className="mt-10" size="sm">
+                            <Button asChild className="mt-5" size="sm">
                               <Link href="/upload">{dictionary.web.global.primaryCta}</Link>
                             </Button>
                           </div>
                           <div className="flex flex-col justify-end text-sm">
                             {item.items?.map((subItem) => (
                               <NavigationMenuLink
-                                className="flex items-center justify-between rounded px-4 py-2 hover:bg-muted"
-                                href={subItem.href}
                                 key={subItem.title}
+                                href={subItem.href}
+                                className="flex items-center justify-between rounded px-4 py-2 hover:bg-muted"
                               >
                                 <span>{subItem.title}</span>
                                 <MoveRight className="h-4 w-4" />
@@ -113,100 +121,89 @@ export const Header = ({ dictionary }: HeaderProps) => {
           </NavigationMenu>
         </div>
 
-        {/* --- LOGO --- */}
-        <div className="flex items-center justify-center gap-2 m-3">
-          <Link href="/" className="flex items-center gap-2">
-            <p className="whitespace-nowrap font-semibold text-lg hidden sm:inline">Humartz</p>
-            <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24">
-              <path d="M12 2C7.5 2 4 5.5 4 10V16C4 16.55 4.45 17 5 17C5.55 17 6 16.55 6 16V10C6 6.5 8.5 4 12 4C15.5 4 18 6.5 18 10V18C18 18.55 18.45 19 19 19C19.55 19 20 18.55 20 18V10C20 5.5 16.5 2 12 2ZM12 6C9.5 6 7.5 8 7.5 10.5V17C7.5 17.55 7.95 18 8.5 18C9.05 18 9.5 17.55 9.5 17V10.5C9.5 9 10.5 8 12 8C13.5 8 14.5 9 14.5 10.5V16C14.5 16.55 14.95 17 15.5 17C16.05 17 16.5 16.55 16.5 16V10.5C16.5 8 14.5 6 12 6ZM12 10C11.5 10 11 10.5 11 11V16C11 16.55 11.45 17 12 17C12.55 17 13 16.55 13 16V11C13 10.5 12.5 10 12 10Z" fill="currentColor"/>
-            </svg>
-          </Link>
-        </div>
-
-        {/* --- RIGHT ACTIONS --- */}
-        <div className="flex items-center justify-end gap-4">
-          <div className="hidden lg:flex items-center gap-4">
+        {/* RIGHT SIDE ACTIONS */}
+        <div className="flex items-center justify-end gap-3 min-w-fit">
+          <div className="hidden lg:flex items-center gap-3">
+            <SearchProvider>
+              <SearchTrigger />
+            </SearchProvider>
+            
+            <div className="h-6 border-r mx-1" />
+            
             <LanguageSwitcher />
             <ModeToggle />
-            <div className="border-r h-6" />
-            <Button asChild variant="ghost">
+            <Button asChild variant="ghost" className="text-foreground font-medium">
               <Link href="/contact">{dictionary.web.header.contact}</Link>
             </Button>
           </div>
 
+          {/* MOBILE MENU TRIGGER */}
           <div className="lg:hidden">
             <Sheet open={isOpen} onOpenChange={setOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
+                <Button variant="ghost" size="icon" className="h-10 w-10">
                   <Menu className="h-6 w-6" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-75 mt-6">
-                <nav className="flex flex-col gap-6 m-3">
-                  <Button asChild className="w-full h-12 text-md">
-                    <Link href="/upload" onClick={() => setOpen(false)}>
+              <SheetContent side="right" className="w-80 pt-16 flex flex-col">
+                <nav className="flex flex-col gap-8 h-full">
+                  
+                  <Button 
+                    asChild 
+                    className="w-full h-12 text-md p-2"
+                    onClick={() => setOpen(false)}
+                  >
+                    <Link href="/upload">
                       {dictionary.web.global.primaryCta}
                     </Link>
                   </Button>
 
-                  <Link
-                    className="flex items-center justify-between text-lg font-medium"
-                    href={dynamicLink.href}
-                    onClick={() => setOpen(false)}
-                  >
-                    {dynamicLink.title}
-                    <MoveRight className="h-4 w-4" />
-                  </Link>
+                  <div className="flex flex-col gap-6 px-2">
+                    <Link 
+                      href={dynamicLink.href} 
+                      onClick={() => setOpen(false)} 
+                      className="text-xl font-medium tracking-tight hover:text-primary transition-colors flex items-center justify-between"
+                    >
+                      {dynamicLink.title}
+                      <MoveRight className="h-4 w-4" />
+                    </Link>
+                    {navigationItems.map((item) => (
+                      <Link 
+                        key={item.title} 
+                        href={item.href || "#"} 
+                        onClick={() => setOpen(false)} 
+                        className="text-xl font-medium tracking-tight hover:text-primary transition-colors flex items-center justify-between"
+                      >
+                        {item.title}
+                        <MoveRight className="h-4 w-4" />
+                      </Link>
+                    ))}
+                    <Link 
+                      href="/contact" 
+                      onClick={() => setOpen(false)} 
+                      className="text-xl font-medium tracking-tight hover:text-primary transition-colors flex items-center justify-between"
+                    >
+                      {dictionary.web.header.contact}
+                      <MoveRight className="h-4 w-4" />
+                    </Link>
 
-                  {navigationItems.map((item) => (
-                    <div key={item.title} className="flex flex-col gap-3">
-                      {item.href ? (
-                        <Link
-                          className="flex items-center justify-between text-lg font-medium"
-                          href={item.href}
-                          onClick={() => setOpen(false)}
-                        >
-                          {item.title}
-                          <MoveRight className="h-4 w-4" />
-                        </Link>
-                      ) : (
-                        <div className="flex flex-col gap-3">
-                          {item.items?.map((subItem) => (
-                            <Link
-                              className="flex items-center justify-between text-lg font-medium"
-                              href={subItem.href}
-                              key={subItem.title}
-                              onClick={() => setOpen(false)}
-                            >
-                              {subItem.title}
-                              <MoveRight className="h-4 w-4" />
-                            </Link>
-                          ))}
-                        </div>
-                      )}
+                    {/* --- MOBILE SEARCH TRIGGER --- */}
+                    <div className="pt-2">
+                      <SearchProvider>
+                        <SearchTrigger className="w-full justify-start text-muted-foreground" />
+                      </SearchProvider>
                     </div>
-                  ))}
+                  </div>
 
-                  {/* Added Contact Link here for mobile */}
-                  <Link
-                    className="flex items-center justify-between text-lg font-medium"
-                    href="/contact"
-                    onClick={() => setOpen(false)}
-                  >
-                    {dictionary.web.header.contact}
-                    <MoveRight className="h-4 w-4" />
-                  </Link>
-
-                  <hr className="my-2" />
-
-                  <div className="flex flex-col gap-5">
-                    <div className="flex items-center justify-between px-1">
-                      <span className="text-sm font-medium text-muted-foreground">Language</span>
-                      <LanguageSwitcher />
+                  <div className="mt-auto pt-6 border-t px-2 flex items-center justify-between">
+                    <div className="flex flex-col gap-1">
+                      <span className="text-xs font-semibold text-muted-foreground uppercase">
+                        Settings
+                      </span>
                     </div>
-                    <div className="flex items-center justify-between px-1">
-                      <span className="text-sm font-medium text-muted-foreground">Theme</span>
+                    <div className="flex gap-2">
                       <ModeToggle />
+                      <LanguageSwitcher />
                     </div>
                   </div>
                 </nav>
@@ -218,3 +215,11 @@ export const Header = ({ dictionary }: HeaderProps) => {
     </header>
   );
 };
+
+function pathnameHook() {
+  try {
+    return usePathname();
+  } catch {
+    return "/";
+  }
+}
