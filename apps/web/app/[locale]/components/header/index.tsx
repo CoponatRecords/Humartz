@@ -14,12 +14,14 @@ import {
   SheetTrigger,
 } from "@repo/design-system";
 import type { Dictionary } from "@repo/internationalization";
-import { Menu, MoveRight } from "lucide-react";
+import { Menu, MoveRight, User } from "lucide-react"; // Added User icon
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { LanguageSwitcher } from "./language-switcher";
 import { SearchTrigger, SearchProvider } from "../../(home)/components/search-command";
+// 1. Import Clerk components
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 
 type SubNavItem = { title: string; href: string; hideOnMobile?: boolean };
 type NavItem = { 
@@ -132,13 +134,34 @@ export const Header = ({ dictionary }: HeaderProps) => {
             
             <LanguageSwitcher />
             <ModeToggle />
-            <Button asChild variant="ghost" className="text-foreground font-medium">
-              <Link href="/contact">{dictionary.web.header.contact}</Link>
-            </Button>
+            
+            <div className="h-6 border-r mx-1" />
+
+            {/* 2. Desktop Auth Integration */}
+            <SignedOut>
+              <SignInButton mode="modal">
+                <Button size="sm" variant="default">Sign In</Button>
+              </SignInButton>
+            </SignedOut>
+            <SignedIn>
+              <UserButton 
+                afterSignOutUrl="/" 
+                appearance={{
+                  elements: {
+                    userButtonAvatarBox: "h-8 w-8"
+                  }
+                }}
+              />
+            </SignedIn>
           </div>
 
           {/* MOBILE MENU TRIGGER */}
-          <div className="lg:hidden">
+          <div className="lg:hidden flex items-center gap-2">
+            {/* Show UserButton on mobile navbar too for quick access */}
+            <SignedIn>
+               <UserButton afterSignOutUrl="/" />
+            </SignedIn>
+            
             <Sheet open={isOpen} onOpenChange={setOpen}>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon" className="h-10 w-10">
@@ -148,46 +171,47 @@ export const Header = ({ dictionary }: HeaderProps) => {
               <SheetContent side="right" className="w-80 pt-16 flex flex-col">
                 <nav className="flex flex-col gap-8 h-full">
                   
-                  <Button 
-                    asChild 
-                    className="w-full h-12 text-md p-2"
-                    onClick={() => setOpen(false)}
-                  >
-                    <Link href="/upload">
-                      {dictionary.web.global.primaryCta}
-                    </Link>
-                  </Button>
+                  {/* 3. Mobile Auth Section */}
+                  <div className="flex flex-col gap-3">
+                    <SignedOut>
+                      <SignInButton mode="modal">
+                        <Button className="w-full h-12 text-md" onClick={() => setOpen(false)}>
+                          Sign In
+                        </Button>
+                      </SignInButton>
+                    </SignedOut>
+                    <Button 
+                      asChild 
+                      variant="outline"
+                      className="w-full h-12 text-md p-2"
+                      onClick={() => setOpen(false)}
+                    >
+                      <Link href="/upload">
+                        {dictionary.web.global.primaryCta}
+                      </Link>
+                    </Button>
+                  </div>
 
                   <div className="flex flex-col gap-6 px-2">
-                    <Link 
-                      href={dynamicLink.href} 
-                      onClick={() => setOpen(false)} 
-                      className="text-xl font-medium tracking-tight hover:text-primary transition-colors flex items-center justify-between"
-                    >
+                    {/* ... (previous links) */}
+                    <Link href={dynamicLink.href} onClick={() => setOpen(false)} className="text-xl font-medium tracking-tight hover:text-primary transition-colors flex items-center justify-between">
                       {dynamicLink.title}
                       <MoveRight className="h-4 w-4" />
                     </Link>
                     {navigationItems.map((item) => (
-                      <Link 
-                        key={item.title} 
-                        href={item.href || "#"} 
-                        onClick={() => setOpen(false)} 
-                        className="text-xl font-medium tracking-tight hover:text-primary transition-colors flex items-center justify-between"
-                      >
+                      <Link key={item.title} href={item.href || "#"} onClick={() => setOpen(false)} className="text-xl font-medium tracking-tight hover:text-primary transition-colors flex items-center justify-between">
                         {item.title}
                         <MoveRight className="h-4 w-4" />
                       </Link>
                     ))}
-                    <Link 
-                      href="/contact" 
-                      onClick={() => setOpen(false)} 
-                      className="text-xl font-medium tracking-tight hover:text-primary transition-colors flex items-center justify-between"
-                    >
-                      {dictionary.web.header.contact}
-                      <MoveRight className="h-4 w-4" />
-                    </Link>
+                    
+                    <SignedIn>
+                      <Link href="/dashboard" onClick={() => setOpen(false)} className="text-xl font-medium tracking-tight hover:text-primary transition-colors flex items-center justify-between">
+                        Dashboard
+                        <User className="h-4 w-4" />
+                      </Link>
+                    </SignedIn>
 
-                    {/* --- MOBILE SEARCH TRIGGER --- */}
                     <div className="pt-2">
                       <SearchProvider>
                         <SearchTrigger className="w-full justify-start text-muted-foreground" />

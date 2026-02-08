@@ -9,6 +9,7 @@ import { getDictionary } from "@repo/internationalization";
 import type { ReactNode } from "react";
 import  Footer  from "./components/footer";
 import { Header } from "./components/header";
+import { AuthProvider } from "@repo/auth/provider";
 
 type RootLayoutProperties = {
   readonly children: ReactNode;
@@ -28,7 +29,7 @@ const RootLayout = async ({ children, params }: RootLayoutProperties) => {
       suppressHydrationWarning
     >
       <body>
-          
+          <AuthProvider>
         <AnalyticsProvider>
           <DesignSystemProvider>
               <div className="abstract-background min-h-screen flex flex-col">
@@ -41,6 +42,7 @@ const RootLayout = async ({ children, params }: RootLayoutProperties) => {
           {/* <Toolbar />
           <CMSToolbar /> */}
         </AnalyticsProvider>
+        </AuthProvider>
       </body>
     </html>
 
