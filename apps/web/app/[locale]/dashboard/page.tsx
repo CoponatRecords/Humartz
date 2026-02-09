@@ -32,6 +32,7 @@ export default async function DashboardPage() {
 
   // Explorer URL - change to 'sepolia.arbiscan.io' if on testnet
   const EXPLORER_BASE = "https://arbiscan.io/tx/";
+const CONTRACT_ADDRESS = "0x9953BcE1F56b4bC1051321B394d2B6055c506619";
 
   return (
     <div className="flex-1 space-y-8 p-8 pt-6">
@@ -152,12 +153,22 @@ export default async function DashboardPage() {
         <div className="col-span-full lg:col-span-3 space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle className="text-sm">Account Overview</CardTitle>
+              <CardTitle className="text-sm">Database Overview</CardTitle>
+                         <p className="text-xs text-muted-foreground italic pb-2">
+Verification hashes (fingerprints) are immutably anchored to the Arbitrum L2 network.               </p>
             </CardHeader>
             <CardContent>
-               <p className="text-xs text-muted-foreground italic">
-                 Your identity is linked to the Humartz Merkle Root for tamper-proof verification.
-               </p>
+    
+
+                           <div className="flex items-start gap-4 p-4  rounded-lg border bg-muted/30">
+                             <ExternalLink className="h-5 w-5 text-primary shrink-0" />
+                             <div className="overflow-hidden">
+                               <p className="text-sm font-medium">Contract Address</p>
+                               <a href={`https://arbiscan.io/address/${CONTRACT_ADDRESS}`} target="_blank" rel="noreferrer" className="text-xs text-muted-foreground hover:underline break-all">
+                                 {CONTRACT_ADDRESS}
+                               </a>
+                             </div>
+                           </div>
             </CardContent>
           </Card>
         </div>
