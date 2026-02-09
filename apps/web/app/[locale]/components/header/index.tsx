@@ -98,7 +98,7 @@ export const Header = ({ dictionary }: HeaderProps) => {
                               <p className="text-sm text-muted-foreground">{item.description}</p>
                             </div>
                             <Button asChild className="mt-5" size="sm">
-                              <Link href="/upload">{dictionary.web.global.primaryCta}</Link>
+                              <Link href="/get-certified">{dictionary.web.global.primaryCta}</Link>
                             </Button>
                           </div>
                           <div className="flex flex-col justify-end text-sm">
@@ -188,7 +188,7 @@ export const Header = ({ dictionary }: HeaderProps) => {
                       className="w-full h-12 text-md p-2"
                       onClick={() => setOpen(false)}
                     >
-                      <Link href="/upload">
+                      <Link href="/get-certified">
                         {dictionary.web.global.primaryCta}
                       </Link>
                     </Button>

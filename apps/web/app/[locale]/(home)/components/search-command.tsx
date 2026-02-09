@@ -193,7 +193,7 @@ export const SearchProvider = ({ children }: { children: ReactNode }) => {
             {/* --- GET CERTIFIED FOOTER (B/W Design) --- */}
             <div className="border-t border-border p-3 bg-muted/10 shrink-0">
               <Link 
-                href="/upload" 
+                href="/get-certified" 
                 onClick={() => setOpen(false)}
                 className="flex items-center justify-between w-full group rounded-lg border border-border bg-background px-4 py-3 text-sm transition-all hover:bg-secondary/50"
               >

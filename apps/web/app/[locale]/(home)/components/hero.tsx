@@ -4,13 +4,27 @@ import { Button } from "@repo/design-system";
 import type { Dictionary } from "@repo/internationalization";
 import { MoveRight } from "lucide-react";
 import Link from "next/link";
+import { GridPattern } from "../../components/magic-ui/grid-pattern";
+import { cn } from "@repo/design-system";
 
 type HeroProps = {
   dictionary: Dictionary;
 };
 
 export const Hero = async ({ dictionary }: HeroProps) => (
+
+  
   <div className="w-full">
+    <GridPattern 
+        width={30} 
+                height={30} 
+
+        className={cn(
+          "absolute inset-0 -z-10 opacity-40",
+          // Add a fade to the bottom so it doesn't cut off abruptly
+          "[mask-image:linear-gradient(to_bottom,black_80%,transparent_100%)]"
+        )} 
+      /> 
     <div className="container mx-auto px-4 sm:px-6 md:px-8">
       <div className="flex flex-col items-center justify-center gap-8 py-16 sm:py-20 lg:py-40">
         

@@ -48,7 +48,7 @@ export default function SuccessPage({ params: { locale } }: { params: { locale: 
         {/* Action Buttons */}
         <div className="flex w-full flex-col gap-3">
           <Button asChild size="lg" className="w-full">
-            <Link href={`/upload`}>
+            <Link href={`/get-certified`}>
               Upload a new track<ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </Button>

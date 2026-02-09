@@ -10,6 +10,7 @@ import type { ReactNode } from "react";
 import  Footer  from "./components/footer";
 import { Header } from "./components/header";
 import { AuthProvider } from "@repo/auth/provider";
+import { GridPattern } from "./components/magic-ui/grid-pattern";
 
 type RootLayoutProperties = {
   readonly children: ReactNode;
@@ -32,11 +33,11 @@ const RootLayout = async ({ children, params }: RootLayoutProperties) => {
           <AuthProvider>
         <AnalyticsProvider>
           <DesignSystemProvider>
-              <div className="abstract-background min-h-screen flex flex-col">
+              {/* <div className="abstract-background min-h-screen flex flex-col"> */}
             <Header dictionary={dictionary} />
-            {children}
+       {children}
             <Footer />
-            </div>
+            {/* </div> */}
 
           </DesignSystemProvider>
           {/* <Toolbar />
