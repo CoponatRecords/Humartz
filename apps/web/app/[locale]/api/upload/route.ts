@@ -21,10 +21,10 @@ export async function POST(request: NextRequest) {
         // Create the track in the database linked to the User
         await database.track.create({
           data: {
-            promoCode: promoCode,
+            promoCode: promoCode || null,
             email: email,
             title: trackName,
-            authorId: userId, // Links to User.id (Clerk ID)
+            authorId: userId || null, // Links to User.id (Clerk ID)
             audioUrl: storagePath, // Storing the R2 path
             isVerified: "pending",
             slug: `${userId}-${Date.now()}`, 
