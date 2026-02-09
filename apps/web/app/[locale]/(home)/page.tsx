@@ -7,6 +7,8 @@ import { FAQ } from "./components/faq";
 import { Features } from "./components/features";
 import { Hero } from "./components/hero";
 import { Stats } from "./components/stats";
+import { GridPattern } from "../components/magic-ui/grid-pattern";
+import { cn } from "../../../../../packages/design-system/lib/utils";
 
 type HomeProps = {
   params: Promise<{
@@ -35,6 +37,17 @@ const Home = async ({ params }: HomeProps) => {
           Beta feature now available
         </div>
       )}
+
+          <GridPattern 
+        width={30} 
+                height={30} 
+
+        className={cn(
+          "absolute inset-0 -z-10 opacity-40",
+          // Add a fade to the bottom so it doesn't cut off abruptly
+          "[mask-image:linear-gradient(to_bottom,black_80%,transparent_100%)]"
+        )} 
+      /> 
       <Hero dictionary={dictionary} />
       {/* <Cases dictionary={dictionary} /> */}
       <Features dictionary={dictionary} />

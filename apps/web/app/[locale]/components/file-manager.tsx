@@ -123,36 +123,22 @@ export const FileManagerClient = ({ dictionary, locale }: FileManagerClientProps
     <div className="w-full py-12 lg:py-24">
       <div className="container mx-auto max-w-6xl px-4">
         
-        {/* Top Header Row with Dashboard Access */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-16 pb-8 border-b">
-          <div className="space-y-1">
-            <h1 className="font-bold text-4xl tracking-tighter md:text-5xl">{t.title}</h1>
-            <p className="text-lg text-muted-foreground">{t.description}</p>
-          </div>
-          
-          <div className="shrink-0">
-            {isSignedIn ? (
-              <Button asChild variant="outline" className="gap-2">
-                <Link href={`/${locale}/dashboard`}>
-                  <LayoutDashboard className="h-4 w-4" />
-                  Access my dashboard
-                </Link>
-              </Button>
-            ) : (
-              <SignInButton mode="modal">
-                <Button variant="outline" className="gap-2">
-                  <LayoutDashboard className="h-4 w-4" />
-                  Access my dashboard
-                </Button>
-              </SignInButton>
-            )}
-          </div>
-        </div>
+        {/* We removed the full-width header div from here */}
 
-        <div className="grid gap-16 lg:grid-cols-2">
+        <div className="grid gap-12 lg:grid-cols-2 items-start">
           
-          {/* Left Column - Benefits */}
-          <div className="flex flex-col gap-8">
+          {/* Left Column - Header + Benefits */}
+          <div className="flex flex-col gap-10">
+            {/* The Title is now part of the left column */}
+            <div className="space-y-4">
+              <h1 className="font-bold text-4xl tracking-tighter md:text-5xl lg:text-6xl leading-tight">
+                {t.title}
+              </h1>
+              <p className="text-xl text-muted-foreground max-w-[500px]">
+                {t.description}
+              </p>
+            </div>
+
             <div className="space-y-8">
               <div className="space-y-4">
                 <h3 className="font-bold text-xl flex items-center gap-2">
@@ -176,6 +162,27 @@ export const FileManagerClient = ({ dictionary, locale }: FileManagerClientProps
                     </div>
                   </div>
                 ))}
+
+                <div className="mt-auto pt-8 border-t border-dashed">
+                  {isSignedIn ? (
+                    <Button asChild variant="secondary" className="gap-2 w-full md:w-auto">
+                      <Link href={`/${locale}/dashboard`}>
+                        <LayoutDashboard className="h-4 w-4" />
+                        Access my dashboard
+                      </Link>
+                    </Button>
+                  ) : (
+                    <SignInButton mode="modal">
+                      <Button variant="secondary" className="gap-2 w-full md:w-auto">
+                        <LayoutDashboard className="h-4 w-4" />
+                        Access my dashboard
+                      </Button>
+                    </SignInButton>
+                  )}
+                  <p className="text-[10px] text-muted-foreground mt-2 px-1">
+                    View your previous certifications and transaction history.
+                  </p>
+                </div>
               </div>
             </div>
           </div>

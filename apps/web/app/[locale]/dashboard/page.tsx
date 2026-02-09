@@ -113,7 +113,7 @@ const CONTRACT_ADDRESS = "0x9953BcE1F56b4bC1051321B394d2B6055c506619";
                            <Fingerprint className="h-2.5 w-2.5" /> Folder Hash
                         </span>
                         <code className="text-[10px] font-mono text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
-                           {track.folderHash ? `${track.folderHash}` : "n/a"}
+                           {track.folderHash ? `${track.folderHash.substring(0, 6)}...${track.folderHash.slice(-4)}` : "n/a"}
                         </code>
         
                     </div>
@@ -163,7 +163,7 @@ Verification hashes (fingerprints) are immutably anchored to the Arbitrum L2 net
                            <div className="flex items-start gap-4 p-4  rounded-lg border bg-muted/30">
                              <ExternalLink className="h-5 w-5 text-primary shrink-0" />
                              <div className="overflow-hidden">
-                               <p className="text-sm font-medium">Contract Address</p>
+                               <p className="text-sm font-medium">Blockchain Address</p>
                                <a href={`https://arbiscan.io/address/${CONTRACT_ADDRESS}`} target="_blank" rel="noreferrer" className="text-xs text-muted-foreground hover:underline break-all">
                                  {CONTRACT_ADDRESS}
                                </a>
