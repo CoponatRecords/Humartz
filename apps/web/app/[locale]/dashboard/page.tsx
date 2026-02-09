@@ -112,7 +112,7 @@ export default async function DashboardPage() {
                            <Fingerprint className="h-2.5 w-2.5" /> Folder Hash
                         </span>
                         <code className="text-[10px] font-mono text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
-                           {track.folderHash ? `${track.folderHash.substring(0, 6)}...${track.folderHash.slice(-4)}` : "n/a"}
+                           {track.folderHash ? `${track.folderHash}` : "n/a"}
                         </code>
         
                     </div>
