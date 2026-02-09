@@ -10,11 +10,14 @@ import {
   AlertCircle, 
   ExternalLink, 
   Database,
-  Fingerprint 
+  Fingerprint,
+  Cloud 
 } from "lucide-react";
 import { BrowserProvider, Contract, Interface } from "ethers";
 
+// Constants
 const CONTRACT_ADDRESS = "0x9953BcE1F56b4bC1051321B394d2B6055c506619";
+const R2_HOST_URL = "https://dash.cloudflare.com/ca283c02a398d33e182bde7f760eefd2/r2/default/buckets/humartz/"; // Replace with your actual R2 host URL
 const CONTRACT_ABI = [
   "function setGreeting(string _greeting)",
   "function getGreeting() view returns (string)"
@@ -34,7 +37,7 @@ export const ArbitrumForm = ({ dictionary }: ArbitrumFormProps) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [txHash, setTxHash] = useState<string | null>(null);
 
-  // --- READ/VERIFY STATE (RESTORED) ---
+  // --- READ/VERIFY STATE ---
   const [readHash, setReadHash] = useState("");
   const [readResult, setReadResult] = useState<string | null>(null);
   const [readTxLink, setReadTxLink] = useState<string | null>(null);
@@ -120,7 +123,7 @@ export const ArbitrumForm = ({ dictionary }: ArbitrumFormProps) => {
     <div className="w-full py-12 lg:py-24">
       <div className="container mx-auto max-w-6xl px-4 grid gap-10 lg:grid-cols-2">
         
-        {/* LEFT COLUMN: INFO & STATUS (RESTORED) */}
+        {/* LEFT COLUMN: INFO & STATUS */}
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-4">
             <h4 className="text-3xl md:text-5xl font-bold tracking-tighter">Blockchain Proof</h4>
@@ -130,12 +133,24 @@ export const ArbitrumForm = ({ dictionary }: ArbitrumFormProps) => {
           </div>
 
           <div className="space-y-4">
+            {/* CONTRACT ADDRESS BOX */}
             <div className="flex items-start gap-4 p-4 rounded-lg border bg-muted/30">
               <ExternalLink className="h-5 w-5 text-primary shrink-0" />
               <div className="overflow-hidden">
                 <p className="text-sm font-medium">Contract Address</p>
                 <a href={`https://arbiscan.io/address/${CONTRACT_ADDRESS}`} target="_blank" rel="noreferrer" className="text-xs text-muted-foreground hover:underline break-all">
                   {CONTRACT_ADDRESS}
+                </a>
+              </div>
+            </div>
+
+            {/* R2 HOST QUICK ACCESS BOX */}
+            <div className="flex items-start gap-4 p-4 rounded-lg border bg-muted/30">
+              <Cloud className="h-5 w-5 text-orange-400 shrink-0" />
+              <div className="overflow-hidden">
+                <p className="text-sm font-medium">R2 Storage Host</p>
+                <a href={R2_HOST_URL} target="_blank" rel="noreferrer" className="text-xs text-muted-foreground hover:underline break-all">
+                  {R2_HOST_URL.replace("https://", "")}
                 </a>
               </div>
             </div>
@@ -165,7 +180,7 @@ export const ArbitrumForm = ({ dictionary }: ArbitrumFormProps) => {
           </div>
         </div>
 
-        {/* RIGHT COLUMN: FORMS (RESTORED) */}
+        {/* RIGHT COLUMN: FORMS */}
         <div className="flex flex-col gap-6">
           
           {/* SUBMIT FORM */}
@@ -210,11 +225,11 @@ export const ArbitrumForm = ({ dictionary }: ArbitrumFormProps) => {
             )}
           </div>
 
-          {/* READ FORM (RESTORED) */}
+          {/* READ FORM */}
           <div className="p-6 border rounded-xl bg-card shadow-sm">
             <form onSubmit={readGreetingByTxHash} className="space-y-4">
               <div className="flex items-center gap-2 border-b pb-2 mb-4">
-                <ExternalLink className="h-5 w-5 text-primary" />
+                <Fingerprint className="h-5 w-5 text-primary" />
                 <span className="font-bold uppercase text-xs tracking-widest text-muted-foreground">Verify Transaction</span>
               </div>
               <Input placeholder="Transaction hash..." value={readHash} onChange={(e) => setReadHash(e.target.value)} required />
