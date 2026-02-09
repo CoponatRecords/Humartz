@@ -62,15 +62,32 @@ export const FileManagerClient = ({ dictionary, locale }: FileManagerClientProps
   const sanitize = (str: string) =>
     str.trim().toLowerCase().replace(/\s+/g, "_").replace(/[^a-z0-9.@_-]/g, "").replace(/_+/g, "_");
 
-  async function uploadToR2(file: File, key: string) {
+  // Improved Upload Function with Real Progress tracking
+  async function uploadToR2(file: File, key: string, onFileProgress: (loaded: number) => void) {
     const presign = await fetch("/api/upload", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ fileName: key, fileType: file.type }),
     });
+
     if (!presign.ok) throw new Error(t.errorUpload || "Upload failed");
     const { signedUrl } = await presign.json();
-    await fetch(signedUrl, { method: "PUT", headers: { "Content-Type": file.type }, body: file });
+
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open("PUT", signedUrl);
+      xhr.setRequestHeader("Content-Type", file.type);
+
+      xhr.upload.onprogress = (e) => {
+        if (e.lengthComputable) {
+          onFileProgress(e.loaded);
+        }
+      };
+
+      xhr.onload = () => (xhr.status === 200 ? resolve(true) : reject());
+      xhr.onerror = () => reject();
+      xhr.send(file);
+    });
   }
 
   const handleUpload = async (e: FormEvent<HTMLFormElement>) => {
@@ -79,21 +96,53 @@ export const FileManagerClient = ({ dictionary, locale }: FileManagerClientProps
       setError(t.noFiles || "Please select all required files");
       return;
     }
+
     setIsUploading(true);
     setError(null);
+    setUploadProgress(1); // Visual feedback immediately
+
     try {
       const allFiles = [masterFile, ...projectFiles];
+      const totalSize = allFiles.reduce((acc, f) => acc + f.size, 0);
+
+      // --- STAGE 1: Hashing (Simulate 1% to 10%) ---
+      const hashTick = setInterval(() => {
+        setUploadProgress((prev) => (prev < 10 ? prev + 1 : prev));
+      }, 400);
+
       const hash = await hashFolder(allFiles);
+      clearInterval(hashTick);
+      setUploadProgress(10); 
+
+      // --- STAGE 2: Real Upload (10% to 100%) ---
       const folderPrefix = `user_${user?.id || 'guest'}/${sanitize(trackName)}_"hash"_${hash}/`;
-      let uploaded = 0;
-      await uploadToR2(masterFile, folderPrefix + "master_" + masterFile.name);
-      uploaded++;
+      let totalLoaded = 0;
+      const fileLoadMap = new Map<string, number>();
+
+      const runUpload = async (file: File, pathSuffix: string) => {
+        const key = folderPrefix + pathSuffix;
+        await uploadToR2(file, key, (bytesLoaded) => {
+          fileLoadMap.set(key, bytesLoaded);
+          
+          // Sum up all currently loaded bytes
+          const currentTotalLoaded = Array.from(fileLoadMap.values()).reduce((a, b) => a + b, 0);
+          
+          // Map the 0-100% upload range to the 10-100% UI range
+          const rawPercentage = (currentTotalLoaded / totalSize) * 90;
+          setUploadProgress(Math.round(10 + rawPercentage));
+        });
+      };
+
+      // Upload Master first
+      await runUpload(masterFile, "master_" + masterFile.name);
+
+      // Upload Project Files
       for (const file of projectFiles) {
         const relativePath = file.webkitRelativePath || file.name;
-        await uploadToR2(file, folderPrefix + "project/" + relativePath);
-        uploaded++;
-        setUploadProgress(Math.round((uploaded / allFiles.length) * 100));
+        await runUpload(file, "project/" + relativePath);
       }
+
+      // --- STAGE 3: Finalize ---
       const verifyRes = await fetch("/api/upload", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -108,12 +157,15 @@ export const FileManagerClient = ({ dictionary, locale }: FileManagerClientProps
           folderHash: hash 
         }),
       });
+
       if (!verifyRes.ok) throw new Error("Database sync failed");
       const dbData = await verifyRes.json();
       router.push(dbData.isFree ? `/${locale}/success` : `/${locale}/payment`);
+      
     } catch (err: any) {
       setError(err.message || t.errorUpload);
       setIsUploading(false);
+      setUploadProgress(0);
     }
   };
 
@@ -122,14 +174,10 @@ export const FileManagerClient = ({ dictionary, locale }: FileManagerClientProps
   return (
     <div className="w-full py-12 lg:py-24">
       <div className="container mx-auto max-w-6xl px-4">
-        
-        {/* We removed the full-width header div from here */}
-
         <div className="grid gap-12 lg:grid-cols-2 items-start">
           
-          {/* Left Column - Header + Benefits */}
+          {/* Left Column */}
           <div className="flex flex-col gap-10">
-            {/* The Title is now part of the left column */}
             <div className="space-y-4">
               <h1 className="font-bold text-4xl tracking-tighter md:text-5xl lg:text-6xl leading-tight">
                 {t.title}
@@ -179,9 +227,6 @@ export const FileManagerClient = ({ dictionary, locale }: FileManagerClientProps
                       </Button>
                     </SignInButton>
                   )}
-                  <p className="text-[10px] text-muted-foreground mt-2 px-1">
-                    View your previous certifications and transaction history.
-                  </p>
                 </div>
               </div>
             </div>
@@ -191,12 +236,11 @@ export const FileManagerClient = ({ dictionary, locale }: FileManagerClientProps
           <div className="flex items-start justify-center">
             <div className="w-full max-w-md flex flex-col gap-6 rounded-2xl border bg-card p-8 shadow-sm">
               
-              {/* Conditional Pro-Tip for Guests */}
               {!isSignedIn && (
                 <div className="flex items-center gap-2 p-3 rounded-lg bg-primary/5 border border-primary/10 text-xs text-primary">
                   <Info className="h-4 w-4 shrink-0" />
                   <p>
-                    <strong>Pro tip:</strong> Signing in lets you track your certifications in a personal dashboard, but it&apos;s not required to upload!
+                    <strong>Pro tip:</strong> Signing in lets you track your certifications, but it&apos;s not required!
                   </p>
                 </div>
               )}
@@ -210,11 +254,11 @@ export const FileManagerClient = ({ dictionary, locale }: FileManagerClientProps
                 <div className="grid gap-4">
                   <div className="grid gap-2">
                     <Label>{contactFormT.firstName || "Name"}</Label>
-                    <Input value={name} onChange={(e) => setName(e.target.value)} placeholder={!isLoaded ? "Loading..." : ""} disabled={isUploading || !isLoaded} required />
+                    <Input value={name} onChange={(e) => setName(e.target.value)} disabled={isUploading || !isLoaded} required />
                   </div>
                   <div className="grid gap-2">
                     <Label>Email</Label>
-                    <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder={!isLoaded ? "Loading..." : ""} disabled={isUploading || !isLoaded} required />
+                    <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} disabled={isUploading || !isLoaded} required />
                   </div>
                   <div className="grid gap-2">
                     <Label>{t.trackName || "Track Title"}</Label>
@@ -234,10 +278,24 @@ export const FileManagerClient = ({ dictionary, locale }: FileManagerClientProps
                   </div>
                 </div>
 
-                {error && <div className="flex items-center gap-2 text-sm font-medium text-destructive bg-destructive/10 p-3 rounded-lg border border-destructive/20"><AlertCircle className="h-4 w-4 shrink-0" /> {error}</div>}
+                {error && (
+                  <div className="flex items-center gap-2 text-sm font-medium text-destructive bg-destructive/10 p-3 rounded-lg border border-destructive/20">
+                    <AlertCircle className="h-4 w-4 shrink-0" /> {error}
+                  </div>
+                )}
 
                 <Button type="submit" size="lg" disabled={!allFieldsFilled || isUploading} className="w-full">
-                  {isUploading ? <>{t.uploading} {uploadProgress}% <Loader2 className="h-4 w-4 animate-spin ml-2" /></> : isFree ? <>Submit Free <CheckCircle2 className="h-4 w-4 ml-2" /></> : <>{globalT.primaryCta} <Upload className="h-4 w-4 ml-2" /></>}
+                  {isUploading ? (
+                    <>
+                      {uploadProgress < 10 ? "Analyzing files..." : `Uploading ${uploadProgress}%`}
+                      <Loader2 className="h-4 w-4 animate-spin ml-2" />
+                    </>
+                  ) : (
+                    <>
+                      {isFree ? "Submit Free" : globalT.primaryCta}
+                      {isFree ? <CheckCircle2 className="h-4 w-4 ml-2" /> : <Upload className="h-4 w-4 ml-2" />}
+                    </>
+                  )}
                 </Button>
               </form>
             </div>
