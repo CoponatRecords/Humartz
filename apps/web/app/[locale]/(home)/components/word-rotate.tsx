@@ -7,9 +7,10 @@ const words = [
   "Art",
   "Music",
   "Drawings",
-  "Projects",
   "Photos",
   "Designs",
+    "Projects",
+
 ];
 
 const wordVariants = {

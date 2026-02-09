@@ -41,7 +41,7 @@ export const Features = ({ dictionary }: FeaturesProps) => {
                 <UserCheck className="h-7 w-7 text-orange-400" />
                 <div>
                   <h3 className="text-lg font-semibold">{dictionary.web.home.features.items[0].title}</h3>
-                  <p className="max-w-md text-sm text-gray-200 line-clamp-2">{dictionary.web.home.features.items[0].description}</p>
+                  <p className="max-w-md text-sm text-gray-200 leading-relaxed">{dictionary.web.home.features.items[0].description}</p>
                 </div>
               </div>
             </div>
@@ -63,20 +63,28 @@ export const Features = ({ dictionary }: FeaturesProps) => {
             </div>
 
             {/* FEATURE 3: Public Verification URL */}
-            <div className="group relative flex min-h-[220px] flex-col justify-between overflow-hidden rounded-xl p-6">
-              <div 
-                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                style={{ backgroundImage: `url('${featureImages[2]}')` }}
-              />
-              <div className="absolute inset-0 bg-black/60 group-hover:bg-black/70 transition-opacity" />
-              <div className="relative z-10 flex h-full flex-col justify-between text-white">
-                <LinkIcon className="h-7 w-7 text-orange-400" />
-                <div>
-                  <h3 className="text-lg font-semibold">{dictionary.web.home.features.items[2].title}</h3>
-                  <p className="text-sm text-gray-200 line-clamp-2">{dictionary.web.home.features.items[2].description}</p>
-                </div>
-              </div>
-            </div>
+            {/* Replace your feature blocks with this structure */}
+<div className="relative flex min-h-55 flex-col overflow-hidden rounded-xl p-6 lg:col-span-2">
+  <div 
+    className="absolute inset-0 bg-cover bg-center"
+    style={{ backgroundImage: `url('${featureImages[0]}')` }}
+  />
+  <div className="absolute inset-0 bg-black/70" />
+  
+  <div className="relative z-10 flex h-full flex-col gap-4 text-white">
+    <UserCheck className="h-7 w-7 text-orange-400 shrink-0" />
+    
+    <div className="flex flex-col gap-2">
+      <h3 className="text-lg font-semibold leading-tight">
+        {dictionary.web.home.features.items[0].title}
+      </h3>
+      {/* REMOVED line-clamp-2 HERE */}
+      <p className="text-sm text-gray-200 leading-relaxed">
+        {dictionary.web.home.features.items[0].description}
+      </p>
+    </div>
+  </div>
+</div>
 
             {/* FEATURE 4: IP Protection */}
             <div className="group relative flex min-h-[220px] flex-col justify-between overflow-hidden rounded-xl p-6 lg:col-span-2">
@@ -89,7 +97,7 @@ export const Features = ({ dictionary }: FeaturesProps) => {
                 <ShieldCheck className="h-7 w-7 text-orange-400" />
                 <div>
                   <h3 className="text-lg font-semibold">{dictionary.web.home.features.items[3].title}</h3>
-                  <p className="max-w-md text-sm text-gray-200 line-clamp-2">{dictionary.web.home.features.items[3].description}</p>
+                  <p className="max-w-md text-sm text-gray-200 leading-relaxed">{dictionary.web.home.features.items[3].description}</p>
                 </div>
               </div>
             </div>
