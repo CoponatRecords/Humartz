@@ -5,12 +5,6 @@ import { Search, X, Music, ArrowRight, Loader2, Disc, ChevronLeft, Fingerprint, 
 import Link from "next/link";
 import { cn } from "@repo/design-system"; 
 import { searchGlobal, type SearchResults } from "@backend/actions/search"; 
-import { getMerkleProof } from "@backend/actions/verify"; 
-import { MerkleTree } from "merkletreejs";
-import keccak256 from "keccak256";
-
-// --- CONFIGURATION ---
-const EXPECTED_ROOT = "0x06bbcd09bd0b4f87ee67a228640c6b71447ce0885ecfd6e7412b9ddb60ad6737";
 
 // --- TYPES ---
 type TrackResult = SearchResults['tracks'][0] & { merkleLeaf?: string | null };

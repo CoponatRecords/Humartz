@@ -28,45 +28,35 @@ export async function searchGlobal(query: string): Promise<SearchResults> {
   }
 
   try {
-    const [tracks, artists] = await Promise.all([
-      database.track.findMany({
-        where: {
-          OR: [
-            { title: { contains: cleanQuery, mode: "insensitive" } },
-            { folderHash: { contains: cleanQuery, mode: "insensitive" } },
-            { txHash: { contains: cleanQuery, mode: "insensitive" } },
+    // 1. We remove the complex 'some' relation because your schema uses a String for artists
+    // 2. We add txHash and folderHash to the select block
+    const tracks = await database.track.findMany({
+      where: {
+        OR: [
+          { title: { contains: cleanQuery, mode: "insensitive" } },
+          { folderHash: { contains: cleanQuery, mode: "insensitive" } },
+          { txHash: { contains: cleanQuery, mode: "insensitive" } },
+          { artists: { contains: cleanQuery, mode: "insensitive" } }
+        ]
+      },
+      take: 5,
+      select: {
+        id: true,
+        title: true,
+        slug: true,
+        isVerified: true,
+        txHash: true,      // Fix: Added missing field
+        folderHash: true,  // Fix: Added missing field
+        artists: true,     // Fix: This is a string in your schema
+      },
+    });
 
-            { 
-              artists: { 
-                some: { 
-                  artist: { name: { contains: cleanQuery, mode: "insensitive" } }
-                } 
-              } 
-            }
-          ]
-        },
-        take: 5,
-        select: {
-          id: true,
-          title: true,
-          slug: true,
-          isVerified: true,
-          artists: {
-            take: 1,
-            where: { role: "MAIN" },
-            select: { artist: { select: { name: true } } },
-          },
-        },
-      }),
-      database.artist.findMany({
-        where: { name: { contains: cleanQuery, mode: "insensitive" } },
-        take: 5,
-        select: { id: true, name: true, slug: true },
-      }),
-    ]);
+    // Note: Your schema doesn't have an 'Artist' model, only an 'artists' string on Track.
+    // If you plan to add an Artist model later, you'll need to update the schema.
+    // For now, we return an empty array for artists to prevent crashes.
+    const artists: any[] = []; 
 
-    const formattedTracks = tracks.map((t: any) => {
-      // Normalize the string for comparison
+    const formattedTracks = tracks.map((t: { isVerified: any; id: any; title: any; slug: any; txHash: any; folderHash: any; artists: any; }) => {
       const rawValue = (t.isVerified || "").trim().toLowerCase();
       
       let status: string | null = null; 
@@ -85,14 +75,15 @@ export async function searchGlobal(query: string): Promise<SearchResults> {
         slug: t.slug,
         txHash: t.txHash,
         folderHash: t.folderHash,
-        artistName: t.artists[0]?.artist.name ?? "Unknown Artist",
+        // Since 'artists' is a string in your DB, we use it directly
+        artistName: t.artists ?? "Unknown Artist",
         verificationStatus: status, 
       };
     });
 
     return { 
       tracks: formattedTracks, 
-      artists: artists.map((a: any) => ({ ...a, verificationStatus: null })) 
+      artists: [] 
     };
   } catch (error) {
     console.error("❌ Search Execution Failed!", error);
