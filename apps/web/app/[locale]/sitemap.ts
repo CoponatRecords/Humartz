@@ -1,14 +1,37 @@
 import type { MetadataRoute } from "next";
+import fs from "fs";
+import path from "path";
 
-// Définissez vos langues supportées
-const locales = ['en']; 
-// Définissez vos pages statiques réelles
-const pages = ["", "get-certified","about", "contact", "whitepaper"]; 
+const locales = ['en'];
+const baseUrl = "https://humartz.com";
+
+/**
+ * Automatically scans the app/[locale] directory for pages
+ */
+function getPages() {
+  // Path to your localized app directory
+  const appDirectory = path.join(process.cwd(), "app/[locale]");
+  
+  // Check if directory exists to avoid build errors
+  if (!fs.existsSync(appDirectory)) return [""];
+
+  const entries = fs.readdirSync(appDirectory, { withFileTypes: true });
+
+  const routes = entries
+    .filter((entry) => entry.isDirectory())
+    .filter((entry) => {
+      // Exclude Next.js route groups (e.g., (home)) and dynamic routes (e.g., [id])
+      return !entry.name.startsWith("(") && !entry.name.startsWith("[");
+    })
+    .map((entry) => entry.name);
+
+  // Return with the root path included
+  return ["", ...routes];
+}
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://humartz.com";
+  const pages = getPages();
 
-  // On génère une entrée pour chaque page dans chaque langue
   return locales.flatMap((locale) =>
     pages.map((page) => ({
       url: `${baseUrl}/${locale}${page ? `/${page}` : ""}`,

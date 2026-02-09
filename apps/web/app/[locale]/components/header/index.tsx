@@ -14,7 +14,7 @@ import {
   SheetTrigger,
 } from "@repo/design-system";
 import type { Dictionary } from "@repo/internationalization";
-import { Menu, MoveRight, User } from "lucide-react"; // Added User icon
+import { Menu, MoveRight, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -68,7 +68,7 @@ export const Header = ({ dictionary }: HeaderProps) => {
         </div>
 
         {/* DESKTOP NAVIGATION */}
-        <div className="hidden lg:flex justify-left ml-3 overflow-hidden">
+        <div className="hidden lg:flex justify-left ml-3">
           <NavigationMenu>
             <NavigationMenuList className="gap-2">
               <NavigationMenuItem>
@@ -90,7 +90,7 @@ export const Header = ({ dictionary }: HeaderProps) => {
                   ) : (
                     <>
                       <NavigationMenuTrigger>{item.title}</NavigationMenuTrigger>
-                      <NavigationMenuContent className="w-[450px] p-4">
+                      <NavigationMenuContent className="w-112.5! p-4">
                         <div className="grid grid-cols-2 gap-4">
                           <div className="flex flex-col justify-between">
                             <div>
@@ -113,6 +113,8 @@ export const Header = ({ dictionary }: HeaderProps) => {
                               </NavigationMenuLink>
                             ))}
                           </div>
+
+                          
                         </div>
                       </NavigationMenuContent>
                     </>
