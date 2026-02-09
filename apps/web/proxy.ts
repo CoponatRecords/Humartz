@@ -14,8 +14,9 @@ import { env } from "@/env";
 export const config = {
   // matcher tells Next.js which routes to run the middleware on. This runs the
   // middleware on all routes except for static assets and Posthog ingest
-  matcher: ["/((?!_next/static|_next/image|ingest|favicon.ico).*)"],
-};
+matcher: [
+    "/((?!_next/static|_next/image|ingest|favicon.ico|robots.txt|sitemap.xml).*)",
+  ],};
 
 const securityHeaders = env.FLAGS_SECRET
   ? securityMiddleware(noseconeOptionsWithToolbar)
