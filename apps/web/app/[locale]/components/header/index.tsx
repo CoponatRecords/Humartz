@@ -13,15 +13,16 @@ import {
   SheetContent,
   SheetTrigger,
 } from "@repo/design-system";
+import { cn } from "@repo/design-system";
 import type { Dictionary } from "@repo/internationalization";
-import { Menu, MoveRight, User } from "lucide-react";
+import { Menu, MoveRight, User, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { LanguageSwitcher } from "./language-switcher";
 import { SearchTrigger, SearchProvider } from "../../(home)/components/search-command";
-// 1. Import Clerk components
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+// Clerk Auth
+import { SignedIn, SignedOut, SignInButton, UserButton, useUser } from "@clerk/nextjs";
 
 type SubNavItem = { title: string; href: string; hideOnMobile?: boolean };
 type NavItem = { 
@@ -38,6 +39,12 @@ type HeaderProps = {
 export const Header = ({ dictionary }: HeaderProps) => {
   const pathname = pathnameHook();
   const [isOpen, setOpen] = useState(false);
+  
+  // 1. Get the current user data
+  const { user } = useUser();
+  
+  // 2. Define Admin Logic (Checking publicMetadata for role === 'admin')
+  const isAdmin = user?.publicMetadata?.role === "admin";
 
   const isHome = pathname === "/";
   const dynamicLink = isHome
@@ -113,8 +120,6 @@ export const Header = ({ dictionary }: HeaderProps) => {
                               </NavigationMenuLink>
                             ))}
                           </div>
-
-                          
                         </div>
                       </NavigationMenuContent>
                     </>
@@ -128,18 +133,28 @@ export const Header = ({ dictionary }: HeaderProps) => {
         {/* RIGHT SIDE ACTIONS */}
         <div className="flex items-center justify-end gap-3 min-w-fit">
           <div className="hidden lg:flex items-center gap-3">
+            
+            {/* ADMIN BUTTON - DESKTOP */}
+            <SignedIn>
+              {isAdmin && (
+                <Button asChild variant="outline" size="sm" className="gap-2 border-primary/20 bg-primary/5 hover:bg-primary/10 transition-all">
+                  <Link href="/admin">
+                    <ShieldCheck className="h-4 w-4 text-primary" />
+                    Admin
+                  </Link>
+                </Button>
+              )}
+            </SignedIn>
+
             <SearchProvider>
               <SearchTrigger />
             </SearchProvider>
             
             <div className="h-6 border-r mx-1" />
-            
             <LanguageSwitcher />
             <ModeToggle />
-            
             <div className="h-6 border-r mx-1" />
 
-            {/* 2. Desktop Auth Integration */}
             <SignedOut>
               <SignInButton mode="modal">
                 <Button size="sm" variant="default">Sign In</Button>
@@ -148,18 +163,13 @@ export const Header = ({ dictionary }: HeaderProps) => {
             <SignedIn>
               <UserButton 
                 afterSignOutUrl="/" 
-                appearance={{
-                  elements: {
-                    userButtonAvatarBox: "h-8 w-8"
-                  }
-                }}
+                appearance={{ elements: { userButtonAvatarBox: "h-8 w-8" } }}
               />
             </SignedIn>
           </div>
 
           {/* MOBILE MENU TRIGGER */}
           <div className="lg:hidden flex items-center gap-2">
-            {/* Show UserButton on mobile navbar too for quick access */}
             <SignedIn>
                <UserButton afterSignOutUrl="/" />
             </SignedIn>
@@ -173,7 +183,6 @@ export const Header = ({ dictionary }: HeaderProps) => {
               <SheetContent side="right" className="w-80 pt-16 flex flex-col">
                 <nav className="flex flex-col gap-8 h-full">
                   
-                  {/* 3. Mobile Auth Section */}
                   <div className="flex flex-col gap-3">
                     <SignedOut>
                       <SignInButton mode="modal">
@@ -182,24 +191,32 @@ export const Header = ({ dictionary }: HeaderProps) => {
                         </Button>
                       </SignInButton>
                     </SignedOut>
-                    <Button 
-                      asChild 
-                      variant="outline"
-                      className="w-full h-12 text-md p-2"
-                      onClick={() => setOpen(false)}
-                    >
-                      <Link href="/get-certified">
-                        {dictionary.web.global.primaryCta}
-                      </Link>
+                    <Button asChild variant="outline" className="w-full h-12 text-md p-2" onClick={() => setOpen(false)}>
+                      <Link href="/get-certified">{dictionary.web.global.primaryCta}</Link>
                     </Button>
                   </div>
 
                   <div className="flex flex-col gap-6 px-2">
-                    {/* ... (previous links) */}
+                    
+                    {/* ADMIN LINK - MOBILE */}
+                    <SignedIn>
+                      {isAdmin && (
+                        <Link 
+                          href="/admin" 
+                          onClick={() => setOpen(false)} 
+                          className="text-xl font-bold text-primary flex items-center justify-between"
+                        >
+                          Admin Panel
+                          <ShieldCheck className="h-5 w-5" />
+                        </Link>
+                      )}
+                    </SignedIn>
+
                     <Link href={dynamicLink.href} onClick={() => setOpen(false)} className="text-xl font-medium tracking-tight hover:text-primary transition-colors flex items-center justify-between">
                       {dynamicLink.title}
                       <MoveRight className="h-4 w-4" />
                     </Link>
+
                     {navigationItems.map((item) => (
                       <Link key={item.title} href={item.href || "#"} onClick={() => setOpen(false)} className="text-xl font-medium tracking-tight hover:text-primary transition-colors flex items-center justify-between">
                         {item.title}
@@ -222,11 +239,6 @@ export const Header = ({ dictionary }: HeaderProps) => {
                   </div>
 
                   <div className="mt-auto pt-6 border-t px-2 flex items-center justify-between">
-                    <div className="flex flex-col gap-1">
-                      <span className="text-xs font-semibold text-muted-foreground uppercase">
-                        Settings
-                      </span>
-                    </div>
                     <div className="flex gap-2">
                       <ModeToggle />
                       <LanguageSwitcher />
@@ -243,9 +255,5 @@ export const Header = ({ dictionary }: HeaderProps) => {
 };
 
 function pathnameHook() {
-  try {
-    return usePathname();
-  } catch {
-    return "/";
-  }
+  try { return usePathname(); } catch { return "/"; }
 }
