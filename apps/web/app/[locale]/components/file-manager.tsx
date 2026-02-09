@@ -84,7 +84,7 @@ export const FileManagerClient = ({ dictionary, locale }: FileManagerClientProps
     try {
       const allFiles = [masterFile, ...projectFiles];
       const hash = await hashFolder(allFiles);
-      const folderPrefix = `user_${user?.id || 'guest'}/${sanitize(trackName)}_${hash}/`;
+      const folderPrefix = `user_${user?.id || 'guest'}/${sanitize(trackName)}_"hash"_${hash}/`;
       let uploaded = 0;
       await uploadToR2(masterFile, folderPrefix + "master_" + masterFile.name);
       uploaded++;

@@ -61,7 +61,7 @@ export default function SuccessPage({ params: { locale } }: { params: { locale: 
 
         {/* Footer Support */}
         <p className="mt-12 text-sm text-muted-foreground">
-          Need help? Contact us at <a href="mailto:support@humartz.com" className="text-primary hover:underline">support@humartz.com</a>
+          Need help ? Contact us at <a href="mailto:contact@humartz.com" className="text-primary hover:underline">contact@humartz.com</a>
         </p>
       </motion.div>
     </div>
