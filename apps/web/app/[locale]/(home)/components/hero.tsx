@@ -17,6 +17,7 @@ import Link from "next/link";
 import { GridPattern } from "../../components/magic-ui/grid-pattern";
 import { cn } from "@repo/design-system";
 import { WordRotate } from "./word-rotate";
+import { useEffect, useRef } from "react";
 
 // ── Card Content Component (shared between mobile & desktop) ──
 // ── Card Content Component ──
@@ -31,7 +32,7 @@ const CardContent = ({
 }) => {
   const { home } = dictionary.web;
 
-  // Brand-aligned demo tracks (feel free to replace with real data later)
+  //  Demo tracks
   const demoTracks = [
     {
       title: "Main Symphony",
@@ -257,7 +258,11 @@ const CardContent = ({
 };
 // ── Stacked Cards Showcase ──
 export const NextJsShowcase = ({ dictionary }: { dictionary: Dictionary }) => {
-  const { web: { home, global, header } } = dictionary;
+  const {
+    web: { home, header },
+  } = dictionary;
+
+  const dashboardRef = useRef<HTMLDivElement | null>(null);
 
   const cards = [
     {
@@ -291,31 +296,36 @@ export const NextJsShowcase = ({ dictionary }: { dictionary: Dictionary }) => {
         home?.showcase?.dashboardDescription ||
         "Manage your catalogue & certifications",
       color: "bg-white",
-      isMain: true,
       type: "dashboard",
+      isMain: true,
       headerBg: "bg-gray-50",
       textColor: "text-gray-500",
       href: "/dashboard",
     },
   ];
 
+  // ✅ MOBILE ORDER: dashboard in the middle
+  const mobileCards = [
+    cards.find(c => c.type === "arbiscan")!,
+    cards.find(c => c.type === "dashboard")!,
+    cards.find(c => c.type === "whitepaper")!,
+  ];
+
+  // ✅ Center dashboard on mobile mount
+  useEffect(() => {
+    dashboardRef.current?.scrollIntoView({
+      behavior: "instant",
+      inline: "center",
+      block: "nearest",
+    });
+  }, []);
+
   return (
     <div className="w-full">
-      {/* Desktop: 3D stacked overlapping cards */}
+      {/* ───────── Desktop (unchanged) ───────── */}
       <div className="hidden lg:flex relative items-center justify-center w-full h-[520px] lg:h-[580px] [perspective:1400px]">
         {cards.map((card) => {
-          const isMain = card.isMain;
-          const zIndex = isMain ? 30 : card.key === "whitepaper" ? 20 : 10;
-          const opacity = isMain
-            ? "opacity-100"
-            : card.key === "whitepaper"
-            ? "opacity-100"
-            : "opacity-100";
-          const scale = isMain
-            ? "scale-100"
-            : card.key === "whitepaper"
-            ? "scale-100"
-            : "scale-100";
+          const zIndex = card.isMain ? 30 : card.key === "whitepaper" ? 20 : 10;
 
           return (
             <Link
@@ -327,15 +337,9 @@ export const NextJsShowcase = ({ dictionary }: { dictionary: Dictionary }) => {
                 "hover:scale-[1.04] hover:-translate-y-8 hover:z-60 hover:shadow-2xl",
                 "transform-[rotateY(-18deg)_rotateX(6deg)_skewY(2deg)]",
                 "hover:transform-[rotateY(0deg)_rotateX(0deg)_skewY(0deg)]",
-                opacity,
-                scale,
-                card.key === "whitepaper" ? "-translate-x-12 -translate-y-6" : "",
-                card.key === "arbiscan" ? "-translate-x-24 -translate-y-12" : "",
-                zIndex === 30
-                  ? "z-30"
-                  : zIndex === 20
-                  ? "z-20"
-                  : "z-10"
+                card.key === "whitepaper" && "-translate-x-12 -translate-y-6",
+                card.key === "arbiscan" && "-translate-x-24 -translate-y-12",
+                zIndex === 30 ? "z-30" : zIndex === 20 ? "z-20" : "z-10"
               )}
             >
               <CardContent card={card} dictionary={dictionary} />
@@ -344,27 +348,35 @@ export const NextJsShowcase = ({ dictionary }: { dictionary: Dictionary }) => {
         })}
       </div>
 
-      {/* Mobile + tablet: horizontal scrollable cards */}
-      <div className="lg:hidden flex gap-5 overflow-x-auto pb-8 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-zinc-700 scrollbar-track-zinc-900/40 -mx-4 px-4">
-        {cards.map((card) => (
-          <div
-            key={card.key}
-            className="min-w-[85vw] max-w-[90vw] sm:min-w-[380px] sm:max-w-[420px] snap-center"
-          >
-            <Link
-              href={card.href}
-              target={card.href.startsWith("http") ? "_blank" : undefined}
-              className="block active:scale-[0.98] transition-transform"
+      {/* ───────── Mobile / Tablet ───────── */}
+      <div className="lg:hidden flex gap-5 overflow-x-auto snap-x snap-mandatory -mx-4 px-4 pb-8">
+        {mobileCards.map((card) => {
+          const isDashboard = card.type === "dashboard";
+
+          return (
+            <div
+              key={card.key}
+              ref={isDashboard ? dashboardRef : null}
+              className={cn(
+                "min-w-[85vw] max-w-[90vw] sm:min-w-[380px] sm:max-w-[420px]",
+                "snap-center",
+                isDashboard && "shadow-2xl"
+              )}
             >
-              <CardContent card={card} dictionary={dictionary} isMobile />
-            </Link>
-          </div>
-        ))}
+              <Link
+                href={card.href}
+                target={card.href.startsWith("http") ? "_blank" : undefined}
+                className="block transition-transform active:scale-[0.98]"
+              >
+                <CardContent card={card} dictionary={dictionary} isMobile />
+              </Link>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
 };
-
 // ── Get Started Section ──
 const GetStartedSection = ({ dictionary }: { dictionary: Dictionary }) => {
   const { web: { home, global } } = dictionary;
