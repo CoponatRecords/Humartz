@@ -56,7 +56,9 @@ export async function searchGlobal(query: string): Promise<SearchResults> {
     // For now, we return an empty array for artists to prevent crashes.
     const artists: any[] = []; 
 
-    const formattedTracks = tracks.map((t: { isVerified: any; id: any; title: any; slug: any; txHash: any; folderHash: any; artists: any; }) => {
+    const formattedTracks = tracks.map((t: {
+      artistName: string; isVerified: any; id: any; title: any; slug: any; txHash: any; folderHash: any; artists: any; 
+}) => {
       const rawValue = (t.isVerified || "").trim().toLowerCase();
       
       let status: string | null = null; 
