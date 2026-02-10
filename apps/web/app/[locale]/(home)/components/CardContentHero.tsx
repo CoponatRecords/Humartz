@@ -176,7 +176,7 @@ export default function CardContent({ card, dictionary, isMobile = false }: Card
             </div>
 
             <div className="text-xs text-blue-600 hover:text-blue-800 font-medium inline-flex items-center gap-1.5">
-              View full contract on Arbiscan
+              View the Humartz contract on Arbiscan
               <ExternalLink className="h-3 w-3" />
             </div>
           </div>
