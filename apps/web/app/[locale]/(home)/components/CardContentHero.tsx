@@ -158,7 +158,7 @@ export default function CardContent({ card, dictionary, isMobile = false }: Card
         {card.type === "arbiscan" && (
           <div className="space-y-5 text-sm">
             <div className="bg-gradient-to-r from-blue-50 to-indigo-50/60 p-3.5 rounded-xl border border-blue-200/70 font-mono text-xs text-black">
-              <span className="font-medium">Contract • </span>
+              <span className="font-medium">The Humartz Contract </span>
               0x9953BcE1F56b4bC1051321B394d2B6055c506619
             </div>
 
@@ -168,8 +168,9 @@ export default function CardContent({ card, dictionary, isMobile = false }: Card
                   key={i}
                   className="flex justify-between items-center text-xs py-2 border-b border-gray-100 last:border-0"
                 >
-                  <span className="text-blue-600 font-mono">0x{i}df...4a</span>
-                  <span className="text-gray-600 font-medium">Mint / Transfer</span>
+                       <span className="text-blue-600 font-mono">txHash 0x{i}df...4a</span>
+                  <span className="text-green-950 font-mono">from 0x8ad...cbf04</span>
+
                   <span className="text-gray-500">{i * 2} min ago</span>
                 </div>
               ))}
