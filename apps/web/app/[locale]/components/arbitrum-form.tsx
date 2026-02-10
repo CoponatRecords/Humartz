@@ -70,11 +70,6 @@ export const ArbitrumForm = ({ dictionary }: ArbitrumFormProps) => {
   // --- ACTIONS ---
   const submitGreeting = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!trackId || !artistName) {
-        setErrorMessage("Please complete all required fields.");
-        return;
-    }
-    setErrorMessage(null);
     setIsLoading(true);
 
     if (!window.ethereum) {
@@ -216,10 +211,10 @@ export const ArbitrumForm = ({ dictionary }: ArbitrumFormProps) => {
                 <div className="space-y-3">
  
 
-                    <div className="space-y-1">
-                        <Label className="text-[10px] uppercase text-muted-foreground">Track ID</Label>
+                    {/* <div className="space-y-1">
+                        <Label className="text-[10px] uppercase text-muted-foreground">Project ID</Label>
                         <Input placeholder="Internal ID..." value={trackId} onChange={(e) => setTrackId(e.target.value)} required />
-                    </div>
+                    </div> */}
                     
                     <div className="space-y-1">
                         <Label className="text-[10px] uppercase text-muted-foreground">Folder Hash</Label>
