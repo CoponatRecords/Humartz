@@ -150,13 +150,13 @@ export default async function WhitePaperPage({ params }: PageProps) {
                   __html: t.sections.solution.intro,
                 }}
               />
-
+{/* 
               <div className="bg-zinc-950 text-zinc-50 rounded-xl p-6 font-mono text-sm overflow-x-auto my-8">
                 <div className="text-zinc-500 mb-2">
                   {t.sections.solution.humanityHashComment}
                 </div>
                 <div>{t.sections.solution.humanityHash}</div>
-              </div>
+              </div> */}
 
               <p className="text-muted-foreground leading-7 mt-4">
                 {t.sections.solution.note}
