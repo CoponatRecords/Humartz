@@ -10,7 +10,6 @@ import type { ReactNode } from "react";
 import  Footer  from "./components/footer";
 import { Header } from "./components/header";
 import { AuthProvider } from "@repo/auth/provider";
-import { GridPattern } from "./components/magic-ui/grid-pattern";
 
 type RootLayoutProperties = {
   readonly children: ReactNode;
