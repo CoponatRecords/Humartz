@@ -1,7 +1,5 @@
 // components/hero/NextJsShowcase.tsx
 import Link from "next/link";
-import { ArrowUpRight, Clock, Database, ExternalLink, FileText, Fingerprint, Music2Icon, ShieldCheck } from "lucide-react";
-import { Button } from "@repo/design-system";
 import { cn } from "@repo/design-system";
 import type { Dictionary } from "@repo/internationalization";
 import CardContent from "./CardContentHero";
@@ -77,8 +75,15 @@ export const NextJsShowcase = ({ dictionary }: { dictionary: Dictionary }) => {
         })}
       </div>
 
-      {/* Mobile / Tablet – horizontal scroll */}
-      <div className="lg:hidden flex gap-5 overflow-x-auto snap-x snap-mandatory -mx-4 px-4 pb-8">
+      {/* Mobile – horizontal scroll carousel */}
+      <div
+        className={cn(
+          "lg:hidden flex gap-5 overflow-x-auto snap-x snap-mandatory",
+          "-mx-4 px-4 pb-8",
+          "-webkit-overflow-scrolling-touch",      // smooth momentum on iOS
+          "overscroll-x-contain"                    // prevents weird chain/parent scroll
+        )}
+      >
         {mobileCards.map((card) => {
           const isDashboard = card.type === "dashboard";
 
@@ -87,40 +92,17 @@ export const NextJsShowcase = ({ dictionary }: { dictionary: Dictionary }) => {
               key={card.key}
               className={cn(
                 "min-w-[85vw] max-w-[90vw] sm:min-w-[380px] sm:max-w-[420px]",
-                "snap-center",
+                "snap-center shrink-0",               // snap + no shrink
                 isDashboard && "shadow-2xl"
               )}
             >
               <Link
-  key={card.key}
-  href={card.href}
-  target={card.href.startsWith("http") ? "_blank" : undefined}
-  className={cn(
-    "absolute w-95 xl:w-110 cursor-pointer group",
-    
-    // Base transition – controls the "leave" speed (slower → feels like finishing)
-    "transition-all duration-1000 ease-out",           // ← 1000ms = 1s for leave
-    
-    // On hover: override to faster duration
-    "hover:duration-300",                              // ← quick on enter (300ms)
-    
-    // Visual changes (same as before)
-    "hover:scale-[1.04] hover:-translate-y-8 hover:z-60 hover:shadow-2xl",
-    
-    // 3D only on lg+
-    "lg:[transform:rotateY(-18deg)_rotateX(6deg)_skewY(2deg)]",
-    "lg:hover:[transform:rotateY(0deg)_rotateX(0deg)_skewY(0deg)]",
-    
-    // Positioning
-    card.key === "whitepaper" && "lg:-translate-x-12 lg:-translate-y-13",
-    card.key === "arbiscan"   && "lg:-translate-x-24 lg:-translate-y-22",
-    
-    // z-index
-    card.isMain ? "z-30" : card.key === "whitepaper" ? "z-20" : "z-10"
-  )}
->
-  <CardContent card={card} dictionary={dictionary} />
-</Link>
+                href={card.href}
+                target={card.href.startsWith("http") ? "_blank" : undefined}
+                className="block h-full w-full transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98]"
+              >
+                <CardContent card={card} dictionary={dictionary} />
+              </Link>
             </div>
           );
         })}
