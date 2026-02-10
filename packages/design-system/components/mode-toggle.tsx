@@ -20,8 +20,8 @@ export const ModeToggle = () => {
   const { setTheme } = useTheme();
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+<DropdownMenu modal={false}>
+        <DropdownMenuTrigger asChild>
         <Button
           className="shrink-0 text-foreground"
           size="icon"

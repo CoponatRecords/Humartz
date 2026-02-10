@@ -43,7 +43,7 @@ export const Header = ({ dictionary }: HeaderProps) => {
   const { user } = useUser();
   const isAdmin = user?.publicMetadata?.role === "admin";
 
-  const isHome = pathname === "/";
+const isHome = pathname === "/" || /^\/(fr|en)(\/)?$/.test(pathname ?? "");
   const dynamicLink = isHome
     ? { title: dictionary.web.header.about, href: "/about" }
     : { title: dictionary.web.header.home, href: "/" };
@@ -156,7 +156,7 @@ export const Header = ({ dictionary }: HeaderProps) => {
               <SignInButton mode="modal" fallbackRedirectUrl="/dashboard">
                 <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground hover:text-primary">
                   <LayoutDashboard className="h-4 w-4" />
-                  My Dashboard
+                                                  {dictionary.web.header.dashboard}
                 </Button>
               </SignInButton>
               
@@ -169,7 +169,7 @@ export const Header = ({ dictionary }: HeaderProps) => {
               <Button asChild variant="ghost" size="sm" className="gap-2 text-muted-foreground hover:text-primary">
                 <Link href="/dashboard">
                   <LayoutDashboard className="h-4 w-4" />
-                  My Dashboard
+                                                  {dictionary.web.header.dashboard}
                 </Link>
               </Button>
               <UserButton 
@@ -216,7 +216,7 @@ export const Header = ({ dictionary }: HeaderProps) => {
                         </Link>
                       )}
                       <Link href="/dashboard" onClick={() => setOpen(false)} className="text-xl font-bold text-primary flex items-center justify-between">
-                        My Dashboard
+                        {dictionary.web.header.dashboard}
                         <LayoutDashboard className="h-5 w-5" />
                       </Link>
                     </SignedIn>
@@ -225,7 +225,8 @@ export const Header = ({ dictionary }: HeaderProps) => {
                     <SignedOut>
                       <SignInButton mode="modal" fallbackRedirectUrl="/dashboard">
                         <button onClick={() => setOpen(false)} className="text-xl font-medium tracking-tight hover:text-primary transition-colors flex items-center justify-between w-full text-left">
-                          My Dashboard
+                                                  {dictionary.web.header.dashboard}
+
                           <LayoutDashboard className="h-4 w-4" />
                         </button>
                       </SignInButton>

@@ -38,6 +38,7 @@ export const FileManagerClient = ({ dictionary, locale }: FileManagerClientProps
   const [masterFile, setMasterFile] = useState<File | null>(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [artistName, setArtistName] = useState(""); 
   const [trackName, setTrackName] = useState("");
   const [promoCode, setPromoCode] = useState("");
   
@@ -45,6 +46,7 @@ export const FileManagerClient = ({ dictionary, locale }: FileManagerClientProps
   const [uploadProgress, setUploadProgress] = useState(0);
   const [error, setError] = useState<string | null>(null);
 
+  // Auto-fill logic for logged-in users
   useEffect(() => {
     if (isLoaded && isSignedIn && user) {
       const fullName = user.fullName || 
@@ -52,8 +54,23 @@ export const FileManagerClient = ({ dictionary, locale }: FileManagerClientProps
                        user.username || "";
       setName(fullName);
       setEmail(user.primaryEmailAddress?.emailAddress || "");
+      
+      // If artist name is empty, initialize it with the user's name/alias
+      if (!artistName) {
+        setArtistName(user.username || fullName);
+      }
     }
   }, [isLoaded, isSignedIn, user]);
+
+  // Logic: When a guest types their name, auto-fill artist name too
+  const handleNameChange = (val: string) => {
+    setName(val);
+    // Only mirror to artistName if NOT signed in and artistName hasn't been manually diverged yet
+    // Or simply always mirror until the user manually touches the artistName field
+    if (!isSignedIn) {
+      setArtistName(val);
+    }
+  };
 
   const validCode = process.env.NEXT_PUBLIC_FREE_UPLOAD_CODE;
   const isFree = promoCode.trim().length > 0 && 
@@ -62,7 +79,6 @@ export const FileManagerClient = ({ dictionary, locale }: FileManagerClientProps
   const sanitize = (str: string) =>
     str.trim().toLowerCase().replace(/\s+/g, "_").replace(/[^a-z0-9.@_-]/g, "").replace(/_+/g, "_");
 
-  // Improved Upload Function with Real Progress tracking
   async function uploadToR2(file: File, key: string, onFileProgress: (loaded: number) => void) {
     const presign = await fetch("/api/upload", {
       method: "POST",
@@ -79,9 +95,7 @@ export const FileManagerClient = ({ dictionary, locale }: FileManagerClientProps
       xhr.setRequestHeader("Content-Type", file.type);
 
       xhr.upload.onprogress = (e) => {
-        if (e.lengthComputable) {
-          onFileProgress(e.loaded);
-        }
+        if (e.lengthComputable) onFileProgress(e.loaded);
       };
 
       xhr.onload = () => (xhr.status === 200 ? resolve(true) : reject());
@@ -99,13 +113,12 @@ export const FileManagerClient = ({ dictionary, locale }: FileManagerClientProps
 
     setIsUploading(true);
     setError(null);
-    setUploadProgress(1); // Visual feedback immediately
+    setUploadProgress(1);
 
     try {
       const allFiles = [masterFile, ...projectFiles];
       const totalSize = allFiles.reduce((acc, f) => acc + f.size, 0);
 
-      // --- STAGE 1: Hashing (Simulate 1% to 10%) ---
       const hashTick = setInterval(() => {
         setUploadProgress((prev) => (prev < 10 ? prev + 1 : prev));
       }, 400);
@@ -113,9 +126,8 @@ export const FileManagerClient = ({ dictionary, locale }: FileManagerClientProps
       const hash = await hashFolder(allFiles);
       clearInterval(hashTick);
       setUploadProgress(10); 
-
-      // --- STAGE 2: Real Upload (10% to 100%) ---
-      const folderPrefix = `user_${user?.id || 'guest'}/${sanitize(trackName)}_"hash"_${hash}/`;
+      const timestamp = Date.now();
+      const folderPrefix = `userId_${user?.id || 'guest'}/_trackName_${sanitize(trackName)}_promoCode_${promoCode}_timestamp_${timestamp}_folderHash_${hash}/`;
       let totalLoaded = 0;
       const fileLoadMap = new Map<string, number>();
 
@@ -123,38 +135,32 @@ export const FileManagerClient = ({ dictionary, locale }: FileManagerClientProps
         const key = folderPrefix + pathSuffix;
         await uploadToR2(file, key, (bytesLoaded) => {
           fileLoadMap.set(key, bytesLoaded);
-          
-          // Sum up all currently loaded bytes
           const currentTotalLoaded = Array.from(fileLoadMap.values()).reduce((a, b) => a + b, 0);
-          
-          // Map the 0-100% upload range to the 10-100% UI range
           const rawPercentage = (currentTotalLoaded / totalSize) * 90;
           setUploadProgress(Math.round(10 + rawPercentage));
         });
       };
 
-      // Upload Master first
       await runUpload(masterFile, "master_" + masterFile.name);
 
-      // Upload Project Files
       for (const file of projectFiles) {
         const relativePath = file.webkitRelativePath || file.name;
         await runUpload(file, "project/" + relativePath);
       }
 
-      // --- STAGE 3: Finalize ---
       const verifyRes = await fetch("/api/upload", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
           endpoint: "verify-promo", 
-          userId: user?.id ,
+          userId: user?.id,
           promoCode: promoCode.trim(),
           email,
-          artistName: name,
+          artistName: artistName,
           trackName: trackName,
           storagePath: folderPrefix,
-          folderHash: hash 
+          folderHash: hash,
+          userName: name,
         }),
       });
 
@@ -169,14 +175,14 @@ export const FileManagerClient = ({ dictionary, locale }: FileManagerClientProps
     }
   };
 
-  const allFieldsFilled = !!name && !!email && !!trackName && !!masterFile && projectFiles.length > 0;
+  const allFieldsFilled = !!artistName && !!email && !!trackName && !!masterFile && projectFiles.length > 0;
 
   return (
     <div className="w-full py-12 lg:py-24">
       <div className="container mx-auto max-w-6xl px-4">
         <div className="grid gap-12 lg:grid-cols-2 items-start">
           
-          {/* Left Column */}
+          {/* Left Column (Info) */}
           <div className="flex flex-col gap-10">
             <div className="space-y-4">
               <h1 className="font-bold text-4xl tracking-tighter md:text-5xl lg:text-6xl leading-tight">
@@ -210,24 +216,6 @@ export const FileManagerClient = ({ dictionary, locale }: FileManagerClientProps
                     </div>
                   </div>
                 ))}
-
-                <div className="mt-auto pt-8 border-t border-dashed">
-                  {isSignedIn ? (
-                    <Button asChild variant="secondary" className="gap-2 w-full md:w-auto">
-                      <Link href={`/${locale}/dashboard`}>
-                        <LayoutDashboard className="h-4 w-4" />
-                        Access my dashboard
-                      </Link>
-                    </Button>
-                  ) : (
-                    <SignInButton mode="modal">
-                      <Button variant="secondary" className="gap-2 w-full md:w-auto">
-                        <LayoutDashboard className="h-4 w-4" />
-                        Access my dashboard
-                      </Button>
-                    </SignInButton>
-                  )}
-                </div>
               </div>
             </div>
           </div>
@@ -236,15 +224,6 @@ export const FileManagerClient = ({ dictionary, locale }: FileManagerClientProps
           <div className="flex items-start justify-center">
             <div className="w-full max-w-md flex flex-col gap-6 rounded-2xl border bg-card p-8 shadow-sm">
               
-              {!isSignedIn && (
-                <div className="flex items-center gap-2 p-3 rounded-lg bg-primary/5 border border-primary/10 text-xs text-primary">
-                  <Info className="h-4 w-4 shrink-0" />
-                  <p>
-                    <strong>Pro tip:</strong> Signing in lets you track your certifications, but it&apos;s not required!
-                  </p>
-                </div>
-              )}
-
               <div className="flex flex-col gap-1">
                 <h2 className="text-2xl font-bold">{t.uploadTitle}</h2>
                 <p className="text-sm text-muted-foreground">{t.description_subtitle_1}</p>
@@ -252,28 +231,64 @@ export const FileManagerClient = ({ dictionary, locale }: FileManagerClientProps
 
               <form onSubmit={handleUpload} className="flex flex-col gap-5">
                 <div className="grid gap-4">
+                  
+                  {/* Account Name - Triggers Artist Name if Guest */}
                   <div className="grid gap-2">
-                    <Label>{contactFormT.firstName || "Name"}</Label>
-                    <Input value={name} onChange={(e) => setName(e.target.value)} disabled={isUploading || !isLoaded} required />
+                    <Label>{contactFormT.firstName || "Your Name"}</Label>
+                    <Input 
+                        value={name} 
+                        onChange={(e) => handleNameChange(e.target.value)} 
+                        disabled={isUploading || !isLoaded} 
+                        placeholder="First and Last Name"
+                        required 
+                    />
                   </div>
+
                   <div className="grid gap-2">
                     <Label>Email</Label>
                     <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} disabled={isUploading || !isLoaded} required />
                   </div>
+
+                  {/* Artist Name Input - Editable independently */}
+                  <div className="grid gap-2">
+                    <Label>
+                      {dictionary.web.upload.files.trackName?.replace("Art", "Artist") || "Artist Name"}
+                    </Label>
+                    <Input 
+                      placeholder="e.g. Stage name / Alias" 
+                      value={artistName} 
+                      onChange={(e) => setArtistName(e.target.value)} 
+                      disabled={isUploading}
+                      required 
+                    />
+                    <p className="text-[10px] text-muted-foreground italic">
+                      This name will be displayed on the final certificate.
+                    </p>
+                  </div>
+
                   <div className="grid gap-2">
                     <Label>{t.trackName || "Track Title"}</Label>
                     <Input value={trackName} onChange={(e) => setTrackName(e.target.value)} disabled={isUploading} required />
                   </div>
+                  
                   <div className="grid gap-2 pt-2">
-                    <Label className="flex items-center gap-2"><FolderOpen className="h-4 w-4 text-primary" /> {t.description_title_2}</Label>
+                    <Label className="flex items-center gap-2">
+                      <FolderOpen className="h-4 w-4 text-primary" /> {t.description_title_2}
+                    </Label>
                     <Input type="file" /* @ts-ignore */ webkitdirectory="" multiple onChange={(e) => e.target.files && setProjectFiles(Array.from(e.target.files))} disabled={isUploading} className="bg-muted/20" />
                   </div>
+                  
                   <div className="grid gap-2">
-                    <Label className="flex items-center gap-2"><FileAudio className="h-4 w-4 text-primary" /> {t.description_title_3}</Label>
-                    <Input type="file" accept="audio/*" onChange={(e) => setMasterFile(e.target.files ? e.target.files[0] : null)} disabled={isUploading} className="bg-muted/20" />
+                    <Label className="flex items-center gap-2">
+                      <FileAudio className="h-4 w-4 text-primary" /> {t.description_title_3}
+                    </Label>
+                    <Input type="file"  onChange={(e) => setMasterFile(e.target.files ? e.target.files[0] : null)} disabled={isUploading} className="bg-muted/20" />
                   </div>
+                  
                   <div className="grid gap-2 pt-4 border-t mt-2">
-                    <Label className="flex items-center gap-2 text-xs font-bold text-muted-foreground uppercase"><TicketPercent className="h-3.5 w-3.5" /> Promo Code</Label>
+                    <Label className="flex items-center gap-2 text-xs font-bold text-muted-foreground uppercase">
+                      <TicketPercent className="h-3.5 w-3.5" /> Promo Code
+                    </Label>
                     <Input placeholder="Enter code" value={promoCode} onChange={(e) => { setPromoCode(e.target.value); setError(null); }} disabled={isUploading} className={isFree ? "border-green-500 ring-0 bg-green-500/5" : ""} />
                   </div>
                 </div>

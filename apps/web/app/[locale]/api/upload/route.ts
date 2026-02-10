@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
       const userCode = body.promoCode?.trim().toUpperCase();
       const isValid = userCode === serverSecret.toUpperCase();
 
-      const { promoCode, email, userId, trackName, storagePath, folderHash} = body;
+      const { promoCode, email,name, userId, trackName, storagePath, folderHash, artistName} = body;
       if (!userId) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
       }
@@ -24,8 +24,10 @@ export async function POST(request: NextRequest) {
             promoCode: promoCode || null,
             email: email,
             title: trackName,
+            userName: name,
+            artistName : artistName,
             authorId: userId || null, // Links to User.id (Clerk ID)
-            audioUrl: storagePath, // Storing the R2 path
+            storagePath: storagePath, // Storing the R2 path
             isVerified: "pending",
             slug: `${userId}-${Date.now()}`, 
             folderHash: folderHash

@@ -2,15 +2,90 @@
   "web": {
     "global": {
       "primaryCta": "Get Certified",
-      "secondaryCta": "Verify a Track"
+      "secondaryCta": "Verify a Track",
+      "aboutUs": "About Us"
+      
     },
+
+    "pricing": {
+      "title": "Protect your craft. Secure your rights.",
+      "subtitle": "Choose the plan that fits your career—from single releases to entire catalogs.",
+
+      "tiers": {
+        "artist": {
+          "name": "Artist",
+          "description": "For independent artists who want to stand out. Prove your single is 100% human-made. Up to 5GB file uploads.",
+          "price": "$15",
+          "priceUnit": "/track",
+          "button": "Verify Track",
+          "buttonLink": "/get-certified"
+        },
+        "producer": {
+          "name": "Producer",
+          "description": "For beatmakers and career musicians. Sell \"Certified Human\" beats at a premium. Up to 15GB file uploads.",
+          "price": "$49",
+          "priceUnit": "/month",
+          "badge": "Best Value",
+          "button": "Start Subscription",
+          "buttonLink": "/signup"
+        },
+        "label": {
+          "name": "Label / Sync",
+          "description": "Protect your catalog from non-copyrightable AI content. Due diligence for A&R.",
+          "price": "Custom",
+          "button": "Contact Sales",
+          "buttonLink": "/contact"
+        }
+      },
+
+      "features": {
+        "proofAndCertificates": "Proof & Certificates",
+        "expertHumanReview": "Expert Human Review",
+        "blockchainTimestamp": "Arbitrum Blockchain Anchor",
+        "tracksIncluded": "Tracks Included",
+        "businessAndLegal": "Business & Legal",
+        "copyrightRiskAudit": "Copyright Risk Audit",
+        "certifiedHumanBadges": "\"Certified Human\" Badges",
+        "turnaroundTime": "Turnaround Time"
+      },
+
+      "featureValues": {
+        "artist": {
+          "tracks": "1 Track",
+          "turnaround": "72 Hours"
+        },
+        "producer": {
+          "tracks": "5 Tracks / mo",
+          "turnaround": "24 Hours",
+          "badges": true
+        },
+        "label": {
+          "tracks": "Unlimited / Bulk",
+          "audit": true,
+          "badges": true,
+          "turnaround": "SLA Contract"
+        }
+      },
+
+      "mobile": {
+        "bestValueBadge": "Best Value"
+      }
+    },
+  
+
+
     "header": {
+      "dashboard" : "My Dashboard",
+      "admin" : "Admin Panel",
+      "signin" : "Sign In",
+
       "home": "Home",
       "product": {
         "title": "Certificate",
         "description": "Prove your music is 100% human-made.",
         "pricing": "Pricing"
       },
+   
       "whitepaper": "Whitepaper",
       "contact": "Contact",
       "about": "About Us",
@@ -25,12 +100,16 @@
 
         "description": "We verify, certify, and anchor your art to the blockchain to prove it is human-made. Secure your art's legacy forever. "
       },
-      "hero": {
-        "announcement": "Now anchoring on Arbitrum Mainnet"
-      },
+        "hero": {
+    "announcement": "Now anchoring on Arbitrum Mainnet",
+    "ctaPrimary": "Get Certified",
+    "ctaSecondary": "About Us"
+  },
         "cases": {
           "title": "Trusted by Independent Artists & Labels"
         },
+
+        
       "features": {
         "title": "Authenticity in the Age of AI",
         "description": "A robust verification protocol combining expert human review with immutable blockchain technology.",
@@ -171,7 +250,7 @@
         "form": {
           "title": "Get in touch",
           "date": "Date",
-          "firstName": "First name",
+          "firstName": "First & Last Names",
           "lastName": "Last name",
           "resume": "Upload press kit (optional)",
           "cta": "Send Message"
@@ -201,10 +280,10 @@
         "form": {
           "title": "Upload your folder",
           "date": "Date",
-          "firstName": "First name",
+          "firstName": "First & Last Names",
           "lastName": "Last name",
           "downloadLink": "Download Link",
-          "artistName": "Last name",
+          "artistName": "Artist Name",
           "isrc": "Track ISRC",
           "album": "Album title",
           "cta": "Send Message"
@@ -285,9 +364,98 @@
   "payment": {
       "title": "Complete your Payment",
       "description": "Final step to process your files."
+    },
+
+
+    "whitepaper": {
+  "meta": {
+    "title": "Humartz White Paper | Proof of Humanity Protocol",
+    "description": "The technical documentation for the Humartz cryptographic verification protocol."
+  },
+  "backToHome": "Back to Home",
+  "version": "Version 1.0 — January 2026",
+  "headline": "The Humartz Protocol",
+  "subtitle": "Proving human origin in the age of generative AI by establishing a decentralized, cryptographic standard.",
+
+  "sections": {
+    "abstract": {
+      "title": "1. Abstract",
+      "p1": "Humartz is an open-source certification protocol for human-created content.",
+      "p1_link_text": "open-source",
+      "p2": "As generative systems make content creation effectively infinite, the economic value of creative work shifts from production to provenance. The central question is no longer how content is made, but whether its human origin can be independently verified.",
+      "p3": "Humartz addresses this by providing a tamper-resistant certification process that binds verified human identity, creation telemetry, and cryptographic proofs into a publicly verifiable record. Rather than storing or distributing creative works, the protocol anchors proofs of human authorship on-chain, enabling platforms, licensors, and third parties to verify origin without accessing the underlying content."
+    },
+    "challenges": {
+      "scale": {
+        "title": "Scale Challenges",
+        "description": "Automated AI systems can generate content at a scale that overwhelms traditional discovery, attribution, and licensing mechanisms."
+      },
+      "trust": {
+        "title": "Trust Gap",
+        "description": "Platforms and users cannot reliably identify AI-generated content, creating uncertainty about provenance."
+      }
+    },
+    "solution": {
+      "title": "2. The Solution",
+      "intro": "Humartz provides <strong>public cryptographic proof</strong> of your creation's provenance, by anchoring its human status to the blockchain.",
+      "humanityHashComment": "// The Humanity Hash",
+      "humanityHash": "Hash = Keccak256(ContentID + Proof Folder Hash)",
+      "note": "Humartz does not evaluate artistic quality or originality. The protocol certifies that a specific piece of content was created through a verifiable human-led process at a given point in time."
+    },
+    "workflow": {
+      "title": "3. The Certification Workflow",
+      "intro": "To distinguish a prompted generation from a composed work, Humartz captures the <strong>telemetry of creation</strong>. The certification process verifies final files as well as the effort exerted during the creative process.",
+      "steps": [
+        {
+          "title": "1. Identity Verification",
+          "description": "The creator provides the auditor with a proof of identity. This binds a specific wallet address to a verified human entity."
+        },
+        {
+          "title": "2. The Proof Folder",
+          "p1": "Unlike automated generation, human creation is iterative and time-bound.",
+          "p2": "Humartz evaluates session-level telemetry derived from project files to assess temporal effort and human intervention.",
+          "p3": "Signals may include creation timestamps, edit history and track modifications.",
+          "p4": "If metadata checks are inconclusive, or if session files cannot be shared due to technical or contractual constraints, a remote video verification may be scheduled to confirm the authenticity of the session without transferring files."
+        },
+        {
+          "title": "3. Hashing & Blockchain Commitment",
+          "p1": "The Proof Folder is hashed locally as a single unit. This hash acts as a cryptographic fingerprint of the entire certification process.",
+          "p2": "The resulting hash is submitted to the blockchain, which records the certification event in a time-stamped tamper-resistant log.",
+          "p3": "Humartz does not store creative content, session files, or raw telemetry. Only derived metadata and cryptographic commitments are retained."
+        }
+      ]
+    },
+    "economic": {
+      "title": "4. Economic Model",
+      "p1": "Humartz operates as a certification protocol. Fees are assessed per certification, reflecting the computational, verification, and anchoring costs associated with establishing human provenance.",
+      "p2": "No recurring royalties, ownership claims, or content custody obligations are imposed by the protocol."
+    },
+    "join": {
+      "title": "Join the Protocol",
+      "description": "At Humartz, we provide the cryptographic infrastructure to value and protect human intent in a digital-first world.",
+      "button": "Contact Sales"
     }
-   
+  }
+},
+   "dashboard": {
+  "welcome": "Welcome back",
+  "noNameFallback": "Artist",
+  "myCatalogue": "My Catalogue",
+  "catalogueDescription_one": "You have 1 track in your library.",
+  "catalogueDescription_other": "You have {count} tracks in your library.",
+  "newCertification": "New Certification",
+  "certified": "Certified",
+  "pending": "Pending",
+  "notCertified": "Not Certified",
+  "folderHashLabel": "Folder Hash",
+  "txHashLabel": "Blockchain",
+  "noTracks": "No tracks found. Start by certifying your first work.",
+  "databaseOverview": "Database Overview",
+  "verificationNote": "Verification hashes (fingerprints) are immutably anchored to the Arbitrum L2 network.",
+  "blockchainAddress": "Blockchain Address"
+}
   }
 
+  
 
 }

@@ -17,6 +17,7 @@ model User {
   email     String   @unique
   name      String?
   username  String?  @unique
+  artistname String?  
   bio       String?
   avatarUrl String?
   createdAt DateTime @default(now())
@@ -69,24 +70,20 @@ model Track {
   isVerified  String        @default("pending")
   title       String
   slug        String?       @unique
-  duration    Int?
-  trackNumber Int?
   diskNumber  Int?          @default(1)
-  bpm         Float?
-  musicalKey  String?
   isExplicit  Boolean       @default(false)
   releaseDate DateTime?
   description String?
   lyrics      String?
-  audioUrl    String?
-  artworkUrl  String?
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
-  promoCode   String?       // Added promoCode field
-  txHash      String?       // Added txHash field
-  authorId    String        
-  Userid String?
-  
+  promoCode   String?     
+  txHash      String?       
+  authorId    String?       
+  Userid      String?
+  userName    String?
+  artistName  String?
+  storagePath      String?     
   albumId     Int?
   Album       String?        
   artists     String? 

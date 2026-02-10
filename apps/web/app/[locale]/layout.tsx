@@ -29,11 +29,13 @@ const RootLayout = async ({ children, params }: RootLayoutProperties) => {
       lang="en"
       suppressHydrationWarning
     >
-      <body>
+      <body >
           <AuthProvider>
         <AnalyticsProvider>
           <DesignSystemProvider>
               {/* <div className="abstract-background min-h-screen flex flex-col"> */}
+
+              
             <Header dictionary={dictionary} />
        {children}
             <Footer />

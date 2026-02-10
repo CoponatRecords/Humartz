@@ -16,7 +16,7 @@ const languages = [
   // { label: "🇪🇸 Español", value: "es" },
   // { label: "🇩🇪 Deutsch", value: "de" },
   // { label: "🇨🇳 中文", value: "zh" },
-  // { label: "🇫🇷 Français", value: "fr" },
+  { label: "🇫🇷 Français", value: "fr" },
   // { label: "🇵🇹 Português", value: "pt" },
 ];
 
@@ -45,8 +45,8 @@ export const LanguageSwitcher = () => {
   };
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+<DropdownMenu modal={false}>
+        <DropdownMenuTrigger asChild>
         <Button
           className="shrink-0 text-foreground"
           size="icon"

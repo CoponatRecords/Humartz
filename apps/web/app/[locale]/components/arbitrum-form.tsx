@@ -12,7 +12,8 @@ import {
   Database,
   Fingerprint,
   Cloud,
-  TableProperties
+  TableProperties,
+  User
 } from "lucide-react";
 import { BrowserProvider, Contract, Interface } from "ethers";
 
@@ -33,6 +34,7 @@ type ArbitrumFormProps = { dictionary: Dictionary };
 export const ArbitrumForm = ({ dictionary }: ArbitrumFormProps) => {
   // --- STATE MANAGEMENT ---
   const [trackId, setTrackId] = useState(""); 
+  const [artistName, setArtistName] = useState(""); // New state for Artist Name
   const [dbStatus, setDbStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
   const [greeting, setGreeting] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -46,13 +48,17 @@ export const ArbitrumForm = ({ dictionary }: ArbitrumFormProps) => {
   const [readError, setReadError] = useState<string | null>(null);
 
   // --- API HELPERS ---
-  const updateDatabaseWithHash = async (id: string, hash: string) => {
+  const updateDatabaseWithHash = async (id: string, hash: string, artist: string) => {
     setDbStatus("saving");
     try {
       const res = await fetch("/api/tracks/update-tx", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ trackId: id, transactionHash: hash }),
+        body: JSON.stringify({ 
+          trackId: id, 
+          transactionHash: hash,
+          artistName: artist // Sending the artist name to the database
+        }),
       });
       if (!res.ok) throw new Error("DB update failed");
       setDbStatus("saved");
@@ -64,8 +70,8 @@ export const ArbitrumForm = ({ dictionary }: ArbitrumFormProps) => {
   // --- ACTIONS ---
   const submitGreeting = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!trackId) {
-        setErrorMessage("Please enter a valid Track ID.");
+    if (!trackId || !artistName) {
+        setErrorMessage("Please complete all required fields.");
         return;
     }
     setErrorMessage(null);
@@ -92,7 +98,8 @@ export const ArbitrumForm = ({ dictionary }: ArbitrumFormProps) => {
       setTxHash(tx.hash);
       await tx.wait();
 
-      await updateDatabaseWithHash(trackId, tx.hash);
+      // Updated to send artistName
+      await updateDatabaseWithHash(trackId, tx.hash, artistName);
       setIsSuccess(true);
     } catch (err: any) {
       setErrorMessage(err?.reason || err?.message || "Transaction failed.");
@@ -101,6 +108,7 @@ export const ArbitrumForm = ({ dictionary }: ArbitrumFormProps) => {
     }
   };
 
+  // ... (readGreetingByTxHash remains the same)
   const readGreetingByTxHash = async (e: React.FormEvent) => {
     e.preventDefault();
     setReadError(null);
@@ -123,7 +131,7 @@ export const ArbitrumForm = ({ dictionary }: ArbitrumFormProps) => {
     <div className="w-full py-12 lg:py-24">
       <div className="container mx-auto max-w-6xl px-4 grid gap-10 lg:grid-cols-2">
         
-        {/* LEFT COLUMN: INFO & STATUS */}
+        {/* LEFT COLUMN: INFO & STATUS (Unchanged) */}
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-4">
             <h4 className="text-3xl md:text-5xl font-bold tracking-tighter">Blockchain Proof</h4>
@@ -133,7 +141,6 @@ export const ArbitrumForm = ({ dictionary }: ArbitrumFormProps) => {
           </div>
 
           <div className="space-y-4">
-            {/* BLOCK: CONTRACT */}
             <div className="flex items-start gap-4 p-4 rounded-lg border bg-muted/30">
               <ExternalLink className="h-5 w-5 text-primary shrink-0" />
               <div className="overflow-hidden">
@@ -144,7 +151,6 @@ export const ArbitrumForm = ({ dictionary }: ArbitrumFormProps) => {
               </div>
             </div>
 
-            {/* BLOCK: R2 HOST */}
             <div className="flex items-start gap-4 p-4 rounded-lg border bg-muted/30">
               <Cloud className="h-5 w-5 text-orange-400 shrink-0" />
               <div className="overflow-hidden">
@@ -155,7 +161,6 @@ export const ArbitrumForm = ({ dictionary }: ArbitrumFormProps) => {
               </div>
             </div>
 
-            {/* BLOCK: PRISMA STUDIO */}
             <div className="flex items-start gap-4 p-4 rounded-lg border bg-muted/30">
               <TableProperties className="h-5 w-5 text-purple-500 shrink-0" />
               <div className="overflow-hidden">
@@ -166,18 +171,16 @@ export const ArbitrumForm = ({ dictionary }: ArbitrumFormProps) => {
               </div>
             </div>
 
-            {/* DB SYNC STATUS */}
             {dbStatus === "saved" && (
               <div className="flex items-start gap-4 p-4 rounded-lg border border-blue-200 bg-blue-50/50">
                 <Database className="h-5 w-5 text-blue-600 shrink-0" />
                 <div>
                   <p className="text-sm font-medium text-blue-800">Database Synchronized</p>
-                  <p className="text-xs text-blue-600">Linked to track ID: {trackId}</p>
+                  <p className="text-xs text-blue-600">{artistName} — ID: {trackId}</p>
                 </div>
               </div>
             )}
 
-            {/* TX CONFIRMED STATUS */}
             {txHash && (
               <div className="flex items-start gap-4 p-4 rounded-lg border border-green-200 bg-green-50/50">
                 <CheckCircle2 className="h-5 w-5 text-green-600 shrink-0" />
@@ -194,14 +197,12 @@ export const ArbitrumForm = ({ dictionary }: ArbitrumFormProps) => {
 
         {/* RIGHT COLUMN: FORMS */}
         <div className="flex flex-col gap-6">
-          
-          {/* SUBMIT FORM */}
           <div className="p-6 border rounded-xl bg-card shadow-sm">
             {isSuccess ? (
               <div className="text-center py-6 space-y-4">
                 <CheckCircle2 className="h-12 w-12 text-green-500 mx-auto" />
                 <h3 className="text-xl font-bold">Hash Anchored!</h3>
-                <Button variant="outline" onClick={() => { setIsSuccess(false); setGreeting(""); setDbStatus("idle"); }}>
+                <Button variant="outline" onClick={() => { setIsSuccess(false); setGreeting(""); setDbStatus("idle"); setArtistName(""); }}>
                   New Submission
                 </Button>
               </div>
@@ -213,10 +214,13 @@ export const ArbitrumForm = ({ dictionary }: ArbitrumFormProps) => {
                 </div>
                 
                 <div className="space-y-3">
+ 
+
                     <div className="space-y-1">
                         <Label className="text-[10px] uppercase text-muted-foreground">Track ID</Label>
                         <Input placeholder="Internal ID..." value={trackId} onChange={(e) => setTrackId(e.target.value)} required />
                     </div>
+                    
                     <div className="space-y-1">
                         <Label className="text-[10px] uppercase text-muted-foreground">Folder Hash</Label>
                         <Input placeholder="Proof hash..." value={greeting} onChange={(e) => setGreeting(e.target.value)} required />
@@ -237,7 +241,7 @@ export const ArbitrumForm = ({ dictionary }: ArbitrumFormProps) => {
             )}
           </div>
 
-          {/* VERIFY FORM */}
+          {/* VERIFY FORM (Unchanged) */}
           <div className="p-6 border rounded-xl bg-card shadow-sm">
             <form onSubmit={readGreetingByTxHash} className="space-y-4">
               <div className="flex items-center gap-2 border-b pb-2 mb-4">
