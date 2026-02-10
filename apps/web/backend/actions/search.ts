@@ -9,7 +9,8 @@ export type SearchResults = {
     txHash: string | null;
     title: string; 
     slug: string | null; 
-    artistName: string; 
+    artistName: string | null;
+    userName: string | null;
     verificationStatus: string | null 
   }[];
   artists: { 
@@ -36,7 +37,10 @@ export async function searchGlobal(query: string): Promise<SearchResults> {
           { title: { contains: cleanQuery, mode: "insensitive" } },
           { folderHash: { contains: cleanQuery, mode: "insensitive" } },
           { txHash: { contains: cleanQuery, mode: "insensitive" } },
-          { artists: { contains: cleanQuery, mode: "insensitive" } }
+          { artists: { contains: cleanQuery, mode: "insensitive" } },
+          { userName: { contains: cleanQuery, mode: "insensitive" } },
+          { artistName: { contains: cleanQuery, mode: "insensitive" } }
+
         ]
       },
       take: 5,
