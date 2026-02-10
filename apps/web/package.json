@@ -64,7 +64,7 @@
     "react-google-recaptcha-v3": "^1.11.0",
     "require-in-the-middle": "8.0.1",
     "sharp": "^0.34.5",
-    "shiki": "^3.19.0",
+    "shiki": "^3.22.0",
     "stripe": "^20.2.0",
     "svix": "^1.84.1",
     "tailwind-merge": "^3.4.0",
