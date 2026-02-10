@@ -2,6 +2,7 @@
   "web": {
     "global": {
       "primaryCta": "Se faire certifier",
+      "primaryCtaNow": "Se faire certifier maintenant",
       "secondaryCta": "Vérifier un morceau",
       "aboutUs": "À propos"
     },
@@ -11,7 +12,7 @@
       "tiers": {
         "artist": {
           "name": "Artiste",
-          "description": "Pour les artistes indépendants qui veulent se démarquer. Prouvez que votre single est 100% humain. Jusqu'à 5 Go de téléchargement.",
+          "description": "Pour les artistes indépendants qui veulent se démarquer. Prouvez que votre single est 100% humain. Jusqu'à 5 Go de fichiers.",
           "price": "15€",
           "priceUnit": "/morceau",
           "button": "Vérifier le morceau",
@@ -19,7 +20,7 @@
         },
         "producer": {
           "name": "Producteur",
-          "description": "Pour les beatmakers et musiciens professionnels. Vendez vos beats « Certifiés Humains » à un prix premium. Jusqu'à 15 Go.",
+          "description": "Pour les beatmakers et musiciens pro. Vendez vos beats « Certifiés Humains » à prix premium. Jusqu'à 15 Go.",
           "price": "49€",
           "priceUnit": "/mois",
           "badge": "Meilleure offre",
@@ -28,7 +29,7 @@
         },
         "label": {
           "name": "Label / Sync",
-          "description": "Protégez votre catalogue contre les contenus IA non protégés par le droit d'auteur. Audit pour l'A&R.",
+          "description": "Protégez votre catalogue contre les contenus IA non copyrightables. Audit pour l'A&R.",
           "price": "Sur mesure",
           "button": "Contacter l'équipe commerciale",
           "buttonLink": "/contact"
@@ -66,14 +67,15 @@
       }
     },
     "header": {
-      "home": "Accueil",
-      "dashboard" : "Mes Projets",
-      "admin" : "Administrateur ",
-      "signin" : "Se Connecter",
+      "dashboard": "Mon Tableau de bord",
+        "Arbiscan": "Arbiscan",
 
+      "admin": "Panel Admin",
+      "signin": "Se connecter",
+      "home": "Accueil",
       "product": {
         "title": "Certificat",
-        "description": "Prouvez que votre musique est 100 % humaine.",
+        "description": "Prouvez que votre musique est 100% humaine.",
         "pricing": "Tarifs"
       },
       "whitepaper": "Livre blanc",
@@ -86,10 +88,32 @@
       "meta": {
         "title": "Humartz",
         "subtitle": "Le Standard du Fait-Main",
-        "description": "Nous vérifions, certifions et ancrons votre projet artistique sur la blockchain pour prouver sa création humaine."
+        "description": "Nous vérifions, certifions et ancrons votre art sur la blockchain pour prouver sa création humaine. Sécurisez votre héritage artistique pour toujours."
+      },
+      "getStartedTitle": "Démarrez en quelques secondes",
+      "getStartedSubtitle": "Sécurisé sur la blockchain",
+      "getStartedTags": [
+        "Musique",
+        "Photographie",
+        "Art Digital",
+        "Modèles 3D",
+        "Multi-média"
+      ],
+      "getStartedP1": "Humartz est le premier protocole qui certifie votre art comme étant réellement créé par l'homme à l'ère des contenus générés par l'IA.",
+      "getStartedP2": "Nous fournissons un système de preuve de création pour certifier votre travail et protéger votre propriété intellectuelle.",
+      "showcase": {
+        "arbiscanDescription": "Vérification on-chain via Arbitrum One.",
+        "whitepaperDescription": "Documentation du protocole cryptographique.",
+        "dashboardDescription": "Gérez votre catalogue et vos certifications.",
+        "openDashboard": "Ouvrir le tableau de bord",
+        "viewOnArbiscan": "Voir sur Arbiscan →",
+        "protocolSpec": "LE PROTOCOLE HUMARTZ",
+        "whitepaperTeaser": "Le protocole Humartz établit une couche de vérification décentralisée de preuve d'humanité utilisant des preuves à divulgation nulle de connaissance...",
+        "storageLabel": "Stockage",
+        "identityLabel": "Identité"
       },
       "hero": {
-        "announcement": "Ancrage désormais disponible sur le réseau principal Arbitrum",
+        "announcement": "Ancrage désormais disponible sur Arbitrum Mainnet",
         "ctaPrimary": "Se faire certifier",
         "ctaSecondary": "À propos"
       },
@@ -98,7 +122,7 @@
       },
       "features": {
         "title": "L'authenticité à l'ère de l'IA",
-        "description": "Un protocole de vérification robuste combinant un examen humain expert et la technologie blockchain immuable.",
+        "description": "Un protocole de vérification robuste combinant examen humain expert et technologie blockchain immuable.",
         "items": [
           {
             "title": "Examen humain expert",
@@ -109,7 +133,7 @@
             "description": "Votre certificat est haché et ancré sur la blockchain Arbitrum, créant un horodatage inaltérable."
           },
           {
-            "title": "Protection de la propriété intellectuelle",
+            "title": "Protection de la PI",
             "description": "Nous ne publions jamais vos fichiers. Seul le hash cryptographique est public, gardant votre travail créatif privé et sécurisé."
           },
           {
@@ -120,19 +144,19 @@
       },
       "stats": {
         "title": "Préserver la créativité humaine",
-        "description": "Rejoignez le mouvement des artistes protégeant leur métier contre la génération par l'IA. Nous établissons le standard de l'authenticité.",
+        "description": "Rejoignez le mouvement des artistes protégeant leur métier. Nous établissons le standard de l'authenticité.",
         "items": [
           {
             "title": "Morceaux certifiés",
             "metric": "00000",
             "delta": "100",
-            "type": "unité"
+            "type": "unit"
           },
           {
             "title": "Artistes protégés",
             "metric": "0",
             "delta": "100",
-            "type": "unité"
+            "type": "unit"
           }
         ]
       },
@@ -141,7 +165,7 @@
         "items": [
           {
             "title": "La tranquillité d'esprit",
-            "description": "Enfin un moyen de prouver que mes beats sont réellement les miens. Le certificat est professionnel et la preuve blockchain est incontestable.",
+            "description": "Enfin un moyen de prouver que mes beats sont réellement les miens. Le certificat est professionnel et la preuve blockchain incontestable.",
             "author": {
               "name": "Sarah J.",
               "image": "https://github.com/shadcn.png"
@@ -149,7 +173,7 @@
           },
           {
             "title": "Essentiel pour les labels",
-            "description": "Pour un petit label, vérifier les démos est un cauchemar. Humartz nous donne un standard pour faire confiance aux artistes que nous signons.",
+            "description": "Vérifier les démos est un cauchemar. Humartz nous donne un standard pour faire confiance aux artistes que nous signons.",
             "author": {
               "name": "Marcus R.",
               "image": "https://github.com/leerob.png"
@@ -157,7 +181,7 @@
           },
           {
             "title": "Prêt pour le futur",
-            "description": "Avec l'IA qui inonde Spotify, avoir le sceau Humartz distingue mon catalogue comme un art humain de qualité supérieure.",
+            "description": "Avec l'IA qui inonde les plateformes, le sceau Humartz distingue mon catalogue comme un art humain premium.",
             "author": {
               "name": "David K.",
               "image": "https://github.com/haydenbleasel.png"
@@ -165,7 +189,7 @@
           },
           {
             "title": "Processus facile",
-            "description": "J'ai juste téléchargé mes stems, et 24 heures plus tard, j'avais mon certificat ancré sur Arbitrum. Très fluide.",
+            "description": "J'ai téléchargé mes stems, et 24 heures plus tard, j'avais mon certificat ancré sur Arbitrum. Très fluide.",
             "author": {
               "name": "Elena V.",
               "image": "https://github.com/pontusab.png"
@@ -175,68 +199,68 @@
       },
       "faq": {
         "title": "FAQ du protocole de vérification",
-        "description": "Comprenez comment nous protégeons votre musique et pourquoi notre approche hybride manuel-blockchain est la référence.",
-        "cta": "Besoin de plus de détails ? Contactez le support",
+        "description": "Comprenez comment nous protégeons votre musique et pourquoi notre approche hybride est la référence.",
+        "cta": "Besoin de détails ? Contactez le support",
         "items": [
           {
             "question": "Comment vérifiez-vous la musique ?",
-            "answer": "Nous utilisons une approche 'Human-in-the-Loop'. Vous soumettez les stems du projet ou les fichiers de session. Nos ingénieurs du son les examinent pour détecter toute trace d'IA générative. Une fois approuvées, les données sont hachées."
+            "answer": "Nous utilisons une approche 'Human-in-the-Loop'. Vous téléchargez vos stems ou fichiers de session. Nos ingénieurs les examinent pour détecter toute trace d'IA générative."
           },
           {
             "question": "Qu'est-ce que l'ancrage Arbitrum ?",
-            "answer": "Nous prenons une empreinte numérique (hash racine Merkle Keccak256) de votre certificat et l'inscrivons sur la blockchain Arbitrum. Cela prouve que votre certificat existait à un moment précis et n'a pas été modifié."
+            "answer": "Nous prenons une empreinte numérique (hash Keccak256) de votre certificat et l'inscrivons sur Arbitrum. Cela prouve que votre certificat existait à un moment précis."
           },
           {
             "question": "Mes fichiers sont-ils en sécurité ?",
-            "answer": "Oui. Nous utilisons un stockage chiffré de niveau entreprise. Nous ne publions JAMAIS vos stems bruts ou vos fichiers de projet. Seul le hash cryptographique est rendu public."
+            "answer": "Oui. Nous utilisons un stockage chiffré. Nous ne publions JAMAIS vos stems ou fichiers sources. Seul le hash cryptographique est public."
           },
           {
             "question": "Combien de temps prend la vérification ?",
-            "answer": "Comme nous utilisons un examen manuel pour garantir une précision de 100 %, la vérification prend généralement entre 24 et 48 heures."
+            "answer": "Grâce à l'examen manuel garantissant une précision de 100%, la vérification prend généralement 24 à 48 heures."
           },
           {
             "question": "S'agit-il d'un NFT ?",
-            "answer": "Non. Vous ne frappez pas un jeton pour le trader. Vous recevez un certificat d'authenticité permanent, soutenu par la blockchain, pour vos dossiers et votre réputation."
+            "answer": "Non. Vous ne frappez pas un jeton spéculatif. Vous recevez un certificat d'authenticité permanent et infalsifiable."
           }
         ]
       },
       "cta": {
         "title": "Sécurisez votre discographie dès aujourd'hui",
-        "description": "Ne laissez pas l'IA diluer la valeur de votre travail acharné. Faites vérifier vos projets créatifs et donnez à votre public la preuve qu'il mérite."
+        "description": "Ne laissez pas l'IA diluer la valeur de votre travail. Donnez à votre public la preuve qu'il mérite."
       }
     },
     "blog": {
       "meta": {
         "title": "Blog Humartz",
-        "description": "Actualités sur la détection de musique par IA, la protection des droits d'auteur et les histoires d'artistes."
+        "description": "Actualités sur la détection d'IA, la protection du copyright et histoires d'artistes."
       }
     },
     "contact": {
       "meta": {
         "title": "Contacter Humartz",
-        "description": "Contactez-nous pour un accès API entreprise, des partenariats avec des labels ou de l'aide pour votre vérification."
+        "description": "API entreprise, partenariats labels ou aide pour votre vérification."
       },
       "hero": {
         "benefits": [
           {
             "title": "Support Artiste",
-            "description": "Aide pour le téléchargement des stems ou pour comprendre le processus de certification."
+            "description": "Aide pour l'upload des stems ou le processus de certification."
           },
           {
             "title": "Partenariats Labels",
-            "description": "Solutions de vérification en masse pour les maisons de disques et les éditeurs."
+            "description": "Solutions de vérification en masse pour les maisons de disques et éditeurs."
           },
           {
             "title": "Accès API",
-            "description": "Intégrez le statut de vérification Humartz dans votre propre plateforme ou lecteur."
+            "description": "Intégrez le statut Humartz dans votre propre plateforme ou lecteur."
           }
         ],
         "form": {
           "title": "Entrer en contact",
           "date": "Date",
-          "firstName": "Nom et Prénom",
+          "firstName": "Prénom & Nom",
           "lastName": "Nom",
-          "resume": "Télécharger le dossier de presse (optionnel)",
+          "resume": "Télécharger press kit (optionnel)",
           "cta": "Envoyer le message"
         }
       }
@@ -244,7 +268,7 @@
     "upload": {
       "meta": {
         "title": "Téléchargez vos fichiers",
-        "description": "Téléchargez vos fichiers de session sur un service de partage de fichiers gratuit et envoyez-nous le lien pour vérification via le formulaire fourni."
+        "description": "Utilisez un service de transfert gratuit et envoyez-nous le lien via ce formulaire."
       },
       "hero": {
         "benefits": [
@@ -254,17 +278,17 @@
           },
           {
             "title": "SwissTransfer",
-            "description": "Créez un lien en sélectionnant l'option lien, et votre adresse e-mail pour un code de vérification."
+            "description": "Créez un lien et utilisez votre e-mail pour le code de vérification."
           },
           {
             "title": "Support",
-            "description": "Pour l'API, un accès direct au téléchargement ou une vérification sans transfert, veuillez nous contacter à contact@humartz.com ou via le formulaire."
+            "description": "Pour l'API ou une vérification sans transfert, contactez contact@humartz.com."
           }
         ],
         "form": {
-          "title": "Téléchargez votre dossier",
+          "title": "Soumettre votre dossier",
           "date": "Date",
-          "firstName": "Prénom",
+          "firstName": "Prénom & Nom",
           "lastName": "Nom",
           "downloadLink": "Lien de téléchargement",
           "artistName": "Nom de l'artiste",
@@ -279,63 +303,62 @@
         "benefits": [
           {
             "title": "Support Artiste",
-            "description": "C'est le moyen le plus rapide et le plus fiable de nous envoyer vos fichiers de session (stems, fichiers projet, exports...) pour un examen humain manuel et un ancrage blockchain."
+            "description": "C'est le moyen le plus rapide d'envoyer vos fichiers de session (stems, projets, exports) pour l'examen humain et l'ancrage blockchain."
           },
           {
             "title": "Partenariats Labels",
-            "description": "Solutions de vérification en masse pour les labels et éditeurs."
+            "description": "Solutions de vérification groupée pour les labels et éditeurs."
           },
           {
             "title": "Accès API",
-            "description": "Intégrez le statut de vérification Humartz dans votre propre plateforme."
+            "description": "Intégrez le statut de vérification Humartz directement dans votre plateforme."
           }
         ],
         "benefitsUpload": [
           {
-            "description": "Si vous ne souhaitez partager les fichiers souces de vos projets, vous pouvez nous contacter pour planifier une session d'examen vidéo à distance avec l'un de nos experts."
+            "description": "Si vous ne souhaitez pas passer par un tiers, contactez-nous pour planifier une session de vérification vidéo à distance."
           },
           {
-            "description": "Vous avez un abonnement Producteur, êtes un label ou un éditeur ? Contactez-nous pour des solutions dédiées."
+            "description": "Membre Producteur ou Label ? Contactez-nous pour des solutions de vérification en masse et des options d'upload dédiées."
           }
         ],
         "description_title_1": "Préparez un dossier unique contenant :",
-        "description_title_2": "Étape 1 – Téléchargez votre dossier",
-        "description_title_3": "Étape 2 – Téléchargez le fichier que nous certifions",
-        "trackName": "Nom de l'œuvre",
-          "artistName": "Nom d'artiste",
-
-        "description_title_4": "Et attendez notre examen ! Nous reviendrons vers vous rapidement avec les résultats de la certification.",
-        "description_subtitle_1": "Une fois téléchargé, notre équipe examinera votre soumission et vous répondra sous peu.",
-        "description_subtitle_21": "• Une preuve d'identité valide (carte d'identité, passeport ou permis de conduire)",
-        "description_subtitle_22": "• Tout le matériel original tel que les stems, fichiers MIDI, fichiers .psd, enregistrements audio et vidéo, ou tout fichier de projet pertinent créé pendant la production",
-        "description_subtitle_23": "• Tout fichier supplémentaire démontrant le processus de création humaine (notes, brouillons, captures d'écran, etc.)",
-        "uploadTitle": "Téléchargez votre dossier pour examen",
-        "chooseFile": "Sélectionnez le dossier contenant tous les fichiers requis, jusqu'à 5 Go.",
-        "uploadButton": "Démarrer le téléchargement",
-        "uploading": "Téléchargement des fichiers...",
+        "description_title_2": "Étape 1 – Téléchargez votre dossier de preuves",
+        "description_title_3": "Étape 2 – Téléchargez le fichier à certifier",
+        "trackName": "Nom du morceau",
+        "artistName": "Nom de l'artiste",
+        "description_title_4": "Et attendez notre examen ! Nous reviendrons vers vous rapidement avec les résultats.",
+        "description_subtitle_1": "Une fois envoyé, notre équipe examinera votre soumission.",
+        "description_subtitle_21": "• Une preuve d'identité valide (CNI, Passeport, Permis)",
+        "description_subtitle_22": "• Le matériel original : stems, fichiers MIDI, fichiers de projet ou enregistrements créés durant la production",
+        "description_subtitle_23": "• Tout fichier additionnel démontrant le processus humain (brouillons, captures d'écran, notes)",
+        "uploadTitle": "Télécharger votre dossier pour examen",
+        "chooseFile": "Sélectionnez le dossier contenant tous les fichiers requis (max 5 Go).",
+        "uploadButton": "Démarrer l'upload",
+        "uploading": "Téléchargement en cours…",
         "noFiles": "Aucun fichier sélectionné.",
         "download": "Télécharger",
         "delete": "Supprimer",
         "successUpload": "Dossier téléchargé avec succès !",
-        "errorUpload": "Une erreur est survenue lors du téléchargement de votre dossier.",
-        "successDelete": "Dossier supprimé avec succès !",
-        "errorDelete": "Erreur lors de la suppression du dossier.",
+        "errorUpload": "Erreur lors du téléchargement du dossier.",
+        "successDelete": "Dossier supprimé.",
+        "errorDelete": "Erreur lors de la suppression.",
         "cancel": "Annuler"
       }
     },
     "arbitrum": {
       "meta": {
         "title": "Soumettre à Arbitrum",
-        "description": "Soumettre des données à la blockchain Arbitrum."
+        "description": "Inscrire des données sur la blockchain Arbitrum."
       },
-      "heading": "Soumettre à Arbitrum",
-      "inputPlaceholder": "Entrez les données que vous souhaitez inscrire",
+      "heading": "Ancrage Arbitrum",
+      "inputPlaceholder": "Entrez les données à inscrire",
       "submitButton": "Soumettre",
       "noWallet": "Aucun portefeuille trouvé. Installez Metamask.",
       "wrongNetwork": "Veuillez basculer sur le réseau Arbitrum",
-      "waiting": "Transaction envoyée, en attente de confirmation... ⏳",
+      "waiting": "Transaction envoyée, confirmation en cours... ⏳",
       "success": "Données stockées sur Arbitrum ✅",
-      "failed": "La transaction a échoué ❌"
+      "failed": "Échec de la transaction ❌"
     },
     "payment": {
       "title": "Complétez votre paiement",
@@ -343,75 +366,75 @@
     },
     "whitepaper": {
       "meta": {
-        "title": "Livre Blanc Humartz | Protocole de Preuve d'Humanité",
-        "description": "La documentation technique du protocole de vérification cryptographique Humartz."
+        "title": "Livre Blanc Humartz | Protocole Proof of Humanity",
+        "description": "Documentation technique du protocole de vérification cryptographique Humartz."
       },
       "backToHome": "Retour à l'accueil",
       "version": "Version 1.0 — Janvier 2026",
       "headline": "Le Protocole Humartz",
-      "subtitle": "Prouver l'origine humaine à l'ère de l'IA générative en établissant un standard cryptographique décentralisé.",
+      "subtitle": "Prouver l'origine humaine à l'ère de l'IA générative via un standard cryptographique décentralisé.",
       "sections": {
         "abstract": {
           "title": "1. Résumé",
           "p1": "Humartz est un protocole de certification open-source pour le contenu créé par l'homme.",
           "p1_link_text": "open-source",
-          "p2": "Alors que les systèmes génératifs rendent la création de contenu virtuellement infinie, la valeur économique du travail créatif passe de la production à la provenance. La question centrale n'est plus de savoir comment le contenu est fait, mais si son origine humaine peut être vérifiée de manière indépendante.",
-          "p3": "Humartz répond à cela en fournissant un processus de certification inviolable qui lie l'identité humaine vérifiée, la télémétrie de création et les preuves cryptographiques dans un registre public. Plutôt que de stocker ou distribuer les œuvres, le protocole ancre les preuves de l'auteur humain sur la blockchain."
+          "p2": "Alors que les systèmes génératifs rendent la création infinie, la valeur économique se déplace de la production vers la provenance. La question n'est plus comment le contenu est fait, mais si son origine humaine peut être vérifiée.",
+          "p3": "Humartz répond à cela via un processus infalsifiable liant identité vérifiée, télémétrie de création et preuves cryptographiques. Le protocole ancre ces preuves sur la blockchain."
         },
         "challenges": {
           "scale": {
             "title": "Défis d'Échelle",
-            "description": "Les systèmes d'IA automatisés peuvent générer du contenu à une échelle qui sature les mécanismes traditionnels de découverte, d'attribution et de licence."
+            "description": "L'IA génère du contenu à une échelle qui submerge les mécanismes traditionnels d'attribution."
           },
           "trust": {
-            "title": "Déficit de Confiance",
-            "description": "Les plateformes et les utilisateurs ne peuvent pas identifier de manière fiable les contenus générés par l'IA, créant une incertitude sur la provenance."
+            "title": "Crise de Confiance",
+            "description": "Les plateformes ne peuvent plus identifier l'IA de manière fiable, créant une incertitude sur la provenance."
           }
         },
         "solution": {
           "title": "2. La Solution",
-          "intro": "Humartz fournit une <strong>preuve cryptographique publique</strong> de la provenance de votre création, en ancrant son statut humain sur la blockchain.",
-          "humanityHashComment": "// Le Hash d'Humanité",
-          "humanityHash": "Hash = Keccak256(ID_Contenu + Hash_Dossier_Preuve)",
-          "note": "Humartz n'évalue pas la qualité artistique. Le protocole certifie qu'un contenu spécifique a été créé via un processus humain vérifiable à un moment précis."
+          "intro": "Humartz fournit une <strong>preuve cryptographique publique</strong> de la provenance de votre création.",
+          "humanityHashComment": "// Le Humanity Hash",
+          "humanityHash": "Hash = Keccak256(ContentID + Proof Folder Hash)",
+          "note": "Humartz ne juge pas la qualité artistique mais certifie le processus humain à un instant T."
         },
         "workflow": {
           "title": "3. Flux de Certification",
-          "intro": "Pour distinguer une génération par 'prompt' d'une œuvre composée, Humartz capture la <strong>télémétrie de la création</strong>.",
+          "intro": "Pour distinguer un 'prompt' d'une œuvre composée, Humartz capture la <strong>télémétrie de création</strong>.",
           "steps": [
             {
               "title": "1. Vérification d'Identité",
-              "description": "Le créateur fournit une preuve d'identité à l'auditeur. Cela lie une adresse de portefeuille spécifique à une entité humaine vérifiée."
+              "description": "Le créateur lie un portefeuille spécifique à une entité humaine vérifiée."
             },
             {
               "title": "2. Le Dossier de Preuve",
-              "p1": "Contrairement à la génération automatisée, la création humaine est itérative et limitée dans le temps.",
-              "p2": "Humartz évalue la télémétrie des fichiers de projet pour analyser l'effort temporel et l'intervention humaine.",
-              "p3": "Les signaux incluent les horodatages de création, l'historique des modifications et les ajustements de pistes.",
-              "p4": "Si les métadonnées sont peu concluantes, un examen vidéo à distance peut être programmé pour confirmer l'authenticité de la session."
+              "p1": "La création humaine est itérative et limitée dans le temps.",
+              "p2": "Humartz évalue les métadonnées de session pour confirmer l'effort temporel.",
+              "p3": "Les signaux incluent l'historique d'édition et les modifications de pistes.",
+              "p4": "Une vérification vidéo peut être requise si les fichiers ne peuvent être partagés."
             },
             {
-              "title": "3. Hachage et Engagement Blockchain",
-              "p1": "Le Dossier de Preuve est haché localement. Ce hash agit comme l'empreinte cryptographique de tout le processus de certification.",
-              "p2": "Le hash résultant est soumis à la blockchain, qui enregistre l'événement de certification dans un registre horodaté et inviolable.",
-              "p3": "Humartz ne stocke pas le contenu créatif ni les stems bruts. Seuls les métadonnées dérivées et les engagements cryptographiques sont conservés."
+              "title": "3. Hachage & Engagement Blockchain",
+              "p1": "Le dossier de preuve est haché localement comme empreinte unique.",
+              "p2": "Ce hash est soumis à la blockchain pour un horodatage immuable.",
+              "p3": "Humartz ne stocke pas vos fichiers bruts, seulement les preuves cryptographiques."
             }
           ]
         },
         "economic": {
           "title": "4. Modèle Économique",
-          "p1": "Humartz fonctionne comme un protocole de certification. Des frais sont appliqués par certification, reflétant les coûts de calcul, de vérification et d'ancrage.",
-          "p2": "Aucune redevance récurrente ni aucune revendication de propriété n'est imposée par le protocole."
+          "p1": "Frais par certification reflétant les coûts de calcul et d'ancrage.",
+          "p2": "Pas de redevances récurrentes ni de revendication de propriété par le protocole."
         },
         "join": {
           "title": "Rejoindre le Protocole",
-          "description": "Chez Humartz, nous fournissons l'infrastructure cryptographique pour valoriser et protéger l'intention humaine dans un monde numérique.",
-          "button": "Contacter l'équipe commerciale"
+          "description": "Nous fournissons l'infrastructure pour protéger l'intention humaine.",
+          "button": "Contacter l'équipe"
         }
       }
     },
     "dashboard": {
-      "welcome": "Bienvenue",
+      "welcome": "Bon retour",
       "noNameFallback": "Artiste",
       "myCatalogue": "Mon Catalogue",
       "catalogueDescription_one": "Vous avez 1 morceau dans votre bibliothèque.",
@@ -419,12 +442,12 @@
       "newCertification": "Nouvelle Certification",
       "certified": "Certifié",
       "pending": "En attente",
-      "notCertified": "Non Certifié",
+      "notCertified": "Non certifié",
       "folderHashLabel": "Hash du Dossier",
-      "txHashLabel": "Transaction Blockchain",
-      "noTracks": "Aucun morceau trouvé. Commencez par certifier votre première œuvre.",
-      "databaseOverview": "Aperçu de la Base de Données",
-      "verificationNote": "Les empreintes de vérification (hashs) sont ancrées de manière immuable sur le réseau Arbitrum L2.",
+      "txHashLabel": "Blockchain",
+      "noTracks": "Aucun morceau. Commencez par certifier votre première œuvre.",
+      "databaseOverview": "Aperçu de la Base de données",
+      "verificationNote": "Les empreintes de vérification sont ancrées de manière immuable sur le réseau Arbitrum L2.",
       "blockchainAddress": "Adresse Blockchain"
     }
   }

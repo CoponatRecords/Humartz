@@ -2,6 +2,7 @@
   "web": {
     "global": {
       "primaryCta": "Get Certified",
+      "primaryCtaNow": "Get Certified Now",
       "secondaryCta": "Verify a Track",
       "aboutUs": "About Us"
       
@@ -100,6 +101,31 @@
 
         "description": "We verify, certify, and anchor your art to the blockchain to prove it is human-made. Secure your art's legacy forever. "
       },
+      "getStartedTitle": "Get started in seconds",
+  "getStartedSubtitle": "Secured on the blockchain",
+
+  "getStartedTags": [
+    "Music",
+    "Photography",
+    "Digital Art",
+    "3D Models",
+    "Multi-media"
+  ],
+
+  "getStartedP1": "Humartz is the first protocol that certifies your art as truly human-made in an era of AI-generated content.",
+  "getStartedP2": "We provide a proof-of-creation system to get your work certified, protecting your intellectual property.",
+
+  "showcase": {
+    "arbiscanDescription": "On-chain verification via Arbitrum One.",
+    "whitepaperDescription": "Cryptographic protocol documentation.",
+    "dashboardDescription": "Manage your catalogue & certifications.",
+    "openDashboard": "Open Dashboard",
+    "viewOnArbiscan": "View on Arbiscan →",
+    "protocolSpec": "THE HUMARTZ PROTOCOL",
+    "whitepaperTeaser": "The Humartz protocol establishes a decentralized proof-of-humanity verification layer using zero-knowledge proofs for media authenticity...",
+    "storageLabel": "Storage",
+    "identityLabel": "Identity"
+  },
         "hero": {
     "announcement": "Now anchoring on Arbitrum Mainnet",
     "ctaPrimary": "Get Certified",
