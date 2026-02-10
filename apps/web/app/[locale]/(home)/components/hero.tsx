@@ -288,18 +288,10 @@ export const NextJsShowcase = ({ dictionary }: { dictionary: Dictionary }) => {
   ];
 
   const mobileCards = [
-    cards.find((c) => c.type === "arbiscan")!,
     cards.find((c) => c.type === "dashboard")!,
+    cards.find((c) => c.type === "arbiscan")!,
     cards.find((c) => c.type === "whitepaper")!,
   ];
-
-  useEffect(() => {
-    dashboardRef.current?.scrollIntoView({
-      behavior: "instant",
-      inline: "center",
-      block: "nearest",
-    });
-  }, []);
 
   return (
     <div className="w-full">
