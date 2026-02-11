@@ -7,7 +7,7 @@ import { FAQ } from "./components/faq";
 import { Features } from "./components/features";
 import Hero from "./components/hero";
 import { Stats } from "./components/stats";
-import { BackgroundImage } from "../components/magic-ui/grid-pattern";
+import { BackgroundImage } from "../components/magic-ui/BackgroundImage";
 import { cn } from "../../../../../packages/design-system/lib/utils";
 
 type HomeProps = {
@@ -38,16 +38,7 @@ const Home = async ({ params }: HomeProps) => {
         </div>
       )}
 
-          <BackgroundImage 
-        width={30} 
-                height={30} 
-
-        className={cn(
-          "absolute inset-0 -z-10 opacity-40",
-          // Add a fade to the bottom so it doesn't cut off abruptly
-          "[mask-image:linear-gradient(to_bottom,black_80%,transparent_100%)]"
-        )} 
-      /> 
+          <BackgroundImage /> 
       <Hero dictionary={dictionary} />
       {/* <Cases dictionary={dictionary} /> */}
       <Features dictionary={dictionary} />

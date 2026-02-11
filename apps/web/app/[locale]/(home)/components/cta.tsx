@@ -4,7 +4,7 @@ import { Button } from "@repo/design-system";
 import type { Dictionary } from "@repo/internationalization";
 import { PhoneCall } from "lucide-react";
 import Link from "next/link";
-import { BackgroundImage } from "../../components/magic-ui/grid-pattern";
+import { BackgroundImage } from "../../components/magic-ui/BackgroundImage";
 import { cn } from "@repo/design-system";
 
 type CTAProps = {
@@ -23,13 +23,7 @@ export const CTA = ({ dictionary }: CTAProps) => (
         <div className="absolute inset-0 bg-dark -z-30" />
 
         {/* THE WALLPAPER: Now sits at -10, on top of the grey but behind text */}
-        <BackgroundImage 
-          width={40} 
-          height={40} 
-          className={cn(
-            "absolute inset-0 -z-10 opacity-100", // Increased opacity to ensure it's seen
-            "[mask-image:radial-gradient(circle,white_0%,transparent_100%)]"
-          )} 
+        <BackgroundImage
         />
 
         <div className="flex flex-col gap-4 relative z-10">

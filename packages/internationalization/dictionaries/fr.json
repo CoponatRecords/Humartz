@@ -67,6 +67,8 @@
       }
     },
     "header": {
+            "pricing" : "Tarifs",
+
       "dashboard": "Mon Tableau de bord",
         "Arbiscan": "Arbiscan",
 

@@ -76,6 +76,7 @@
 
 
     "header": {
+      "pricing" : "Pricing",
       "dashboard" : "My Dashboard",
       "admin" : "Admin Panel",
       "signin" : "Sign In",
@@ -448,7 +449,7 @@
         {
           "title": "3. Hashing & Blockchain Commitment",
           "p1": "The Proof Folder is hashed locally as a single unit. This hash acts as a cryptographic fingerprint of the entire certification process.",
-          "p2": "The resulting hash is submitted to the blockchain, which records the certification event in a time-stamped tamper-resistant log.",
+          "p2": "The resulting hash is engraved to the blockchain, recording the certification event in a public, time-stamped, and tamper-resistant log.",
           "p3": "Humartz does not store creative content, session files, or raw telemetry. Only derived metadata and cryptographic commitments are retained."
         }
       ]

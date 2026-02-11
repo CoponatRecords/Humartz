@@ -45,7 +45,7 @@ export const Header = ({ dictionary }: HeaderProps) => {
 
   const isHome = pathname === "/" || /^\/(fr|en)(\/)?$/.test(pathname ?? "");
   const dynamicLink = isHome
-    ? { title: dictionary.web.header.about, href: "/about" }
+    ? { title: dictionary.web.header.pricing, href: "/pricing" }
     : { title: dictionary.web.header.home, href: "/" };
 
   // Navigation items updated with Contact
@@ -58,7 +58,7 @@ export const Header = ({ dictionary }: HeaderProps) => {
     {
       title: dictionary.web.header.product.title,
       description: dictionary.web.header.product.description,
-      items: [{ title: dictionary.web.header.product.pricing, href: "/pricing" }],
+      items: [{ title: dictionary.web.header.dashboard, href: "/dashboard" }],
     },
 
   ];
@@ -116,10 +116,9 @@ export const Header = ({ dictionary }: HeaderProps) => {
                               <NavigationMenuLink
                                 key={subItem.title}
                                 href={subItem.href}
-                                className="flex items-center justify-between rounded px-4 py-2 hover:bg-muted"
+                                className="flex items-center justify-between rounded px-4 py-2 hover:bg-muted border-0.3 border-white/50 hover:border-white/20 transition-colors"
                               >
                                 <span>{subItem.title}</span>
-                                <MoveRight className="h-4 w-4" />
                               </NavigationMenuLink>
                             ))}
                           </div>

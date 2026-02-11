@@ -11,7 +11,7 @@ export default function GetStartedSection({ dictionary }: { dictionary: Dictiona
   const { home, global } = web;
 
   return (
-    <div className="w-full mt-16 lg:mt-24 border-t border-white/5 pt-16 lg:pt-24">
+    <div className="w-full mt-16 lg:mt-24 pt-16 lg:pt-24">
       <div className="mb-10 text-center lg:text-left">
         <h2 className="font-regular text-3xl tracking-tight md:text-5xl">
           {home?.getStartedTitle || "Get started in seconds"}
