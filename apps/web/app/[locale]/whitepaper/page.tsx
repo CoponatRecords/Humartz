@@ -113,6 +113,9 @@ export default async function WhitePaperPage({ params }: PageProps) {
               <p className="text-muted-foreground leading-7 mt-4">
                 {t.sections.abstract.p3}
               </p>
+                            <p className="text-muted-foreground leading-7 mt-4">
+                {t.sections.abstract.p4}
+              </p>
             </section>
 
             {/* Challenges grid */}

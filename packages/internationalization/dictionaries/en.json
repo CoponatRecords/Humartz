@@ -410,10 +410,12 @@
   "sections": {
     "abstract": {
       "title": "1. Abstract",
-      "p1": "Humartz is an open-source certification protocol for human-created content.",
+      "p1": "Humartz is an open-source certification protocol for human-created content, built to address two new key challenges in the age of generative ai.",
       "p1_link_text": "open-source",
       "p2": "As generative systems make content creation effectively infinite, the economic value of creative work shifts from production to provenance. The central question is no longer how content is made, but whether its human origin can be independently verified.",
-      "p3": "Humartz addresses this by providing a tamper-resistant certification process that binds verified human identity, creation telemetry, and cryptographic proofs into a publicly verifiable record. Rather than storing or distributing creative works, the protocol anchors proofs of human authorship on-chain, enabling platforms, licensors, and third parties to verify origin without accessing the underlying content."
+      "p3": "Generative systems produce contents indistinguishable from human creation, and AI detectors are unreliable. This creates a trust gap where platforms, licensors, and consumers cannot confidently identify human-made content, undermining the value of genuine creativity.",
+
+      "p4": "Humartz addresses this by providing a tamper-resistant certification process that binds verified human identity, creation telemetry, and cryptographic proofs into a publicly verifiable record. Rather than storing or distributing creative works, the protocol anchors proofs of human authorship on-chain, enabling platforms, licensors, and third parties to verify origin without accessing the underlying content."
     },
     "challenges": {
       "scale": {
@@ -451,7 +453,7 @@
           "title": "3. Hashing & Blockchain Commitment",
           "p1": "The Proof Folder is hashed locally as a single unit. This hash acts as a cryptographic fingerprint of the entire certification process.",
           "p2": "The resulting hash is engraved to the blockchain, recording the certification event in a public, time-stamped, and tamper-resistant log.",
-          "p3": "Humartz does not store creative content, session files, or raw telemetry. Only derived metadata and cryptographic commitments are retained."
+          "p3": "Humartz does not share creative content, session files, or raw telemetry. Only derived metadata and cryptographic commitments are published."
         }
       ]
     },

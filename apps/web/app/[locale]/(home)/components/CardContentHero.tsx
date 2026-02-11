@@ -1,8 +1,9 @@
 // components/hero/CardContent.tsx
 import { Button } from "@repo/design-system";
-import { ArrowUpRight, Clock, Database, ExternalLink, FileText, Fingerprint, Music2Icon, ShieldCheck } from "lucide-react";
+import { ArrowUpRight, Clock, ClockAlert, Database, ExternalLink, FileText, Fingerprint, Music2Icon, ShieldCheck } from "lucide-react";
 import { cn } from "@repo/design-system";
 import type { Dictionary } from "@repo/internationalization";
+import { QuestionMarkIcon } from "@radix-ui/react-icons";
 
 type CardType = "dashboard" | "arbiscan" | "whitepaper";
 
@@ -103,9 +104,33 @@ export default function CardContent({ card, dictionary, isMobile = false }: Card
                     <Music2Icon className="h-5 w-5 text-primary" />
                   </div>
                   {item.status === "certified" && (
-                    <div className="absolute -bottom-1 -right-1 bg-green-600 text-white rounded-full p-1 shadow-md">
-                      <ShieldCheck className="h-3.5 w-3.5" />
-                    </div>
+<div className="
+    absolute 
+    top-5 right-0 
+    -translate-x-1/2 -translate-y-1/2
+    bg-green-600 text-white 
+    rounded-full 
+    p-1.5          /* slightly larger padding for better visual balance */
+    shadow-md 
+    ring-1 ring-green-400/40 ring-offset-1 ring-offset-white/80 /* optional subtle glow */
+  ">
+    <ShieldCheck className="h-4 w-4" /> 
+  </div>
+                  )}
+
+                  {item.status === "pending" && (
+<div className="
+    absolute 
+    top-5 right-0 
+    -translate-x-1/2 -translate-y-1/2
+    bg-orange-600 text-white 
+    rounded-full 
+    p-1.5          /* slightly larger padding for better visual balance */
+    shadow-md 
+    ring-1 ring-orange-400/40 ring-offset-1 ring-offset-white/80 /* optional subtle glow */
+  ">
+    <ClockAlert className="h-4 w-4" />   
+  </div>
                   )}
                 </div>
 

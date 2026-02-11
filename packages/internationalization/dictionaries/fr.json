@@ -80,7 +80,7 @@
         "description": "Prouvez que votre musique est 100% humaine.",
         "pricing": "Tarifs"
       },
-      "whitepaper": "Livre blanc",
+      "whitepaper": "Comment ça fonctionne ?",
       "contact": "Contact",
       "about": "À propos",
       "signIn": "Se connecter",
@@ -101,7 +101,7 @@
         "Modèles 3D",
         "Multi-média"
       ],
-      "getStartedP1": "Humartz est le premier protocole qui certifie votre art comme étant réellement créé par l'homme à l'ère des contenus générés par l'IA.",
+"getStartedP1": "Face à l’afflux de contenus générés par l’IA, Humartz est le premier protocole qui certifie votre art comme étant réellement créé par l’humain.",
       "getStartedP2": "Nous fournissons un système de preuve de création pour certifier votre travail et protéger votre propriété intellectuelle.",
       "showcase": {
             "newCertification":"Nouvelle Certification",
@@ -112,7 +112,7 @@
         "openDashboard": "Ouvrir le tableau de bord",
         "viewOnArbiscan": "Voir sur Arbiscan →",
         "protocolSpec": "LE PROTOCOLE HUMARTZ",
-        "whitepaperTeaser": "Le protocole Humartz établit une couche de vérification décentralisée de preuve d'humanité utilisant des preuves à divulgation nulle de connaissance...",
+        "whitepaperTeaser": "Le protocole Humartz établit une preuve que votre travail a été créé par un humain à un moment donné, en utilisant une combinaison d'examen humain expert et de preuves cryptographiques immuables ancrées sur la blockchain Arbitrum.",
         "storageLabel": "Stockage",
         "identityLabel": "Identité"
       },
@@ -129,12 +129,12 @@
         "description": "Un protocole de vérification robuste combinant examen humain expert et technologie blockchain immuable.",
         "items": [
           {
-            "title": "Examen humain expert",
+            "title": "Examen humain",
             "description": "Les détecteurs d'IA ne suffisent pas. Nos experts examinent manuellement vos fichiers de projet pour garantir une création humaine authentique."
           },
           {
             "title": "Preuve cryptographique",
-            "description": "Votre certificat est haché et ancré sur la blockchain Arbitrum, créant un horodatage inaltérable."
+            "description": "Les preuves utilisées pour certifier votre travail sont hachées et ancrées sur la blockchain Arbitrum, créant un horodatage inaltérable."
           },
           {
             "title": "Protection de la PI",
@@ -207,12 +207,12 @@
         "cta": "Besoin de détails ? Contactez le support",
         "items": [
           {
-            "question": "Comment vérifiez-vous la musique ?",
-            "answer": "Nous utilisons une approche 'Human-in-the-Loop'. Vous téléchargez vos stems ou fichiers de session. Nos ingénieurs les examinent pour détecter toute trace d'IA générative."
+            "question": "Comment vérifiez-vous que je n'ai pas utilisé d'IA ?",
+            "answer": "Vous téléchargez vos fichiers de session, puis nos ingénieurs les examinent pour détecter toute trace d'IA générative."
           },
           {
             "question": "Qu'est-ce que l'ancrage Arbitrum ?",
-            "answer": "Nous prenons une empreinte numérique (hash Keccak256) de votre certificat et l'inscrivons sur Arbitrum. Cela prouve que votre certificat existait à un moment précis."
+            "answer": "Nous créons une empreinte numérique de votre certificat et l'inscrivons sur Arbitrum. Cela prouve que votre certificat existait à un moment précis et qu'il a été vérifié par Humartz."
           },
           {
             "question": "Mes fichiers sont-ils en sécurité ?",
@@ -229,8 +229,8 @@
         ]
       },
       "cta": {
-        "title": "Sécurisez votre discographie dès aujourd'hui",
-        "description": "Ne laissez pas l'IA diluer la valeur de votre travail. Donnez à votre public la preuve qu'il mérite."
+        "title": "Sécurisez votre création artistique dès aujourd'hui",
+        "description": "Donnez à votre public la preuve qu'il mérite."
       }
     },
     "blog": {
@@ -382,10 +382,12 @@
       "sections": {
         "abstract": {
           "title": "1. Résumé",
-          "p1": "Humartz est un protocole de certification open-source pour le contenu créé par l'homme.",
+          "p1": "Humartz est un protocole de certification open-source pour le contenu créé par l'homme, dont la genèse est issue de deux constats.",
           "p1_link_text": "open-source",
-          "p2": "Alors que les systèmes génératifs rendent la création infinie, la valeur économique se déplace de la production vers la provenance. La question n'est plus comment le contenu est fait, mais si son origine humaine peut être vérifiée.",
-          "p3": "Humartz répond à cela via un processus infalsifiable liant identité vérifiée, télémétrie de création et preuves cryptographiques. Le protocole ancre ces preuves sur la blockchain."
+"p2": "Avec des systèmes génératifs qui rendent la production de contenu infinie, la valeur d’une œuvre se déplace de la production vers la provenance. La question n’est plus seulement de savoir comment le contenu a été produit, mais aussi si son origine humaine peut être vérifiée.",
+"p3": "Les systèmes génératifs produisent des contenus de plus en plus indistingables de ceux créés par l'homme, rendant les mécanismes traditionnels d'attribution obsolètes. Les plateformes ne peuvent plus faire confiance à leurs outils de détection d'IA, créant une crise de confiance généralisée sur la provenance du contenu.",
+
+          "p4": "Humartz répond à cela via un processus robuste liant vérification d'identité, télémétrie de création et preuves cryptographiques. Le protocole ancre ces preuves sur la blockchain."
         },
         "challenges": {
           "scale": {
@@ -423,7 +425,7 @@
               "title": "3. Hachage & Engagement Blockchain",
               "p1": "Le dossier de preuve est haché localement comme empreinte unique.",
               "p2": "Ce hash est soumis à la blockchain pour un horodatage immuable.",
-              "p3": "Humartz ne stocke pas vos fichiers bruts, seulement les preuves cryptographiques."
+              "p3": "Humartz ne partage pas vos fichiers, seulement les preuves cryptographiques."
             }
           ]
         },
