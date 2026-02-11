@@ -250,7 +250,8 @@ export const FileManagerClient = ({ dictionary, locale }: FileManagerClientProps
     </div>
 
     <div className="flex items-center gap-3 mt-2">
-      <SignInButton mode="modal">
+      <SignInButton mode="modal" forceRedirectUrl={`/${locale}/get-certified`}
+  signUpForceRedirectUrl={`/${locale}/get-certified`}>
         <Button variant="outline" size="sm" className="gap-1.5">
           <LogIn className="h-3.5 w-3.5" />
           {dictionary.web.header.signIn}
