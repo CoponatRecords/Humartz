@@ -73,7 +73,6 @@ model Track {
   promoCode   String?     
   txHash      String?       
   authorId    String?       
-  Userid      String?
   userName    String?
   artistName  String?
   storagePath String?     
