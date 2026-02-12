@@ -59,7 +59,6 @@ function getSafeLocale(request: NextRequest): string {
     return DEFAULT_LOCALE;
   }
 
-  // Take the first language tag (before any ',', ';', or quality values)
   const firstTag = acceptLanguage
     .split(",")[0]
     .split(";")[0]
