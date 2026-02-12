@@ -7,17 +7,16 @@ export type SearchResults = {
     id: number; 
     folderHash: string | null;
     txHash: string | null;
-    title: string; 
-    slug: string | null; 
+    title: string| null; 
     artistName: string | null;
     userName: string | null;
-    verificationStatus: string | null 
+    verificationStatus: "yes" | "no" | "pending" | null;
   }[];
-  artists: { 
-    id: number; 
-    name: string; 
-    slug: string; 
-    verificationStatus: string | null 
+  users: { 
+    id: string; 
+    name: string | null; 
+    username: string | null; 
+    artistname: string | null;
   }[];
 };
 
@@ -25,71 +24,75 @@ export async function searchGlobal(query: string): Promise<SearchResults> {
   const cleanQuery = query.trim();
 
   if (!cleanQuery || cleanQuery.length < 2) {
-    return { tracks: [], artists: [] };
+    return { tracks: [], users: [] };
   }
 
   try {
-    // 1. We remove the complex 'some' relation because your schema uses a String for artists
-    // 2. We add txHash and folderHash to the select block
-    const tracks = await database.track.findMany({
-      where: {
-        OR: [
-          { title: { contains: cleanQuery, mode: "insensitive" } },
-          { folderHash: { contains: cleanQuery, mode: "insensitive" } },
-          { txHash: { contains: cleanQuery, mode: "insensitive" } },
-          { artists: { contains: cleanQuery, mode: "insensitive" } },
-          { userName: { contains: cleanQuery, mode: "insensitive" } },
-          { artistName: { contains: cleanQuery, mode: "insensitive" } }
+    // Parallelize the search for better performance
+    const [tracks, users] = await Promise.all([
+      database.track.findMany({
+        where: {
+          OR: [
 
-        ]
-      },
-      take: 5,
-      select: {
-        id: true,
-        title: true,
-        slug: true,
-        isVerified: true,
-        txHash: true,      // Fix: Added missing field
-        folderHash: true,  // Fix: Added missing field
-        artistName: true,     // Fix: This is a string in your schema
-      },
-    });
+            { title: { contains: cleanQuery, mode: "insensitive" } },
+            { folderHash: { contains: cleanQuery, mode: "insensitive" } },
+            { txHash: { contains: cleanQuery, mode: "insensitive" } },
+            { artistName: { contains: cleanQuery, mode: "insensitive" } },
+            { userName: { contains: cleanQuery, mode: "insensitive" } }
+          ]
+        },
+        take: 10,
+        select: {
+          id: true,
+          title: true,
+          isVerified: true,
+          artistName: true,
+        },
+      }),
+      database.user.findMany({
+        where: {
+          OR: [
+            { name: { contains: cleanQuery, mode: "insensitive" } },
+            { username: { contains: cleanQuery, mode: "insensitive" } },
+            { artistname: { contains: cleanQuery, mode: "insensitive" } },
+          ]
+        },
+        take: 5,
+        select: {
+          name: true,
+          username: true,
+          artistname: true,
+        }
+      })
+    ]);
+    const formattedTracks = tracks.map((t: any) => {
+      // Map your string-based isVerified to status levels
+      const rawValue = (t.isVerified || "pending").toLowerCase();
+      let status: "yes" | "no" | "pending" = "pending";
 
-    const artists: any[] = []; 
-
-    const formattedTracks = tracks.map((t: {
-      artistName: string; isVerified: any; id: any; title: any; slug: any; txHash: any; folderHash: any; artists: any; 
-}) => {
-      const rawValue = (t.isVerified || "").trim().toLowerCase();
-      
-      let status: string | null = null; 
-
-      if (rawValue === "true" || rawValue === "yes" || rawValue === "verified") {
-        status = "yes"; // Green
-      } else if (rawValue === "false" || rawValue === "no" || rawValue === "ai") {
-        status = "no";  // Red
-      } else {
-        status = null;  // Orange (Pending)
+      if (["true", "yes", "verified"].includes(rawValue)) {
+        status = "yes";
+      } else if (["false", "no", "ai", "rejected"].includes(rawValue)) {
+        status = "no";
       }
 
       return {
-        id: t.id,
+        id: t.id ,
         title: t.title,
-        slug: t.slug,
-        txHash: t.txHash,
-        folderHash: t.folderHash,
-        // Since 'artists' is a string in your DB, we use it directly
+        txHash: t.txHash ?? "no txHash",
+        folderHash: t.folderHash ?? "no folderHash",
         artistName: t.artistName ?? "Unknown Artist",
-        verificationStatus: status, 
+        userName: t.userName ?? "Unknown User",
+        verificationStatus: status,
       };
     });
 
     return { 
       tracks: formattedTracks, 
-      artists: [] 
+      users: users 
     };
   } catch (error) {
     console.error("❌ Search Execution Failed!", error);
-    return { tracks: [], artists: [] };
+    return { tracks: [], users: [] };
   }
 }

@@ -69,25 +69,16 @@ model Track {
   id          Int           @id @default(autoincrement())
   isVerified  String        @default("pending")
   title       String
-  slug        String?       @unique
-  diskNumber  Int?          @default(1)
-  isExplicit  Boolean       @default(false)
-  releaseDate DateTime?
-  description String?
-  lyrics      String?
   createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
   promoCode   String?     
   txHash      String?       
   authorId    String?       
   Userid      String?
   userName    String?
   artistName  String?
-  storagePath      String?     
+  storagePath String?     
   albumId     Int?
   Album       String?        
-  artists     String? 
   Genre       String?     
-
   users User[]
 }
