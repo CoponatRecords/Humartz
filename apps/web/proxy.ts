@@ -118,7 +118,7 @@ const composedMiddleware = createNEMO(
 // ───────────────────────────────────────────────
 // FINAL EXPORT (Clerk wrapper)
 // ───────────────────────────────────────────────
-export default authMiddleware(async (_auth, request: NextRequest) => {
+export default authMiddleware(async (_auth, request: NextRequest, event) => {
   const { pathname } = request.nextUrl;
 
   // Bypass for webhooks
@@ -129,8 +129,8 @@ export default authMiddleware(async (_auth, request: NextRequest) => {
   // Apply security headers
   const headersResponse = securityHeaders();
 
-  // Run i18n + arcjet
-  const middlewareResponse = await composedMiddleware(request, {});
+  // Run i18n + arcjet — pass the real event!
+  const middlewareResponse = await composedMiddleware(request, event);
 
   return middlewareResponse || headersResponse;
-}) as any; // type assertion — common when mixing Clerk with custom middleware
+}) as any; // type assertion — still needed for Clerk compatibility
