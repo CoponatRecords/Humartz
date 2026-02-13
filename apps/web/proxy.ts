@@ -13,8 +13,8 @@ import { env } from "@/env";
 
 export const config = {
   // matcher tells Next.js which routes to run the middleware on. This runs the
-  // middleware on all routes except for static assets and Posthog ingest
-  matcher: ["/((?!_next/static|_next/image|ingest|favicon.ico).*)"],
+  // middleware on all routes except for static assets, Posthog ingest, and SEO files
+  matcher: ["/((?!_next/static|_next/image|ingest|favicon.ico|robots.txt|sitemap.xml).*)"],
 };
 
 const securityHeaders = env.FLAGS_SECRET
@@ -55,9 +55,13 @@ const composedMiddleware = createNEMO(
 export default authMiddleware(async (_auth, request, event) => {
   const { pathname } = request.nextUrl;
 
-  // 1. BYPASS FOR WEBHOOKS
-  // If this is a webhook, return early to skip i18n and security checks
-  if (pathname.startsWith('/api/webhooks')) {
+  // 1. BYPASS FOR WEBHOOKS AND STATIC SEO FILES
+  // If this is a webhook or SEO file, return early to skip i18n and security checks
+  if (
+    pathname.startsWith('/api/webhooks') ||
+    pathname === '/robots.txt' ||
+    pathname === '/sitemap.xml'
+  ) {
     return NextResponse.next();
   }
 

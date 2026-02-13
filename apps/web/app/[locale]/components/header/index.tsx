@@ -50,7 +50,7 @@ export const Header = ({ dictionary }: HeaderProps) => {
 
   // Navigation items updated with Contact
   const navigationItems: NavItem[] = [
-    // { title: dictionary.web.header.pricing, href: "/pricing" },
+    { title: dictionary.web.header.pricing, href: "/pricing" },
         { 
       title: dictionary.web.header.contact || "Contact", 
       href: "/contact" 
