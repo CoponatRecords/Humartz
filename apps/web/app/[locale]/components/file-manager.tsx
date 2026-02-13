@@ -320,7 +320,7 @@ export const FileManagerClient = ({ dictionary, locale }: FileManagerClientProps
                     <Label className="flex items-center gap-2 text-xs font-bold text-muted-foreground uppercase">
                       <TicketPercent className="h-3.5 w-3.5" /> Promo Code
                     </Label>
-                    <Input placeholder="Enter code" value={promoCode} onChange={(e) => { setPromoCode(e.target.value); setError(null); }} disabled={isUploading} className={isFree ? "border-green-500 ring-0 bg-green-500/5" : ""} />
+                    <Input placeholder="HUMARTZFREE2026" value={promoCode} onChange={(e) => { setPromoCode(e.target.value); setError(null); }} disabled={isUploading} className={isFree ? "border-green-500 ring-0 bg-green-500/5" : ""} />
                   </div>
                 </div>
 
