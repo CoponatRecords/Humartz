@@ -60,7 +60,9 @@ export default authMiddleware(async (_auth, request, event) => {
   if (
     pathname.startsWith('/api/webhooks') ||
     pathname === '/robots.txt' ||
-    pathname === '/sitemap.xml'
+    pathname === '/sitemap.xml'||
+      pathname === '/icon.png' 
+
   ) {
     return NextResponse.next();
   }
